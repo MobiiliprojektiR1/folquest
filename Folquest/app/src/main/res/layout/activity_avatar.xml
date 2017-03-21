@@ -21,13 +21,13 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:text="<"
+                android:text="L"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonHeadLeft"/>
 
             <Button
-                android:text=">"
+                android:text="R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonHeadRight"/>
@@ -39,13 +39,13 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:text="<"
+                android:text="L"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonTorsoLeft"/>
 
             <Button
-                android:text=">"
+                android:text="R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonTorsoRight"/>
@@ -57,13 +57,13 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:text="<"
+                android:text="L"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonBottomLeft"/>
 
             <Button
-                android:text=">"
+                android:text="R"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonBottomRight"/>
