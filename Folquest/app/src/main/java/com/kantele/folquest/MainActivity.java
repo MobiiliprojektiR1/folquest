@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         buttonQuests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AvatarActivity.class);
+                Intent intent = new Intent(MainActivity.this, QuestsActivity.class);
                 startActivity(intent);
             }
         });
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AvatarActivity.class);
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
