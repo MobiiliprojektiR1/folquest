@@ -49,7 +49,6 @@ public class AvatarActivity extends AppCompatActivity {
             bottomItemsList.add(i + " bottom");
 
         }
-        Log.d("D", headItemsList.size()+"");
 
         equippedHeadItem = headItemsList.get(0);
         equippedTorsoItem = torsoItemsList.get(0);
