@@ -22,8 +22,6 @@
             android:text="Avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
             android:id="@+id/buttonAvatar"
             android:layout_weight="1" />
 
@@ -31,8 +29,6 @@
             android:text="Quests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
             android:id="@+id/buttonQuests"
             android:layout_weight="1" />
 
@@ -40,8 +36,6 @@
             android:text="Settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             android:id="@+id/buttonSettings"
             android:layout_weight="1" />
     </LinearLayout>
@@ -57,19 +51,77 @@
             android:text="10/50"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewLevel"
-            android:layout_weight="0.05" />
+            android:id="@+id/textViewLevel" />
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar4"
-            android:layout_marginBottom="11dp"
-            android:indeterminate="false"
-            android:progress="30"
-            android:layout_weight="2" />
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/progressBarExp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:background="#00000000"
+                    android:id="@+id/textViewExpCurrent"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:background="#00000000"
+                    android:id="@+id/textViewExpSlash"
+                    android:text="/"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:background="#00000000"
+                    android:id="@+id/textViewExpTarget"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewStepsHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Steps:" />
+
+            <TextView
+                android:id="@+id/textViewSteps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0" />
+        </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/statHolder"
+        android:layout_alignParentEnd="true"
+        android:layout_weight="1"
+        android:text="UPDATE" />
 
 </RelativeLayout>
