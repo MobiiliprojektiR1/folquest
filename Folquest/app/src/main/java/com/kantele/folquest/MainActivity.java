@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewExpCurrent, textViewExpTarget;
 
     TextView textViewStepsHolder, textViewSteps;
+    TextView textViewKcalHolder, textViewKcal;
     Button buttonUpdate;
 
     // GOOGLE FIT
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
         textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
         textViewSteps = (TextView) findViewById(R.id.textViewSteps);
+
+        textViewKcalHolder = (TextView) findViewById(R.id.textViewKcalHolder);
+        textViewKcal = (TextView) findViewById(R.id.textViewKcal);
+
         buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
 
         EXPERIENCE_CURRENT = 1200;
@@ -93,12 +98,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //UPDATE DATA FROM GOOGLE FIT
 
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new FetchStepsAsync().execute();
+                //new FetchCalorieAsync().execute();
             }
         });
 
@@ -134,7 +140,10 @@ public class MainActivity extends AppCompatActivity {
         if (apiClient == null) {
             apiClient = new GoogleApiClient.Builder(this)
                     .addApi(Fitness.HISTORY_API)
-                    .addScope(new Scope(Scopes.FITNESS_LOCATION_READ))
+                    .addScope(new Scope(Scopes.FITNESS_LOCATION_READ_WRITE))
+                    .addScope(new Scope(Scopes.FITNESS_BODY_READ_WRITE))
+                    .addScope(new Scope(Scopes.FITNESS_NUTRITION_READ_WRITE))
+                    .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
                     .addConnectionCallbacks(
                             new GoogleApiClient.ConnectionCallbacks() {
                                 @Override
@@ -175,9 +184,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class FetchStepsAsync extends AsyncTask<Object, Object, Long> {
-        protected Long doInBackground(Object... params) {
-            long total = 0;
+    private class FetchStepsAsync extends AsyncTask<Object, Object, int[]> {
+
+        int[] data = new int[2];
+        long totalCal = 0;
+        long total = 0;
+
+        protected int[] doInBackground(Object... params) {
+
             PendingResult<DailyTotalResult> result = Fitness.HistoryApi.readDailyTotal(apiClient, DataType.TYPE_STEP_COUNT_DELTA);
             DailyTotalResult totalResult = result.await(30, TimeUnit.SECONDS);
             if (totalResult.getStatus().isSuccess()) {
@@ -188,21 +202,68 @@ public class MainActivity extends AppCompatActivity {
                             : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                 }
             } else {
-                Log.w(TAG, "There was a problem geting the step count.");
+                Log.w(TAG, "There was a problem getting the step count.");
             }
 
-            return total;
+
+
+            PendingResult<DailyTotalResult> resultCal = Fitness.HistoryApi.readDailyTotal(apiClient, DataType.TYPE_CALORIES_EXPENDED);
+            DailyTotalResult totalResultCal = resultCal.await(30, TimeUnit.SECONDS);
+            if (totalResultCal.getStatus().isSuccess()) {
+                DataSet totalSetCal = totalResultCal.getTotal();
+                if (totalSetCal != null) {
+                    totalCal = totalSetCal.isEmpty()
+                            ? 0
+                            : (long) totalSetCal.getDataPoints().get(0).getValue(Field.FIELD_CALORIES).asFloat();
+                }
+            } else {
+                Log.w(TAG, "There was a problem getting the calories.");
+            }
+
+            data[0] = (int) total;
+            data[1] = (int) totalCal;
+
+            return data;
         }
 
+        @Override
+        protected void onPostExecute(int[] aLong) {
+            super.onPostExecute(aLong);
 
+            //Total steps covered for that day
+            Log.i(TAG, "Total steps: " + aLong[0]);
+
+            textViewSteps.setText("" + aLong[0]);
+            textViewKcal.setText("" + aLong[1]);
+
+        }
+    }
+/*
+    private class FetchCalorieAsync extends AsyncTask<Object, Object, Long> {
+        protected Long doInBackground(Object... params) {
+            long total = 0;
+            PendingResult<DailyTotalResult> result = Fitness.HistoryApi.readDailyTotal(apiClient, DataType.TYPE_CALORIES_EXPENDED);
+            DailyTotalResult totalResult = result.await(30, TimeUnit.SECONDS);
+            if (totalResult.getStatus().isSuccess()) {
+                DataSet totalSet = totalResult.getTotal();
+                if (totalSet != null) {
+                     total = totalSet.isEmpty()
+                            ? 0
+                            : totalSet.getDataPoints().get(0).getValue(Field.FIELD_CALORIES).asInt();
+                }
+            } else {
+                Log.w(TAG, "There was a problem getting the calories.");
+            }
+            return total;
+        }
         @Override
         protected void onPostExecute(Long aLong) {
             super.onPostExecute(aLong);
 
-            //Total steps covered for that day
-            Log.i(TAG, "Total steps: " + aLong);
+            //Total calories burned for that day
+            textViewKcal.setText(""+aLong);
 
-            textViewSteps.setText("" + aLong);
         }
     }
+    */
 }
