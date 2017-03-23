@@ -69,6 +69,24 @@
                 android:id="@+id/buttonBottomRight"/>
         </LinearLayout>
 
+        <TextView
+            android:text="Head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/headItemText" />
+
+        <TextView
+            android:text="Torso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/torsoItemText" />
+
+        <TextView
+            android:text="Bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottomItemText" />
+
     </LinearLayout>
 
     <Button

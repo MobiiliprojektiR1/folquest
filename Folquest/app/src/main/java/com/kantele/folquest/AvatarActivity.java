@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,17 +26,21 @@ public class AvatarActivity extends AppCompatActivity {
     Button buttonBottomLeft;
     Button buttonBottomRight;
 
-    String equippedHeadItem;
-    String equippedTorsoItem;
-    String equippedBottomItem;
+    TextView headItemText, torsoItemText, bottomItemText;
+
+    Item equippedHeadItem;
+    Item equippedTorsoItem;
+    Item equippedBottomItem;
 
     int equippedHeadItemId = 0;
     int equippedTorsoItemId = 0;
     int equippedBottomItemId = 0;
 
-    ArrayList<String> headItemsList = new ArrayList<>();
-    ArrayList<String> torsoItemsList = new ArrayList<>();
-    ArrayList<String> bottomItemsList = new ArrayList<>();
+    ArrayList<Item> headItemsList = new ArrayList<>();
+    ArrayList<Item> torsoItemsList = new ArrayList<>();
+    ArrayList<Item> bottomItemsList = new ArrayList<>();
+
+    ItemList itemList = new ItemList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +48,32 @@ public class AvatarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_avatar);
 
         //populating ArrayList for demo purposes
-        for(int i = 0; i < 10; i++){
-            headItemsList.add(i + " Head");
-            torsoItemsList.add(i + " Torso");
-            bottomItemsList.add(i + " bottom");
+        headItemsList.add(itemList.headBeanie);
+        headItemsList.add(itemList.headBald);
+        headItemsList.add(itemList.headHelmet);
+        headItemsList.add(itemList.headSpikyHair);
+        headItemsList.add(itemList.headTiara);
 
-        }
+        torsoItemsList.add(itemList.torsoShirt);
+        torsoItemsList.add(itemList.torsoChainMail);
+        torsoItemsList.add(itemList.torsoRobe);
+        torsoItemsList.add(itemList.torsoSpikyShirt);
+        torsoItemsList.add(itemList.torsoPinkDress);
 
+        bottomItemsList.add(itemList.bottomPants);
+        bottomItemsList.add(itemList.bottomSabatons);
+        bottomItemsList.add(itemList.bottomSandals);
+        bottomItemsList.add(itemList.bottomSpikyLegs);
+        bottomItemsList.add(itemList.bottomHighHeels);
+
+
+        //set the equipped item to be the first in list
+        // will be modified later
         equippedHeadItem = headItemsList.get(0);
         equippedTorsoItem = torsoItemsList.get(0);
         equippedBottomItem = bottomItemsList.get(0);
 
+        //initialize buttons
         buttonHeadLeft = (Button)findViewById(R.id.buttonHeadLeft);
         buttonHeadRight = (Button)findViewById(R.id.buttonHeadRight);
 
@@ -62,6 +82,12 @@ public class AvatarActivity extends AppCompatActivity {
 
         buttonBottomLeft = (Button)findViewById(R.id.buttonBottomLeft);
         buttonBottomRight = (Button)findViewById(R.id.buttonBottomRight);
+
+        headItemText = (TextView)findViewById(R.id.headItemText);
+        torsoItemText = (TextView)findViewById(R.id.torsoItemText);
+        bottomItemText = (TextView)findViewById(R.id.bottomItemText);
+
+
 
         buttonHeadLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +143,7 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedHeadItem = headItemsList.get(equippedHeadItemId - 1);
                     equippedHeadItemId--;
                 }
-                Toast.makeText(getApplicationContext(), "Head item: " + equippedHeadItem +"", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Head item: " + equippedHeadItem.getName() + " " + equippedHeadItem.getDescription(), Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_HEAD_RIGHT:
                 if(equippedHeadItemId == headItemsList.size() -1) {
@@ -127,7 +153,7 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedHeadItem = headItemsList.get(equippedHeadItemId +1);
                     equippedHeadItemId++;
                 }
-                Toast.makeText(getApplicationContext(), "Head item: " + equippedHeadItem +"", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Head item: " + equippedHeadItem.getName()+ " " + equippedHeadItem.getDescription(), Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_TORSO_LEFT:
                 if(equippedTorsoItemId == 0) {
@@ -137,7 +163,7 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedTorsoItem = torsoItemsList.get(equippedTorsoItemId - 1);
                     equippedTorsoItemId--;
                 }
-                Toast.makeText(getApplicationContext(), "Torso item: " + equippedTorsoItem +"", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Torso item: " + equippedTorsoItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_TORSO_RIGHT:
                 if(equippedTorsoItemId == torsoItemsList.size()-1) {
@@ -147,7 +173,7 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedTorsoItem = torsoItemsList.get(equippedTorsoItemId + 1);
                     equippedTorsoItemId++;
                 }
-                Toast.makeText(getApplicationContext(), "Torso item: " + equippedTorsoItem +"", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Torso item: " + equippedTorsoItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_BOTTOM_LEFT:
                 if(equippedBottomItemId == 0) {
@@ -157,7 +183,7 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedBottomItem = bottomItemsList.get(equippedBottomItemId - 1);
                     equippedBottomItemId--;
                 }
-                Toast.makeText(getApplicationContext(), "Bottom item: " + equippedBottomItem +"", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Bottom item: " + equippedBottomItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_BOTTOM_RIGHT:
                 if(equippedBottomItemId == bottomItemsList.size()-1) {
@@ -167,9 +193,12 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedBottomItem = bottomItemsList.get(equippedBottomItemId + 1);
                     equippedBottomItemId++;
                 }
-                Toast.makeText(getApplicationContext(), "Bottom item: " + equippedBottomItem +"", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Bottom item: " + equippedBottomItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
         }
+        headItemText.setText(equippedHeadItem.getName());
+        torsoItemText.setText(equippedTorsoItem.getName());
+        bottomItemText.setText(equippedBottomItem.getName());
     }
 
 }
