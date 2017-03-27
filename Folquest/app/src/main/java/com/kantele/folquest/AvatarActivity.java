@@ -50,10 +50,16 @@ public class AvatarActivity extends AppCompatActivity {
     ItemList itemList = new ItemList();
 
     TabHost tabHost;
+  
+    Button buttonBack;
+
+public class AvatarActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar);
+
 
         //Adapter for the inventory grid
         /*ArrayAdapter<Item> inventoryGridAdapter = new ArrayAdapter<>(this, R.layout.inventory_grid_item, headItemsList);
@@ -200,6 +206,16 @@ public class AvatarActivity extends AppCompatActivity {
                 changeAccessory(BUTTON_BOTTOM_DIRECT, position);
             }
         });
+      
+      
+        buttonBack = (Button) findViewById(R.id.buttonBack);
+
+          buttonBack.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  AvatarActivity.super.finish();
+              }
+          });
     }
 
 
@@ -281,5 +297,6 @@ public class AvatarActivity extends AppCompatActivity {
         headItemText.setText(equippedHeadItem.getName());
         torsoItemText.setText(equippedTorsoItem.getName());
         bottomItemText.setText(equippedBottomItem.getName());
+
     }
 }
