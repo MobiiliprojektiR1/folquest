@@ -2,11 +2,12 @@ package com.kantele.folquest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -36,16 +37,23 @@ public class AvatarActivity extends AppCompatActivity {
     int equippedTorsoItemId = 0;
     int equippedBottomItemId = 0;
 
+    ArrayList<String> testItemsList = new ArrayList<>();
+
     ArrayList<Item> headItemsList = new ArrayList<>();
     ArrayList<Item> torsoItemsList = new ArrayList<>();
     ArrayList<Item> bottomItemsList = new ArrayList<>();
 
     ItemList itemList = new ItemList();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar);
+
+        //Adapter for the inventory grid
+        ArrayAdapter<String> inventoryGridAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, testItemsList);
+
+        //Find initialize gridView
+        GridView inventoryGridView = (GridView)findViewById(R.id.inventoryGridView);
 
         //populating ArrayList for demo purposes
         headItemsList.add(itemList.headBeanie);
@@ -66,12 +74,20 @@ public class AvatarActivity extends AppCompatActivity {
         bottomItemsList.add(itemList.bottomSpikyLegs);
         bottomItemsList.add(itemList.bottomHighHeels);
 
+        testItemsList.add("1");
+        testItemsList.add("2");
+        testItemsList.add("3");
+        testItemsList.add("4");
+        testItemsList.add("5");
 
         //set the equipped item to be the first in list
         // will be modified later
         equippedHeadItem = headItemsList.get(0);
         equippedTorsoItem = torsoItemsList.get(0);
         equippedBottomItem = bottomItemsList.get(0);
+
+        // set the adapter for grid view
+        inventoryGridView.setAdapter(inventoryGridAdapter);
 
         //initialize buttons
         buttonHeadLeft = (Button)findViewById(R.id.buttonHeadLeft);
@@ -86,8 +102,6 @@ public class AvatarActivity extends AppCompatActivity {
         headItemText = (TextView)findViewById(R.id.headItemText);
         torsoItemText = (TextView)findViewById(R.id.torsoItemText);
         bottomItemText = (TextView)findViewById(R.id.bottomItemText);
-
-
 
         buttonHeadLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,5 +214,4 @@ public class AvatarActivity extends AppCompatActivity {
         torsoItemText.setText(equippedTorsoItem.getName());
         bottomItemText.setText(equippedBottomItem.getName());
     }
-
 }
