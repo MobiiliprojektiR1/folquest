@@ -1,14 +1,21 @@
 package com.kantele.folquest;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -35,20 +42,25 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textViewStepsHolder, textViewSteps;
     TextView textViewKcalHolder, textViewKcal;
+    TextView textViewDistHolder, textViewDist;
     Button buttonUpdate;
 
     // GOOGLE FIT
 
     GoogleApiClient apiClient;
 
-    Boolean authInProgress;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
+
 
         buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
         buttonQuests = (Button) findViewById(R.id.buttonQuests);
@@ -63,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
         textViewKcalHolder = (TextView) findViewById(R.id.textViewKcalHolder);
         textViewKcal = (TextView) findViewById(R.id.textViewKcal);
 
+        textViewDistHolder = (TextView) findViewById(R.id.textViewDistHolder);
+        textViewDist = (TextView) findViewById(R.id.textViewDist);
+
         buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
 
         EXPERIENCE_CURRENT = 1200;
@@ -70,6 +85,22 @@ public class MainActivity extends AppCompatActivity {
 
         textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
         textViewExpTarget.setText("" + EXPERIENCE_TARGET);
+
+
+
+        /* adapt the image to the size of the display */
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        Bitmap bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                getResources(),R.drawable.maisema),size.x,size.y,true);
+
+        /* fill the background ImageView with the resized image */
+        ImageView iv_background = (ImageView) findViewById(R.id.iv_background);
+        iv_background.setImageBitmap(bmp);
+
+
+
 
 
         // BUTTON FUNCTIONALITIES
@@ -186,9 +217,10 @@ public class MainActivity extends AppCompatActivity {
 
     private class FetchStepsAsync extends AsyncTask<Object, Object, int[]> {
 
-        int[] data = new int[2];
+        int[] data = new int[3];
         long totalCal = 0;
-        long total = 0;
+        long totalSteps = 0;
+        long totalDist = 0;
 
         protected int[] doInBackground(Object... params) {
 
@@ -197,15 +229,13 @@ public class MainActivity extends AppCompatActivity {
             if (totalResult.getStatus().isSuccess()) {
                 DataSet totalSet = totalResult.getTotal();
                 if (totalSet != null) {
-                    total = totalSet.isEmpty()
+                    totalSteps = totalSet.isEmpty()
                             ? 0
                             : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                 }
             } else {
                 Log.w(TAG, "There was a problem getting the step count.");
             }
-
-
 
             PendingResult<DailyTotalResult> resultCal = Fitness.HistoryApi.readDailyTotal(apiClient, DataType.TYPE_CALORIES_EXPENDED);
             DailyTotalResult totalResultCal = resultCal.await(30, TimeUnit.SECONDS);
@@ -220,21 +250,40 @@ public class MainActivity extends AppCompatActivity {
                 Log.w(TAG, "There was a problem getting the calories.");
             }
 
-            data[0] = (int) total;
+            PendingResult<DailyTotalResult> resultDist = Fitness.HistoryApi.readDailyTotal(apiClient, DataType.TYPE_DISTANCE_DELTA);
+            DailyTotalResult totalResultDist = resultDist.await(30, TimeUnit.SECONDS);
+            if (totalResultDist.getStatus().isSuccess()) {
+                DataSet totalSetDist = totalResultDist.getTotal();
+                if (totalSetDist != null) {
+                    totalDist = totalSetDist.isEmpty()
+                            ? 0
+                            : (long) totalSetDist.getDataPoints().get(0).getValue(Field.FIELD_DISTANCE).asFloat();
+                }
+            } else {
+                Log.w(TAG, "There was a problem getting the distance.");
+            }
+
+
+
+            data[0] = (int) totalSteps;
             data[1] = (int) totalCal;
+            data[2] = (int) totalDist;
 
             return data;
         }
 
         @Override
-        protected void onPostExecute(int[] aLong) {
-            super.onPostExecute(aLong);
+        protected void onPostExecute(int[] aData) {
+            super.onPostExecute(aData);
 
             //Total steps covered for that day
-            Log.i(TAG, "Total steps: " + aLong[0]);
+            Log.i(TAG, "Total steps: " + aData[0]);
+            Log.i(TAG, "Total cals: " + aData[1]);
+            Log.i(TAG, "Total distance: " + aData[2]);
 
-            textViewSteps.setText("" + aLong[0]);
-            textViewKcal.setText("" + aLong[1]);
+            textViewSteps.setText("" + aData[0]);
+            textViewKcal.setText("" + aData[1]);
+            textViewDist.setText("" + aData[2]);
 
         }
     }

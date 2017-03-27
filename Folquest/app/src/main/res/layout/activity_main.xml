@@ -5,11 +5,20 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+
+    tools:context="com.kantele.folquest.MainActivity">
+
+    <!--
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.kantele.folquest.MainActivity">
+    android:paddingTop="@dimen/activity_vertical_margin" -->
+
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -132,6 +141,25 @@
                 android:text="0" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewDistHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="  Distance:" />
+
+            <TextView
+                android:id="@+id/textViewDist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <Button
@@ -141,6 +169,6 @@
         android:layout_above="@+id/statHolder"
         android:layout_alignParentEnd="true"
         android:layout_weight="1"
-        android:text="UPDATE" />
+        android:text="UPDATE"/>
 
 </RelativeLayout>
