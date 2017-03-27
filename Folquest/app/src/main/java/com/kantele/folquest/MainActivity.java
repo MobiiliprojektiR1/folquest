@@ -287,32 +287,4 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-/*
-    private class FetchCalorieAsync extends AsyncTask<Object, Object, Long> {
-        protected Long doInBackground(Object... params) {
-            long total = 0;
-            PendingResult<DailyTotalResult> result = Fitness.HistoryApi.readDailyTotal(apiClient, DataType.TYPE_CALORIES_EXPENDED);
-            DailyTotalResult totalResult = result.await(30, TimeUnit.SECONDS);
-            if (totalResult.getStatus().isSuccess()) {
-                DataSet totalSet = totalResult.getTotal();
-                if (totalSet != null) {
-                     total = totalSet.isEmpty()
-                            ? 0
-                            : totalSet.getDataPoints().get(0).getValue(Field.FIELD_CALORIES).asInt();
-                }
-            } else {
-                Log.w(TAG, "There was a problem getting the calories.");
-            }
-            return total;
-        }
-        @Override
-        protected void onPostExecute(Long aLong) {
-            super.onPostExecute(aLong);
-
-            //Total calories burned for that day
-            textViewKcal.setText(""+aLong);
-
-        }
-    }
-    */
 }

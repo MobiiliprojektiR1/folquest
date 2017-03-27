@@ -1,16 +1,15 @@
 package com.kantele.folquest;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -53,12 +52,16 @@ public class AvatarActivity extends AppCompatActivity {
   
     Button buttonBack;
 
-public class AvatarActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_avatar);
+
 
 
         //Adapter for the inventory grid
@@ -222,9 +225,9 @@ public class AvatarActivity extends AppCompatActivity {
     public void changeAccessory(int accessorySlotToChange, int position) {
         switch (accessorySlotToChange) {
             case BUTTON_HEAD_LEFT:
-                if(equippedHeadItemId == 0) {
-                    equippedHeadItem = headItemsList.get(headItemsList.size()-1);
-                    equippedHeadItemId = headItemsList.size() -1;
+                if (equippedHeadItemId == 0) {
+                    equippedHeadItem = headItemsList.get(headItemsList.size() - 1);
+                    equippedHeadItemId = headItemsList.size() - 1;
                 } else {
                     equippedHeadItem = headItemsList.get(equippedHeadItemId - 1);
                     equippedHeadItemId--;
@@ -232,19 +235,19 @@ public class AvatarActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "Head item: " + equippedHeadItem.getName() + " " + equippedHeadItem.getDescription(), Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_HEAD_RIGHT:
-                if(equippedHeadItemId == headItemsList.size() -1) {
+                if (equippedHeadItemId == headItemsList.size() - 1) {
                     equippedHeadItem = headItemsList.get(0);
                     equippedHeadItemId = 0;
                 } else {
-                    equippedHeadItem = headItemsList.get(equippedHeadItemId +1);
+                    equippedHeadItem = headItemsList.get(equippedHeadItemId + 1);
                     equippedHeadItemId++;
                 }
                 //Toast.makeText(getApplicationContext(), "Head item: " + equippedHeadItem.getName()+ " " + equippedHeadItem.getDescription(), Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_TORSO_LEFT:
-                if(equippedTorsoItemId == 0) {
-                    equippedTorsoItem = torsoItemsList.get(torsoItemsList.size()-1);
-                    equippedTorsoItemId = torsoItemsList.size()-1;
+                if (equippedTorsoItemId == 0) {
+                    equippedTorsoItem = torsoItemsList.get(torsoItemsList.size() - 1);
+                    equippedTorsoItemId = torsoItemsList.size() - 1;
                 } else {
                     equippedTorsoItem = torsoItemsList.get(equippedTorsoItemId - 1);
                     equippedTorsoItemId--;
@@ -252,7 +255,7 @@ public class AvatarActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "Torso item: " + equippedTorsoItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_TORSO_RIGHT:
-                if(equippedTorsoItemId == torsoItemsList.size()-1) {
+                if (equippedTorsoItemId == torsoItemsList.size() - 1) {
                     equippedTorsoItem = torsoItemsList.get(0);
                     equippedTorsoItemId = 0;
                 } else {
@@ -262,9 +265,9 @@ public class AvatarActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "Torso item: " + equippedTorsoItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_BOTTOM_LEFT:
-                if(equippedBottomItemId == 0) {
-                    equippedBottomItem = bottomItemsList.get(bottomItemsList.size()-1);
-                    equippedBottomItemId = bottomItemsList.size()-1;
+                if (equippedBottomItemId == 0) {
+                    equippedBottomItem = bottomItemsList.get(bottomItemsList.size() - 1);
+                    equippedBottomItemId = bottomItemsList.size() - 1;
                 } else {
                     equippedBottomItem = bottomItemsList.get(equippedBottomItemId - 1);
                     equippedBottomItemId--;
@@ -272,7 +275,7 @@ public class AvatarActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "Bottom item: " + equippedBottomItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_BOTTOM_RIGHT:
-                if(equippedBottomItemId == bottomItemsList.size()-1) {
+                if (equippedBottomItemId == bottomItemsList.size() - 1) {
                     equippedBottomItem = bottomItemsList.get(0);
                     equippedBottomItemId = 0;
                 } else {
