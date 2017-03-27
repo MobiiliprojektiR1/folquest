@@ -3,11 +3,14 @@ package com.kantele.folquest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,9 @@ public class AvatarActivity extends AppCompatActivity {
     private static final int BUTTON_TORSO_RIGHT = 3;
     private static final int BUTTON_BOTTOM_LEFT = 4;
     private static final int BUTTON_BOTTOM_RIGHT = 5;
+    private static final int BUTTON_HEAD_DIRECT = 6;
+    private static final int BUTTON_TORSO_DIRECT = 7;
+    private static final int BUTTON_BOTTOM_DIRECT = 8;
 
     Button buttonHeadLeft;
     Button buttonHeadRight;
@@ -37,23 +43,26 @@ public class AvatarActivity extends AppCompatActivity {
     int equippedTorsoItemId = 0;
     int equippedBottomItemId = 0;
 
-    ArrayList<String> testItemsList = new ArrayList<>();
-
     ArrayList<Item> headItemsList = new ArrayList<>();
     ArrayList<Item> torsoItemsList = new ArrayList<>();
     ArrayList<Item> bottomItemsList = new ArrayList<>();
 
     ItemList itemList = new ItemList();
+
+    TabHost tabHost;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar);
 
         //Adapter for the inventory grid
-        ArrayAdapter<String> inventoryGridAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, testItemsList);
+        /*ArrayAdapter<Item> inventoryGridAdapter = new ArrayAdapter<>(this, R.layout.inventory_grid_item, headItemsList);
 
-        //Find initialize gridView
-        GridView inventoryGridView = (GridView)findViewById(R.id.inventoryGridView);
+        //Find initialize gridView*/
+        GridView inventoryHeadGridView = (GridView)findViewById(R.id.inventoryHeadGridView);
+        GridView inventoryTorsoGridView = (GridView)findViewById(R.id.inventoryTorsoGridView);
+        GridView inventoryBottomGridView = (GridView)findViewById(R.id.inventoryBottomGridView);
+
 
         //populating ArrayList for demo purposes
         headItemsList.add(itemList.headBeanie);
@@ -74,12 +83,6 @@ public class AvatarActivity extends AppCompatActivity {
         bottomItemsList.add(itemList.bottomSpikyLegs);
         bottomItemsList.add(itemList.bottomHighHeels);
 
-        testItemsList.add("1");
-        testItemsList.add("2");
-        testItemsList.add("3");
-        testItemsList.add("4");
-        testItemsList.add("5");
-
         //set the equipped item to be the first in list
         // will be modified later
         equippedHeadItem = headItemsList.get(0);
@@ -87,7 +90,12 @@ public class AvatarActivity extends AppCompatActivity {
         equippedBottomItem = bottomItemsList.get(0);
 
         // set the adapter for grid view
-        inventoryGridView.setAdapter(inventoryGridAdapter);
+        //inventoryHeadGridView.setAdapter(inventoryGridAdapter);
+
+        inventoryHeadGridView.setAdapter( new InventoryGridAdapter(this, headItemsList));
+        inventoryTorsoGridView.setAdapter( new InventoryGridAdapter(this, torsoItemsList));
+        inventoryBottomGridView.setAdapter( new InventoryGridAdapter(this, bottomItemsList));
+
 
         //initialize buttons
         buttonHeadLeft = (Button)findViewById(R.id.buttonHeadLeft);
@@ -103,51 +111,99 @@ public class AvatarActivity extends AppCompatActivity {
         torsoItemText = (TextView)findViewById(R.id.torsoItemText);
         bottomItemText = (TextView)findViewById(R.id.bottomItemText);
 
+
+        //Tab initializing
+        tabHost = (TabHost) findViewById(R.id.tabHost);
+        tabHost.setup();
+
+        //tab 1
+        TabHost.TabSpec spec = tabHost.newTabSpec("Head");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("Head");
+        tabHost.addTab(spec);
+
+        //tab 1
+        spec = tabHost.newTabSpec("Torso");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("Torso");
+        tabHost.addTab(spec);
+
+        //tab 1
+        spec = tabHost.newTabSpec("Bottom");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("Bottom");
+        tabHost.addTab(spec);
+
         buttonHeadLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeAccessory(BUTTON_HEAD_LEFT);
+                changeAccessory(BUTTON_HEAD_LEFT,0);
             }
         });
 
         buttonHeadRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeAccessory(BUTTON_HEAD_RIGHT);
+                changeAccessory(BUTTON_HEAD_RIGHT,0);
             }
         });
 
         buttonTorsoLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeAccessory(BUTTON_TORSO_LEFT);
+                changeAccessory(BUTTON_TORSO_LEFT,0);
             }
         });
 
         buttonTorsoRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeAccessory(BUTTON_TORSO_RIGHT);
+                changeAccessory(BUTTON_TORSO_RIGHT,0);
             }
         });
 
         buttonBottomLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeAccessory(BUTTON_BOTTOM_LEFT);
+                changeAccessory(BUTTON_BOTTOM_LEFT,0);
             }
         });
 
         buttonBottomRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeAccessory(BUTTON_BOTTOM_RIGHT);
+                changeAccessory(BUTTON_BOTTOM_RIGHT, 0);
+            }
+        });
+
+        inventoryHeadGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                //if tab is head, change head
+                changeAccessory(BUTTON_HEAD_DIRECT, position);
+            }
+        });
+        inventoryTorsoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                //if tab is head, change head
+                changeAccessory(BUTTON_TORSO_DIRECT, position);
+            }
+        });
+        inventoryBottomGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                //if tab is head, change head
+                changeAccessory(BUTTON_BOTTOM_DIRECT, position);
             }
         });
     }
 
 
-    public void changeAccessory(int accessorySlotToChange) {
+    public void changeAccessory(int accessorySlotToChange, int position) {
         switch (accessorySlotToChange) {
             case BUTTON_HEAD_LEFT:
                 if(equippedHeadItemId == 0) {
@@ -208,6 +264,18 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedBottomItemId++;
                 }
                 //Toast.makeText(getApplicationContext(), "Bottom item: " + equippedBottomItem.getName() +"", Toast.LENGTH_SHORT).show();
+                break;
+            case BUTTON_HEAD_DIRECT:
+                equippedHeadItem = headItemsList.get(position);
+                equippedBottomItemId = position;
+                break;
+            case BUTTON_TORSO_DIRECT:
+                equippedTorsoItem = torsoItemsList.get(position);
+                equippedTorsoItemId = position;
+                break;
+            case BUTTON_BOTTOM_DIRECT:
+                equippedBottomItem = bottomItemsList.get(position);
+                equippedBottomItemId = position;
                 break;
         }
         headItemText.setText(equippedHeadItem.getName());
