@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class QuestsActivity extends AppCompatActivity {
 
     Button buttonBack;
     Button buttonQuestBoard;
+    TextView textViewActiveQuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +25,11 @@ public class QuestsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_quests);
 
+        textViewActiveQuest = (TextView) findViewById(R.id.textViewActiveQuest1);
         buttonBack = (Button) findViewById(R.id.buttonBack);
         buttonQuestBoard = (Button) findViewById(R.id.buttonQuestBoard);
+
+
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,5 +45,16 @@ public class QuestsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(PlayerController.activeQuests.size() > 0){
+            textViewActiveQuest.setText(PlayerController.activeQuests.get(0).getDescription() +
+                    ", req:" + PlayerController.activeQuests.get(0).getRequirement() +
+                    ", gold:" + PlayerController.activeQuests.get(0).getRewardGold() +
+                    ", exp:" + PlayerController.activeQuests.get(0).getRewardExp());
+        }
     }
 }

@@ -14,8 +14,8 @@ public class PlayerController {
     //Variables
     long playerGold;
     long playerExp;
-    int maximumQuests = 3;
-    ArrayList<Quest> activeQuests = new ArrayList<>();
+    static int maximumQuests = 3;
+    public static final ArrayList<Quest> activeQuests = new ArrayList<>();
 
     //Methods
     public long getPlayerGold() { return playerGold; }
@@ -26,8 +26,8 @@ public class PlayerController {
 
     public void setPlayerExp(long playerExp) { this.playerExp = playerExp; }
 
-    public void addQuest(Quest newQuest){
-        if(activeQuests.size() <= maximumQuests)
+    public static void addQuest(Quest newQuest){
+        if(activeQuests.size() < maximumQuests)
             activeQuests.add(newQuest);
     }
 

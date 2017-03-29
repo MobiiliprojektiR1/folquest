@@ -6,10 +6,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
+
+import static com.kantele.folquest.Quest.questType.PUSHUPS;
+import static com.kantele.folquest.Quest.questType.SITUPS;
 
 public class QuestBoardActivity extends AppCompatActivity {
 
     Button buttonBack;
+    Button buttonQuest1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,18 @@ public class QuestBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quest_board);
 
         buttonBack = (Button) findViewById(R.id.buttonBack);
+        buttonQuest1 = (Button) findViewById(R.id.buttonQuest1);
+
+        final Quest testQuest1 = new Quest(SITUPS, 3);
+        buttonQuest1.setText(testQuest1.getDescription() + ", req:" + testQuest1.getRequirement() + ", gold:" + testQuest1.getRewardGold() + ", exp:" + testQuest1.getRewardExp());
+
+        buttonQuest1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(PlayerController.activeQuests.size() < PlayerController.maximumQuests)
+                PlayerController.addQuest(testQuest1);
+            }
+        });
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override

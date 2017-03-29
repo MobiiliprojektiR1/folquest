@@ -37,19 +37,19 @@ public class Quest{
     //Variables
     protected questType type;
     protected int difficultyLevel;
-    protected int requirement;
+    protected long requirement;
     protected int progress;
     protected long rewardGold;
     protected long rewardExp;
     protected String description;
 
     //Methods
-    public Quest(questType newType, int newDifficultyLevel, long newGold, long newExp){
+    public Quest(questType newType, int newDifficultyLevel){
 
         type = newType;
         difficultyLevel = newDifficultyLevel;
-        rewardGold = newGold;
-        rewardExp = newExp;
+        rewardGold = goldRewards[newDifficultyLevel];
+        rewardExp = expRewards[newDifficultyLevel];
         progress = 0;
 
         switch (type){
