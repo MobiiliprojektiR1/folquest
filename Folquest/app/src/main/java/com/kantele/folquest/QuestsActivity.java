@@ -15,6 +15,9 @@ public class QuestsActivity extends AppCompatActivity {
     Button buttonQuestBoard;
     TextView textViewActiveQuest;
 
+    //Start the PLayerController
+    PlayerController controller = (PlayerController) getApplicationContext();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +53,11 @@ public class QuestsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(PlayerController.activeQuests.size() > 0){
-            textViewActiveQuest.setText(PlayerController.activeQuests.get(0).getDescription() +
-                    ", req:" + PlayerController.activeQuests.get(0).getRequirement() +
-                    ", gold:" + PlayerController.activeQuests.get(0).getRewardGold() +
-                    ", exp:" + PlayerController.activeQuests.get(0).getRewardExp());
+        if(controller.activeQuests.size() > 0){
+            textViewActiveQuest.setText(controller.activeQuests.get(0).getDescription() +
+                    ", req:" + controller.activeQuests.get(0).getRequirement() +
+                    ", gold:" + controller.activeQuests.get(0).getRewardGold() +
+                    ", exp:" + controller.activeQuests.get(0).getRewardExp());
         }
     }
 }
