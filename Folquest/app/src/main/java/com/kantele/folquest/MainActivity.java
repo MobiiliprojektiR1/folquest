@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
 
     private static String TAG = "FIT:";
-    int EXPERIENCE_CURRENT, EXPERIENCE_TARGET;
+    long EXPERIENCE_CURRENT, EXPERIENCE_TARGET;
 
     Button buttonAvatar, buttonQuests, buttonSettings;
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewKcalHolder, textViewKcal;
     TextView textViewDistHolder, textViewDist;
     Button buttonUpdate;
-
+    PlayerController controller;
     // GOOGLE FIT
 
     GoogleApiClient apiClient;
@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Start the PLayerController
+        controller = (PlayerController) getApplicationContext();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
 
-        EXPERIENCE_CURRENT = 1200;
+        EXPERIENCE_CURRENT = controller.getPlayerExp();
         EXPERIENCE_TARGET = 3000;
 
         textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
@@ -157,6 +160,11 @@ public class MainActivity extends AppCompatActivity {
         // This ensures that if the user denies the permissions then uses Settings to re-enable
         // them, the app will start working.
         buildFitnessClient();
+
+        EXPERIENCE_CURRENT = controller.getPlayerExp();
+        textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
+        textViewExpTarget.setText("" + EXPERIENCE_TARGET);
+
     }
 
     /**
