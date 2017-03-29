@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewDistHolder, textViewDist;
 
     Button buttonUpdate;
-    PlayerController controller;
+
     // GOOGLE FIT
 
     GoogleApiClient apiClient;
