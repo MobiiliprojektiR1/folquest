@@ -2,6 +2,7 @@ package com.kantele.folquest;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,6 +15,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class AvatarActivity extends AppCompatActivity {
+
+    private static final int HEAD = 0;
+    private static final int TORSO = 1;
+    private static final int BOTTOM = 2;
+    private static final int OTHER = 3;
 
     private static final int BUTTON_HEAD_LEFT = 0;
     private static final int BUTTON_HEAD_RIGHT = 1;
@@ -34,17 +40,9 @@ public class AvatarActivity extends AppCompatActivity {
 
     TextView headItemText, torsoItemText, bottomItemText;
 
-    Item equippedHeadItem;
-    Item equippedTorsoItem;
-    Item equippedBottomItem;
-
-    int equippedHeadItemId = 0;
-    int equippedTorsoItemId = 0;
-    int equippedBottomItemId = 0;
-
-    ArrayList<Item> headItemsList = new ArrayList<>();
-    ArrayList<Item> torsoItemsList = new ArrayList<>();
-    ArrayList<Item> bottomItemsList = new ArrayList<>();
+    int equippedHeadItemId;
+    int equippedTorsoItemId;
+    int equippedBottomItemId;
 
     ItemList itemList = new ItemList();
 
@@ -52,9 +50,13 @@ public class AvatarActivity extends AppCompatActivity {
   
     Button buttonBack;
 
+    PlayerController controller;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Start the PLayerController
+        controller = (PlayerController) getApplicationContext();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -62,48 +64,20 @@ public class AvatarActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_avatar);
 
-
-
-        //Adapter for the inventory grid
-        /*ArrayAdapter<Item> inventoryGridAdapter = new ArrayAdapter<>(this, R.layout.inventory_grid_item, headItemsList);
-
         //Find initialize gridView*/
         GridView inventoryHeadGridView = (GridView)findViewById(R.id.inventoryHeadGridView);
         GridView inventoryTorsoGridView = (GridView)findViewById(R.id.inventoryTorsoGridView);
         GridView inventoryBottomGridView = (GridView)findViewById(R.id.inventoryBottomGridView);
 
+        //set the id in the list of the equipped items
+        equippedHeadItemId = controller.ownedHeadItems.indexOf(controller.equippedHeadItem);
+        equippedTorsoItemId = controller.ownedTorsoItems.indexOf(controller.equippedTorsoItem);
+        equippedBottomItemId = controller.ownedBottomItems.indexOf(controller.equippedBottomItem);
 
-        //populating ArrayList for demo purposes
-        headItemsList.add(itemList.headBeanie);
-        headItemsList.add(itemList.headBald);
-        headItemsList.add(itemList.headHelmet);
-        headItemsList.add(itemList.headSpikyHair);
-        headItemsList.add(itemList.headTiara);
-
-        torsoItemsList.add(itemList.torsoShirt);
-        torsoItemsList.add(itemList.torsoChainMail);
-        torsoItemsList.add(itemList.torsoRobe);
-        torsoItemsList.add(itemList.torsoSpikyShirt);
-        torsoItemsList.add(itemList.torsoPinkDress);
-
-        bottomItemsList.add(itemList.bottomPants);
-        bottomItemsList.add(itemList.bottomSabatons);
-        bottomItemsList.add(itemList.bottomSandals);
-        bottomItemsList.add(itemList.bottomSpikyLegs);
-        bottomItemsList.add(itemList.bottomHighHeels);
-
-        //set the equipped item to be the first in list
-        // will be modified later
-        equippedHeadItem = headItemsList.get(0);
-        equippedTorsoItem = torsoItemsList.get(0);
-        equippedBottomItem = bottomItemsList.get(0);
-
-        // set the adapter for grid view
-        //inventoryHeadGridView.setAdapter(inventoryGridAdapter);
-
-        inventoryHeadGridView.setAdapter( new InventoryGridAdapter(this, headItemsList));
-        inventoryTorsoGridView.setAdapter( new InventoryGridAdapter(this, torsoItemsList));
-        inventoryBottomGridView.setAdapter( new InventoryGridAdapter(this, bottomItemsList));
+        // set the adapters for grid views
+        inventoryHeadGridView.setAdapter( new InventoryGridAdapter(this, controller.ownedHeadItems));
+        inventoryTorsoGridView.setAdapter( new InventoryGridAdapter(this, controller.ownedTorsoItems));
+        inventoryBottomGridView.setAdapter( new InventoryGridAdapter(this, controller.ownedBottomItems));
 
 
         //initialize buttons
@@ -125,19 +99,19 @@ public class AvatarActivity extends AppCompatActivity {
         tabHost = (TabHost) findViewById(R.id.tabHost);
         tabHost.setup();
 
-        //tab 1
+        //tab 1 - head items
         TabHost.TabSpec spec = tabHost.newTabSpec("Head");
         spec.setContent(R.id.tab1);
         spec.setIndicator("Head");
         tabHost.addTab(spec);
 
-        //tab 1
+        //tab 1 - torso items
         spec = tabHost.newTabSpec("Torso");
         spec.setContent(R.id.tab2);
         spec.setIndicator("Torso");
         tabHost.addTab(spec);
 
-        //tab 1
+        //tab 1 - bottom items
         spec = tabHost.newTabSpec("Bottom");
         spec.setContent(R.id.tab3);
         spec.setIndicator("Bottom");
@@ -189,7 +163,6 @@ public class AvatarActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                //if tab is head, change head
                 changeAccessory(BUTTON_HEAD_DIRECT, position);
             }
         });
@@ -197,7 +170,6 @@ public class AvatarActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                //if tab is head, change head
                 changeAccessory(BUTTON_TORSO_DIRECT, position);
             }
         });
@@ -205,7 +177,6 @@ public class AvatarActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                //if tab is head, change head
                 changeAccessory(BUTTON_BOTTOM_DIRECT, position);
             }
         });
@@ -219,6 +190,8 @@ public class AvatarActivity extends AppCompatActivity {
                   AvatarActivity.super.finish();
               }
           });
+
+        drawItems();
     }
 
 
@@ -226,80 +199,76 @@ public class AvatarActivity extends AppCompatActivity {
         switch (accessorySlotToChange) {
             case BUTTON_HEAD_LEFT:
                 if (equippedHeadItemId == 0) {
-                    equippedHeadItem = headItemsList.get(headItemsList.size() - 1);
-                    equippedHeadItemId = headItemsList.size() - 1;
+                    controller.equippedHeadItem = controller.ownedHeadItems.get(controller.ownedHeadItems.size() - 1);
+                    equippedHeadItemId = controller.ownedHeadItems.size() - 1;
                 } else {
-                    equippedHeadItem = headItemsList.get(equippedHeadItemId - 1);
+                    controller.equippedHeadItem = controller.ownedHeadItems.get(equippedHeadItemId - 1);
                     equippedHeadItemId--;
                 }
-                //Toast.makeText(getApplicationContext(), "Head item: " + equippedHeadItem.getName() + " " + equippedHeadItem.getDescription(), Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_HEAD_RIGHT:
-                if (equippedHeadItemId == headItemsList.size() - 1) {
-                    equippedHeadItem = headItemsList.get(0);
+                if (equippedHeadItemId == controller.ownedHeadItems.size() - 1) {
+                    controller.equippedHeadItem = controller.ownedHeadItems.get(0);
                     equippedHeadItemId = 0;
                 } else {
-                    equippedHeadItem = headItemsList.get(equippedHeadItemId + 1);
+                    controller.equippedHeadItem = controller.ownedHeadItems.get(equippedHeadItemId + 1);
                     equippedHeadItemId++;
                 }
-                //Toast.makeText(getApplicationContext(), "Head item: " + equippedHeadItem.getName()+ " " + equippedHeadItem.getDescription(), Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_TORSO_LEFT:
                 if (equippedTorsoItemId == 0) {
-                    equippedTorsoItem = torsoItemsList.get(torsoItemsList.size() - 1);
-                    equippedTorsoItemId = torsoItemsList.size() - 1;
+                    controller.equippedTorsoItem = controller.ownedTorsoItems.get(controller.ownedTorsoItems.size() - 1);
+                    equippedTorsoItemId = controller.ownedTorsoItems.size() - 1;
                 } else {
-                    equippedTorsoItem = torsoItemsList.get(equippedTorsoItemId - 1);
+                    controller.equippedTorsoItem = controller.ownedTorsoItems.get(equippedTorsoItemId - 1);
                     equippedTorsoItemId--;
                 }
-                //Toast.makeText(getApplicationContext(), "Torso item: " + equippedTorsoItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_TORSO_RIGHT:
-                if (equippedTorsoItemId == torsoItemsList.size() - 1) {
-                    equippedTorsoItem = torsoItemsList.get(0);
+                if (equippedTorsoItemId == controller.ownedTorsoItems.size() - 1) {
+                    controller.equippedTorsoItem = controller.ownedTorsoItems.get(0);
                     equippedTorsoItemId = 0;
                 } else {
-                    equippedTorsoItem = torsoItemsList.get(equippedTorsoItemId + 1);
+                    controller.equippedTorsoItem = controller.ownedTorsoItems.get(equippedTorsoItemId + 1);
                     equippedTorsoItemId++;
                 }
-                //Toast.makeText(getApplicationContext(), "Torso item: " + equippedTorsoItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_BOTTOM_LEFT:
                 if (equippedBottomItemId == 0) {
-                    equippedBottomItem = bottomItemsList.get(bottomItemsList.size() - 1);
-                    equippedBottomItemId = bottomItemsList.size() - 1;
+                    controller.equippedBottomItem = controller.ownedBottomItems.get(controller.ownedBottomItems.size() - 1);
+                    equippedBottomItemId = controller.ownedBottomItems.size() - 1;
                 } else {
-                    equippedBottomItem = bottomItemsList.get(equippedBottomItemId - 1);
+                    controller.equippedBottomItem = controller.ownedBottomItems.get(equippedBottomItemId - 1);
                     equippedBottomItemId--;
                 }
-                //Toast.makeText(getApplicationContext(), "Bottom item: " + equippedBottomItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_BOTTOM_RIGHT:
-                if (equippedBottomItemId == bottomItemsList.size() - 1) {
-                    equippedBottomItem = bottomItemsList.get(0);
+                if (equippedBottomItemId == controller.ownedBottomItems.size() - 1) {
+                    controller.equippedBottomItem = controller.ownedBottomItems.get(0);
                     equippedBottomItemId = 0;
                 } else {
-                    equippedBottomItem = bottomItemsList.get(equippedBottomItemId + 1);
+                    controller.equippedBottomItem = controller.ownedBottomItems.get(equippedBottomItemId + 1);
                     equippedBottomItemId++;
                 }
-                //Toast.makeText(getApplicationContext(), "Bottom item: " + equippedBottomItem.getName() +"", Toast.LENGTH_SHORT).show();
                 break;
             case BUTTON_HEAD_DIRECT:
-                equippedHeadItem = headItemsList.get(position);
+                controller.equippedHeadItem = controller.ownedHeadItems.get(position);
                 equippedBottomItemId = position;
                 break;
             case BUTTON_TORSO_DIRECT:
-                equippedTorsoItem = torsoItemsList.get(position);
+                controller.equippedTorsoItem = controller.ownedTorsoItems.get(position);
                 equippedTorsoItemId = position;
                 break;
             case BUTTON_BOTTOM_DIRECT:
-                equippedBottomItem = bottomItemsList.get(position);
+                controller.equippedBottomItem = controller.ownedBottomItems.get(position);
                 equippedBottomItemId = position;
                 break;
         }
-        headItemText.setText(equippedHeadItem.getName());
-        torsoItemText.setText(equippedTorsoItem.getName());
-        bottomItemText.setText(equippedBottomItem.getName());
-
+        drawItems();
+    }
+    public void drawItems(){
+        headItemText.setText(controller.equippedHeadItem.getName());
+        torsoItemText.setText(controller.equippedTorsoItem.getName());
+        bottomItemText.setText(controller.equippedBottomItem.getName());
     }
 }

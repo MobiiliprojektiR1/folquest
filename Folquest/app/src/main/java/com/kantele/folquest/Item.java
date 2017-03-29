@@ -11,6 +11,7 @@ public class Item {
     String itemId;
     String name;
     String description;
+    int goldPrice;
 
     public Item(int itemType, String itemId, String itemName, String itemDescription) {
         this.itemType = itemType;
@@ -21,6 +22,14 @@ public class Item {
 
     //private Image itemImage;
 
+
+    public int getGoldPrice() {
+        return goldPrice;
+    }
+
+    public void setGoldPrice(int goldPrice) {
+        this.goldPrice = goldPrice;
+    }
 
     public int getItemType() {
         return itemType;
@@ -41,10 +50,14 @@ public class Item {
 
 class ItemList {
 
-    public static final int HEAD = 0;
-    public static final int TORSO = 1;
-    public static final int BOTTOM = 2;
-    public static final int OTHER = 3;
+    private static final int HEAD = 0;
+    private static final int TORSO = 1;
+    private static final int BOTTOM = 2;
+    private static final int OTHER = 3;
+
+    Item defaultHead = new Item(HEAD, "defaultHead", "Default Head", "Your default hair");
+    Item defaultTorso = new Item(TORSO, "defaultTorso", "Dirty rags", "Your default torso");
+    Item defaultBottom = new Item(BOTTOM, "defaultBottom", "Bare feet", "Your default bottom");
 
     //  Item                            Type    Id                  Name            Description
     //  Item exampleItem = new Item(    HEAD,   "headExample",      "Example",      "Example Description");
