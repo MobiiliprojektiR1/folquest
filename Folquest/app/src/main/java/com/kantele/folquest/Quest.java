@@ -4,20 +4,22 @@ package com.kantele.folquest;
  * Created by Teemu on 22.3.2017.
  */
 
+//Quest types and their different requirement values for each difficulty
+enum questType{
+    PUSHUPS,
+    SITUPS,
+    SQUATS,
+    WALLSIT,
+    DISTANCE,
+    STEPS,
+    WATER,
+    CALORIES,
+    REST
+}
+
 public class Quest{
 
-    //Quest types and their different requirement values for each difficulty
-    enum questType{
-        PUSHUPS,
-        SITUPS,
-        SQUATS,
-        WALLSIT,
-        DISTANCE,
-        STEPS,
-        WATER,
-        CALORIES,
-        REST
-    }
+
 
     //Difficulty level 0-5         NOVICE,   EASY, NORMAL,   HARD, V.HARD,   EPIC
     int pushUpDifficulty[]   =  {      5,     15,     30,     60,    200,    500 }; //reps
