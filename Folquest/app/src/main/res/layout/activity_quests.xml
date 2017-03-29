@@ -26,12 +26,14 @@
         android:layout_alignParentStart="true"
         android:id="@+id/buttonQuestBoard" />
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="128dp"
-        android:id="@+id/textViewActiveQuest1" />
+        android:layout_above="@+id/buttonBack"
+        android:id="@+id/activeQuestListView">
+    </ListView>
+
+
 </RelativeLayout>
