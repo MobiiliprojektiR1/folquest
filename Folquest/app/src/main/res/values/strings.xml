@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Folquest</string>
     <string name="title_activity_avatar">AvatarActivity</string>
+    <string name="quest_description_test">This is the first quest description. It tells a short story to know why the player is taking the quest. It\'s 129 characters long.</string>
 </resources>
