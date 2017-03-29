@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewDistHolder, textViewDist;
 
     Button buttonUpdate;
-
+    PlayerController controller;
     // GOOGLE FIT
 
     GoogleApiClient apiClient;
@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        //Start the PLayerController
 
         controller = (PlayerController) getApplicationContext();
 
@@ -194,6 +197,11 @@ public class MainActivity extends AppCompatActivity {
         // This ensures that if the user denies the permissions then uses Settings to re-enable
         // them, the app will start working.
         buildFitnessClient();
+
+        EXPERIENCE_CURRENT = controller.getPlayerExp();
+        textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
+        textViewExpTarget.setText("" + EXPERIENCE_TARGET);
+
     }
 
     /**

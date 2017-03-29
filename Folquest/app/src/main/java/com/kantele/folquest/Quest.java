@@ -113,4 +113,8 @@ public class Quest{
         return description;
     }
 
+    public String toString(){
+        return type+"";
+    }
+
 }

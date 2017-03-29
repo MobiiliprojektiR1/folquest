@@ -38,13 +38,16 @@ public class PlayerController extends Application{
      *Item variables end
      */
 
+    //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
+
     long playerGold;
-    /**
-     * TODO: GET PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
-     */
     long playerExp = 0;
+
+    //Quest tracking
+    // TODO: GET ACTIVE QUESTS FROM A SAVE FILE
     static int maximumQuests = 3;
     public final ArrayList<Quest> activeQuests = new ArrayList<>();
+    public final ArrayList<Quest> availableQuests = new ArrayList<>();
 
     //Methods
     public long getPlayerGold() { return playerGold; }
@@ -70,6 +73,7 @@ public class PlayerController extends Application{
     public void completeQuest(int questIndex){
         this.playerExp =+ activeQuests.get(questIndex).getRewardExp();
         this.playerGold =+ activeQuests.get(questIndex).getRewardGold();
+
     }
 
     /**
