@@ -33,6 +33,8 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
+    ItemList itemList = new ItemList();
+    TextView avatarHeadTextView,avatarTorsoTextView,avatarBottomTextView;
     private static String TAG = "FIT:";
     long EXPERIENCE_CURRENT, EXPERIENCE_TARGET;
 
@@ -43,19 +45,23 @@ public class MainActivity extends AppCompatActivity {
     TextView textViewStepsHolder, textViewSteps;
     TextView textViewKcalHolder, textViewKcal;
     TextView textViewDistHolder, textViewDist;
+
     Button buttonUpdate;
-    PlayerController controller;
+
     // GOOGLE FIT
 
     GoogleApiClient apiClient;
 
-
+    //Start the PLayerController
+    PlayerController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         //Start the PLayerController
+
         controller = (PlayerController) getApplicationContext();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -64,6 +70,31 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        /* Adding defaults items when the game is started, these have to be in the database from the start! */
+        controller.addDefaultItems();
+
+        //adding some items for demo
+        controller.addItem(itemList.headBald);
+        controller.addItem(itemList.bottomHighHeels);
+        controller.addItem(itemList.bottomSandals);
+        controller.addItem(itemList.bottomPants);
+        controller.addItem(itemList.torsoChainMail);
+        controller.addItem(itemList.torsoPinkDress);
+
+        /* Set the default items, this will be modified later */
+        controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
+        controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
+        controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
+
+        /* Text views for avatar items */
+        avatarHeadTextView = (TextView)findViewById(R.id.avatarHeadTextView);
+        avatarTorsoTextView = (TextView)findViewById(R.id.avatarTorsoTextView);
+        avatarBottomTextView = (TextView)findViewById(R.id.avatarBottomTextView);
+
+        /* Set texts for avatar item text views */
+        avatarHeadTextView.setText(controller.equippedHeadItem.getName());
+        avatarBottomTextView.setText(controller.equippedBottomItem.getName());
+        avatarTorsoTextView.setText(controller.equippedTorsoItem.getName());
 
         buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
         buttonQuests = (Button) findViewById(R.id.buttonQuests);
@@ -156,6 +187,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        controller = (PlayerController) getApplicationContext();
+        /* Set texts for avatar item text views */
+        avatarHeadTextView.setText(controller.equippedHeadItem.getName());
+        avatarBottomTextView.setText(controller.equippedBottomItem.getName());
+        avatarTorsoTextView.setText(controller.equippedTorsoItem.getName());
 
         // This ensures that if the user denies the permissions then uses Settings to re-enable
         // them, the app will start working.
