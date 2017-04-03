@@ -3,10 +3,13 @@ package com.kantele.folquest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button buttonUpdate;
 
+    ImageView headImageView;
+
     // GOOGLE FIT
 
     GoogleApiClient apiClient;
@@ -67,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //Affects the trasnparent images somehow?
+        getWindow().getAttributes().format = PixelFormat.RGBA_8888;
 
         setContentView(R.layout.activity_main);
 
@@ -95,6 +103,22 @@ public class MainActivity extends AppCompatActivity {
         avatarHeadTextView.setText(controller.equippedHeadItem.getName());
         avatarBottomTextView.setText(controller.equippedBottomItem.getName());
         avatarTorsoTextView.setText(controller.equippedTorsoItem.getName());
+
+        /* Set image for equipped head item */
+        int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
+        headImageView = (ImageView)findViewById(R.id.headImageView);
+        headImageView.setImageResource(resHeadID);
+
+        /* Set image for equipped head item */
+        /*int resTorsoID = getResources().getIdentifier(controller.equippedTorsoItem.getItemId(), "mipmap", this.getPackageName());
+        headImageView = (ImageView)findViewById(R.id.headImageView);
+        headImageView.setImageResource(resTorsoID);
+
+        /* Set image for equipped head item */
+        /*int resBottomID = getResources().getIdentifier(controller.equippedBottomItem.getItemId(), "mipmap", this.getPackageName());
+        headImageView = (ImageView)findViewById(R.id.headImageView);
+        headImageView.setImageResource(resBottomID);*/
+
 
         buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
         buttonQuests = (Button) findViewById(R.id.buttonQuests);
@@ -193,6 +217,11 @@ public class MainActivity extends AppCompatActivity {
         avatarHeadTextView.setText(controller.equippedHeadItem.getName());
         avatarBottomTextView.setText(controller.equippedBottomItem.getName());
         avatarTorsoTextView.setText(controller.equippedTorsoItem.getName());
+
+        /* Set image for equipped head item */
+        int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
+        headImageView = (ImageView)findViewById(R.id.headImageView);
+        headImageView.setImageResource(resHeadID);
 
         // This ensures that if the user denies the permissions then uses Settings to re-enable
         // them, the app will start working.
