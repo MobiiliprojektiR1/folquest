@@ -19,7 +19,8 @@ public class AvatarActivity extends AppCompatActivity {
     private static final int HEAD = 0;
     private static final int TORSO = 1;
     private static final int BOTTOM = 2;
-    private static final int OTHER = 3;
+    private static final int FEET = 3;
+    private static final int OTHER = 4;
 
     private static final int BUTTON_HEAD_LEFT = 0;
     private static final int BUTTON_HEAD_RIGHT = 1;
@@ -30,6 +31,9 @@ public class AvatarActivity extends AppCompatActivity {
     private static final int BUTTON_HEAD_DIRECT = 6;
     private static final int BUTTON_TORSO_DIRECT = 7;
     private static final int BUTTON_BOTTOM_DIRECT = 8;
+    private static final int BUTTON_FEET_LEFT = 9;
+    private static final int BUTTON_FEET_RIGHT = 10;
+    private static final int BUTTON_FEET_DIRECT = 11;
 
     Button buttonHeadLeft;
     Button buttonHeadRight;
@@ -37,12 +41,15 @@ public class AvatarActivity extends AppCompatActivity {
     Button buttonTorsoRight;
     Button buttonBottomLeft;
     Button buttonBottomRight;
+    Button buttonFeetLeft;
+    Button buttonFeetRight;
 
     TextView headItemText, torsoItemText, bottomItemText;
 
     int equippedHeadItemId;
     int equippedTorsoItemId;
     int equippedBottomItemId;
+    int equippedFeetItemId;
 
     ItemList itemList = new ItemList();
 
@@ -251,6 +258,24 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedBottomItemId++;
                 }
                 break;
+            case BUTTON_FEET_LEFT:
+                if (equippedFeetItemId == 0) {
+                    controller.equippedBottomItem = controller.ownedFeetItems.get(controller.ownedFeetItems.size() - 1);
+                    equippedFeetItemId = controller.ownedFeetItems.size() - 1;
+                } else {
+                    controller.equippedFeetItem = controller.ownedFeetItems.get(equippedFeetItemId - 1);
+                    equippedFeetItemId--;
+                }
+                break;
+            case BUTTON_FEET_RIGHT:
+                if (equippedFeetItemId == controller.ownedFeetItems.size() - 1) {
+                    controller.equippedFeetItem = controller.ownedFeetItems.get(0);
+                    equippedFeetItemId = 0;
+                } else {
+                    controller.equippedFeetItem = controller.ownedFeetItems.get(equippedFeetItemId + 1);
+                    equippedFeetItemId++;
+                }
+                break;
             case BUTTON_HEAD_DIRECT:
                 controller.equippedHeadItem = controller.ownedHeadItems.get(position);
                 equippedBottomItemId = position;
@@ -262,6 +287,10 @@ public class AvatarActivity extends AppCompatActivity {
             case BUTTON_BOTTOM_DIRECT:
                 controller.equippedBottomItem = controller.ownedBottomItems.get(position);
                 equippedBottomItemId = position;
+                break;
+            case BUTTON_FEET_DIRECT:
+                controller.equippedFeetItem = controller.ownedFeetItems.get(position);
+                equippedFeetItemId = position;
                 break;
         }
         drawItems();
