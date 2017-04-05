@@ -1,5 +1,6 @@
 package com.kantele.folquest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -58,6 +59,7 @@ public class AvatarActivity extends AppCompatActivity {
     TabHost tabHost;
   
     Button buttonBack;
+    Button buttonShop;
 
     PlayerController controller;
     @Override
@@ -206,8 +208,19 @@ public class AvatarActivity extends AppCompatActivity {
               }
           });
 
+        buttonShop = (Button) findViewById(R.id.buttonShop);
+
+        buttonShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AvatarActivity.this, ShopActivity.class);
+                startActivity(intent);
+            }
+        });
+
         drawItems();
         drawEquippedItems();
+
     }
 
 
@@ -324,6 +337,7 @@ public class AvatarActivity extends AppCompatActivity {
         int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
         headImageView.setImageResource(resHeadID);
 
+        
         //Set image for head item
         int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
         feetImageView.setImageResource(resFeetID);
