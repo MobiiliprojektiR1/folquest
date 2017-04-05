@@ -1,6 +1,8 @@
 package com.kantele.folquest;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -42,7 +44,7 @@ public class PlayerController extends Application{
 
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
 
-    long playerGold;
+    long playerGold = 0;
     long playerExp = 0;
 
     //Quest tracking
@@ -88,6 +90,9 @@ public class PlayerController extends Application{
 
     public void setEquippedHeadItem(Item equippedHeadItem) {
         this.equippedHeadItem = equippedHeadItem;
+
+        // Save item to shared preferences
+
     }
 
     public Item getEquippedTorsoItem() {

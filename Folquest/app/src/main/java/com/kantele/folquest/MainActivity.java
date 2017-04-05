@@ -1,6 +1,8 @@
 package com.kantele.folquest;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
@@ -8,6 +10,7 @@ import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -29,6 +32,8 @@ import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -52,11 +57,16 @@ public class MainActivity extends AppCompatActivity {
     ImageView headImageView, torsoImageView, bottomImageView, feetImageView;
 
     // GOOGLE FIT
-
     GoogleApiClient apiClient;
 
     //Start the PLayerController
     PlayerController controller;
+
+    // Saved preferences
+    public SharedPreferences sharedPreferences;
+    public String savedTorso, savedHead, savedBottom, savedFeet;
+    public String myPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +208,10 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
         }
+
+        // LOAD DATA FROM SHARED PREFERENCES
+        sharedPreferences = getSharedPreferences(myPreferences, Context.MODE_APPEND);
+
     }
 
 
@@ -209,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
         //Set image for torso item
         int resTorsoID = getResources().getIdentifier(controller.equippedTorsoItem.getItemId(), "mipmap", this.getPackageName());
         torsoImageView.setImageResource(resTorsoID);
+
 
         //Set image for head item
         int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
@@ -228,6 +243,9 @@ public class MainActivity extends AppCompatActivity {
         avatarHeadTextView.setText(controller.equippedHeadItem.getName());
         avatarBottomTextView.setText(controller.equippedBottomItem.getName());
         avatarTorsoTextView.setText(controller.equippedTorsoItem.getName());
+
+        // Load shared preferences
+
 
         // Draw equipped items
         drawEquippedItems();
@@ -371,4 +389,43 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        savedTorso  = controller.getEquippedTorsoItem().getItemId();
+        savedHead = controller.getEquippedHeadItem().getItemId();
+        savedBottom = controller.getEquippedBottomItem().getItemId();
+        savedFeet = controller.getEquippedFeetItem().getItemId();
+
+        sharedPreferences = getSharedPreferences(myPreferences, Context.MODE_APPEND);
+        SharedPreferences.Editor editori = sharedPreferences.edit();
+        editori.putString(savedTorso, savedTorso);
+        editori.putString(savedHead, savedHead);
+        editori.putString(savedBottom, savedBottom);
+        editori.putString(savedFeet, savedFeet);
+        editori.commit();
+
+        Log.d("TORSO", "Hoi, you're wearing torso: "+ savedTorso);
+        Log.d("TORSO", "Hoi, you're wearing head: "+ savedHead);
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

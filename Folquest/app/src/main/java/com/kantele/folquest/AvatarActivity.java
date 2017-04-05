@@ -322,6 +322,9 @@ public class AvatarActivity extends AppCompatActivity {
         headItemText.setText(controller.equippedHeadItem.getName());
         torsoItemText.setText(controller.equippedTorsoItem.getName());
         bottomItemText.setText(controller.equippedBottomItem.getName());
+
+        // Save drawed items to shared preferences
+
     }
 
     protected void drawEquippedItems() {
