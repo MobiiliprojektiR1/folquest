@@ -3,6 +3,9 @@
     package="com.kantele.folquest">
 
     <application
+        android:largeHeap="true"
+        android:hardwareAccelerated="false"
+
         android:name=".PlayerController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
