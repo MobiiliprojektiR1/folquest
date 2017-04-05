@@ -19,88 +19,128 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25">
+            android:layout_weight="0.99"
+            android:orientation="horizontal">
 
-            <Button
-                android:text="L"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonHeadLeft"/>
+            <LinearLayout
+                android:layout_width="49dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:text="Head"
+                <Button
+                    android:id="@+id/buttonHeadLeft"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="L" />
+
+                <Button
+                    android:id="@+id/buttonTorsoLeft"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="L" />
+
+                <Button
+                    android:id="@+id/buttonBottomLeft"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="L" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="217dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="1">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/characterImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="12.40"
+                    app:srcCompat="@drawable/naishahmopohja" />
+
+                <ImageView
+                    android:id="@+id/headImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/naishahmopohja" />
+
+                <ImageView
+                    android:id="@+id/feetImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/naishahmopohja" />
+
+                <ImageView
+                    android:id="@+id/bottomImageView"
+                    android:layout_width="400dp"
+                    android:layout_height="600dp"
+                    app:srcCompat="@drawable/naishahmopohja" />
+                <ImageView
+                    android:id="@+id/torsoImageView"
+                    android:layout_width="400dp"
+                    android:layout_height="600dp"
+                    app:srcCompat="@drawable/naishahmopohja" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/headItemText"
-                android:layout_weight="1"
-                android:textAlignment="center" />
+                android:orientation="vertical">
 
-            <Button
-                android:text="R"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonHeadRight"/>
+                <Button
+                    android:id="@+id/buttonHeadRight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="R" />
+
+                <TextView
+                    android:id="@+id/headItemText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:text="Head"
+                    android:textAlignment="center"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/buttonTorsoRight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="R" />
+
+                <TextView
+                    android:id="@+id/torsoItemText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:text="Torso"
+                    android:textAlignment="center"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/buttonBottomRight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="R" />
+
+                <TextView
+                    android:id="@+id/bottomItemText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.12"
+                    android:text="Bottom"
+                    android:textAlignment="center"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.27">
-
-            <Button
-                android:text="L"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonTorsoLeft"/>
-
-            <TextView
-                android:text="Torso"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/torsoItemText"
-                android:layout_weight="1"
-                android:textAlignment="center" />
-
-            <Button
-                android:text="R"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonTorsoRight"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.23">
-
-            <Button
-                android:text="L"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonBottomLeft"/>
-
-            <TextView
-                android:text="Bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/bottomItemText"
-                android:layout_weight="1"
-                android:textAlignment="center" />
-
-            <Button
-                android:text="R"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonBottomRight"/>
-
-
-
-        </LinearLayout>
         <TabHost
             android:layout_width="match_parent"
             android:layout_height="50dp"

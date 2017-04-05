@@ -1,5 +1,6 @@
 package com.kantele.folquest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -19,7 +21,8 @@ public class AvatarActivity extends AppCompatActivity {
     private static final int HEAD = 0;
     private static final int TORSO = 1;
     private static final int BOTTOM = 2;
-    private static final int OTHER = 3;
+    private static final int FEET = 3;
+    private static final int OTHER = 4;
 
     private static final int BUTTON_HEAD_LEFT = 0;
     private static final int BUTTON_HEAD_RIGHT = 1;
@@ -30,6 +33,9 @@ public class AvatarActivity extends AppCompatActivity {
     private static final int BUTTON_HEAD_DIRECT = 6;
     private static final int BUTTON_TORSO_DIRECT = 7;
     private static final int BUTTON_BOTTOM_DIRECT = 8;
+    private static final int BUTTON_FEET_LEFT = 9;
+    private static final int BUTTON_FEET_RIGHT = 10;
+    private static final int BUTTON_FEET_DIRECT = 11;
 
     Button buttonHeadLeft;
     Button buttonHeadRight;
@@ -37,25 +43,30 @@ public class AvatarActivity extends AppCompatActivity {
     Button buttonTorsoRight;
     Button buttonBottomLeft;
     Button buttonBottomRight;
+    Button buttonFeetLeft;
+    Button buttonFeetRight;
 
     TextView headItemText, torsoItemText, bottomItemText;
+    ImageView headImageView, torsoImageView, bottomImageView, feetImageView;
 
     int equippedHeadItemId;
     int equippedTorsoItemId;
     int equippedBottomItemId;
+    int equippedFeetItemId;
 
     ItemList itemList = new ItemList();
 
     TabHost tabHost;
   
     Button buttonBack;
+    Button buttonShop;
 
     PlayerController controller;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Start the PLayerController
+        //Start the PlayerController
         controller = (PlayerController) getApplicationContext();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -94,6 +105,11 @@ public class AvatarActivity extends AppCompatActivity {
         torsoItemText = (TextView)findViewById(R.id.torsoItemText);
         bottomItemText = (TextView)findViewById(R.id.bottomItemText);
 
+        //ImageViews for avatar items
+        headImageView = (ImageView) findViewById(R.id.headImageView);
+        torsoImageView = (ImageView)findViewById(R.id.torsoImageView);
+        bottomImageView = (ImageView)findViewById(R.id.bottomImageView);
+        feetImageView = (ImageView)findViewById(R.id.feetImageView);
 
         //Tab initializing
         tabHost = (TabHost) findViewById(R.id.tabHost);
@@ -180,7 +196,8 @@ public class AvatarActivity extends AppCompatActivity {
                 changeAccessory(BUTTON_BOTTOM_DIRECT, position);
             }
         });
-      
+
+
       
         buttonBack = (Button) findViewById(R.id.buttonBack);
 
@@ -191,7 +208,19 @@ public class AvatarActivity extends AppCompatActivity {
               }
           });
 
+        buttonShop = (Button) findViewById(R.id.buttonShop);
+
+        buttonShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AvatarActivity.this, ShopActivity.class);
+                startActivity(intent);
+            }
+        });
+
         drawItems();
+        drawEquippedItems();
+
     }
 
 
@@ -251,6 +280,24 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedBottomItemId++;
                 }
                 break;
+            case BUTTON_FEET_LEFT:
+                if (equippedFeetItemId == 0) {
+                    controller.equippedBottomItem = controller.ownedFeetItems.get(controller.ownedFeetItems.size() - 1);
+                    equippedFeetItemId = controller.ownedFeetItems.size() - 1;
+                } else {
+                    controller.equippedFeetItem = controller.ownedFeetItems.get(equippedFeetItemId - 1);
+                    equippedFeetItemId--;
+                }
+                break;
+            case BUTTON_FEET_RIGHT:
+                if (equippedFeetItemId == controller.ownedFeetItems.size() - 1) {
+                    controller.equippedFeetItem = controller.ownedFeetItems.get(0);
+                    equippedFeetItemId = 0;
+                } else {
+                    controller.equippedFeetItem = controller.ownedFeetItems.get(equippedFeetItemId + 1);
+                    equippedFeetItemId++;
+                }
+                break;
             case BUTTON_HEAD_DIRECT:
                 controller.equippedHeadItem = controller.ownedHeadItems.get(position);
                 equippedBottomItemId = position;
@@ -263,12 +310,36 @@ public class AvatarActivity extends AppCompatActivity {
                 controller.equippedBottomItem = controller.ownedBottomItems.get(position);
                 equippedBottomItemId = position;
                 break;
+            case BUTTON_FEET_DIRECT:
+                controller.equippedFeetItem = controller.ownedFeetItems.get(position);
+                equippedFeetItemId = position;
+                break;
         }
         drawItems();
+        drawEquippedItems();
     }
     public void drawItems(){
         headItemText.setText(controller.equippedHeadItem.getName());
         torsoItemText.setText(controller.equippedTorsoItem.getName());
         bottomItemText.setText(controller.equippedBottomItem.getName());
+    }
+
+    protected void drawEquippedItems() {
+        //Set image for bottom item
+        int resBottomID = getResources().getIdentifier(controller.equippedBottomItem.getItemId(), "mipmap", this.getPackageName());
+        bottomImageView.setImageResource(resBottomID);
+
+        //Set image for torso item
+        int resTorsoID = getResources().getIdentifier(controller.equippedTorsoItem.getItemId(), "mipmap", this.getPackageName());
+        torsoImageView.setImageResource(resTorsoID);
+
+        //Set image for head item
+        int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
+        headImageView.setImageResource(resHeadID);
+
+        
+        //Set image for head item
+        int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
+        feetImageView.setImageResource(resFeetID);
     }
 }

@@ -53,7 +53,7 @@ public class InventoryGridAdapter extends BaseAdapter{
             gridView = inflater.inflate(R.layout.inventory_grid_item, null);
 
             ImageView imageView = (ImageView) gridView.findViewById(R.id.itemImageButton);
-            imageView.setImageResource(R.drawable.ic_launcher);
+            imageView.setImageResource(R.mipmap.ic_launcher);
         } else {
             gridView = (View) view;
         }

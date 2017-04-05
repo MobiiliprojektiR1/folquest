@@ -187,7 +187,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout">
 
         <TextView
             android:id="@+id/avatarHeadTextView"
@@ -223,5 +224,47 @@
             android:textColor="@android:color/black" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/characterImageView"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        app:srcCompat="@drawable/naishahmopohja"
+        android:layout_above="@+id/statHolder"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/headImageView"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        app:srcCompat="@drawable/naishahmopohja"
+        android:layout_toEndOf="@+id/linearLayout2"
+        android:layout_alignStart="@+id/characterImageView"
+        android:layout_above="@+id/statHolder" />
+    <ImageView
+        android:id="@+id/feetImageView"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        app:srcCompat="@drawable/naishahmopohja"
+        android:layout_toEndOf="@+id/linearLayout2"
+        android:layout_alignStart="@+id/characterImageView"
+        android:layout_above="@+id/statHolder" />
+    <ImageView
+        android:id="@+id/bottomImageView"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        app:srcCompat="@drawable/naishahmopohja"
+        android:layout_toEndOf="@+id/linearLayout2"
+        android:layout_alignStart="@+id/characterImageView"
+        android:layout_above="@+id/statHolder" />
+    <ImageView
+        android:id="@+id/torsoImageView"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        app:srcCompat="@drawable/naishahmopohja"
+        android:layout_toEndOf="@+id/linearLayout2"
+        android:layout_alignStart="@+id/characterImageView"
+        android:layout_above="@+id/statHolder" />
+
 
 </RelativeLayout>

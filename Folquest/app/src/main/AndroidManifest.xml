@@ -19,9 +19,10 @@
         <activity android:name=".AvatarActivity" />
         <activity android:name=".QuestsActivity" />
         <activity android:name=".QuestBoardActivity" />
-        <activity android:name=".SettingsActivity"/>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ShopActivity" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
+  
 </manifest>
