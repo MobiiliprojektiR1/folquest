@@ -17,8 +17,8 @@ public class PlayerController extends Application{
     private static final int HEAD = 0;
     private static final int TORSO = 1;
     private static final int BOTTOM = 2;
-    private static final int OTHER = 3;
-
+    private static final int FEET = 3;
+    private static final int OTHER = 4;
     //Variables
 
     /**
@@ -30,10 +30,12 @@ public class PlayerController extends Application{
     public ArrayList<Item> ownedHeadItems = new ArrayList<>();
     public ArrayList<Item> ownedTorsoItems = new ArrayList<>();
     public ArrayList<Item> ownedBottomItems = new ArrayList<>();
+    public ArrayList<Item> ownedFeetItems = new ArrayList<>();
 
     public Item equippedHeadItem;
     public Item equippedTorsoItem;
     public Item equippedBottomItem;
+    public Item equippedFeetItem;
     /**
      *Item variables end
      */
@@ -104,6 +106,14 @@ public class PlayerController extends Application{
         this.equippedBottomItem = equippedBottomItem;
     }
 
+    public Item getEquippedFeetItem() {
+        return equippedFeetItem;
+    }
+
+    public void setEquippedFeetItem(Item equippedFeetItem) {
+        this.equippedFeetItem = equippedFeetItem;
+    }
+
     private boolean inList(Item item){
         if(item.getItemType() == HEAD) {
             for (Item itemInList : ownedHeadItems) {
@@ -123,6 +133,14 @@ public class PlayerController extends Application{
         }
         if(item.getItemType() == BOTTOM) {
             for (Item itemInList : ownedBottomItems) {
+                if (Objects.equals(item.getItemId(), itemInList.getItemId())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if(item.getItemType() == FEET) {
+            for (Item itemInList : ownedFeetItems) {
                 if (Objects.equals(item.getItemId(), itemInList.getItemId())) {
                     return true;
                 }
@@ -151,6 +169,12 @@ public class PlayerController extends Application{
                 ownedBottomItems.add(item);
             }
         }
+        else if(item.getItemType() == FEET) {
+            if(!inList(item)) {
+                //Item is NOT the list, add it!
+                ownedFeetItems.add(item);
+            }
+        }
     }
 
     /* Adding defaults items when the game is started, these have to be in the database from the start! */
@@ -159,6 +183,7 @@ public class PlayerController extends Application{
         addItem(itemList.defaultHead);
         addItem(itemList.defaultTorso);
         addItem(itemList.defaultBottom);
+        addItem(itemList.defaultFeet);
     }
     /**
      *Item Methods end

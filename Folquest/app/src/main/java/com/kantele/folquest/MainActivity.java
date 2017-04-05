@@ -3,6 +3,7 @@ package com.kantele.folquest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button buttonUpdate;
 
+    ImageView headImageView, torsoImageView, bottomImageView, feetImageView;
+
     // GOOGLE FIT
 
     GoogleApiClient apiClient;
@@ -68,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        //Affects the trasnparent images somehow?
+        getWindow().getAttributes().format = PixelFormat.RGBA_8888;
+
         setContentView(R.layout.activity_main);
 
         /* Adding defaults items when the game is started, these have to be in the database from the start! */
@@ -75,26 +81,36 @@ public class MainActivity extends AppCompatActivity {
 
         //adding some items for demo
         controller.addItem(itemList.headBald);
-        controller.addItem(itemList.bottomHighHeels);
-        controller.addItem(itemList.bottomSandals);
-        controller.addItem(itemList.bottomPants);
-        controller.addItem(itemList.torsoChainMail);
-        controller.addItem(itemList.torsoPinkDress);
+        //controller.addItem(itemList.bottomHighHeels);
+        //controller.addItem(itemList.bottomSandals);
+        controller.addItem(itemList.bottomTest);
+        controller.addItem(itemList.torsoTest);
+        //controller.addItem(itemList.torsoPinkDress);
 
         /* Set the default items, this will be modified later */
         controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
         controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
         controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
+        controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
 
         /* Text views for avatar items */
         avatarHeadTextView = (TextView)findViewById(R.id.avatarHeadTextView);
         avatarTorsoTextView = (TextView)findViewById(R.id.avatarTorsoTextView);
         avatarBottomTextView = (TextView)findViewById(R.id.avatarBottomTextView);
 
+        //ImageViews for avatar items
+        headImageView = (ImageView)findViewById(R.id.headImageView);
+        torsoImageView = (ImageView)findViewById(R.id.torsoImageView);
+        bottomImageView = (ImageView)findViewById(R.id.bottomImageView);
+        feetImageView = (ImageView)findViewById(R.id.feetImageView);
+
         /* Set texts for avatar item text views */
         avatarHeadTextView.setText(controller.equippedHeadItem.getName());
         avatarBottomTextView.setText(controller.equippedBottomItem.getName());
         avatarTorsoTextView.setText(controller.equippedTorsoItem.getName());
+
+        //Show the images of equipped items
+        drawEquippedItems();
 
         buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
         buttonQuests = (Button) findViewById(R.id.buttonQuests);
@@ -184,15 +200,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    protected void drawEquippedItems() {
+        //Set image for bottom item
+        int resBottomID = getResources().getIdentifier(controller.equippedBottomItem.getItemId(), "mipmap", this.getPackageName());
+        bottomImageView.setImageResource(resBottomID);
+
+        //Set image for torso item
+        int resTorsoID = getResources().getIdentifier(controller.equippedTorsoItem.getItemId(), "mipmap", this.getPackageName());
+        torsoImageView.setImageResource(resTorsoID);
+
+        //Set image for head item
+        int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
+        headImageView.setImageResource(resHeadID);
+
+        //Set image for head item
+        int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
+        feetImageView.setImageResource(resFeetID);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
         controller = (PlayerController) getApplicationContext();
-        /* Set texts for avatar item text views */
+        //Set texts for avatar item text views
         avatarHeadTextView.setText(controller.equippedHeadItem.getName());
         avatarBottomTextView.setText(controller.equippedBottomItem.getName());
         avatarTorsoTextView.setText(controller.equippedTorsoItem.getName());
+
+        // Draw equipped items
+        drawEquippedItems();
+
 
         // This ensures that if the user denies the permissions then uses Settings to re-enable
         // them, the app will start working.
