@@ -324,6 +324,7 @@ public class AvatarActivity extends AppCompatActivity {
         int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
         headImageView.setImageResource(resHeadID);
 
+        
         //Set image for head item
         int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
         feetImageView.setImageResource(resFeetID);
