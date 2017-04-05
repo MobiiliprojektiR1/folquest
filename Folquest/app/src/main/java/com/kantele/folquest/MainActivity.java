@@ -4,10 +4,6 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -43,13 +38,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSIONS = 20;
 
     ItemList itemList = new ItemList();
-    TextView avatarHeadTextView,avatarTorsoTextView,avatarBottomTextView;
-    private static String TAG = "FIT:";
+    private static String TAG = "FIT";
     long EXPERIENCE_CURRENT, EXPERIENCE_TARGET;
 
     Button buttonAvatar, buttonQuests, buttonSettings;
 
-    TextView textViewExpCurrent, textViewExpTarget;
+    TextView textViewExpCurrent, textViewExpTarget, textViewLvl;
 
     TextView textViewStepsHolder, textViewSteps;
     TextView textViewKcalHolder, textViewKcal;
@@ -60,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView headImageView, torsoImageView, bottomImageView, feetImageView;
 
     // GOOGLE FIT
-
     GoogleApiClient apiClient;
 
     //Start the PLayerController
@@ -79,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //Affects the trasnparent images somehow?
-        getWindow().getAttributes().format = PixelFormat.RGBA_8888;
 
         setContentView(R.layout.activity_main);
 
@@ -101,21 +92,12 @@ public class MainActivity extends AppCompatActivity {
         controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
         controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
 
-        /* Text views for avatar items */
-        avatarHeadTextView = (TextView)findViewById(R.id.avatarHeadTextView);
-        avatarTorsoTextView = (TextView)findViewById(R.id.avatarTorsoTextView);
-        avatarBottomTextView = (TextView)findViewById(R.id.avatarBottomTextView);
-
         //ImageViews for avatar items
         headImageView = (ImageView)findViewById(R.id.headImageView);
         torsoImageView = (ImageView)findViewById(R.id.torsoImageView);
         bottomImageView = (ImageView)findViewById(R.id.bottomImageView);
         feetImageView = (ImageView)findViewById(R.id.feetImageView);
 
-        /* Set texts for avatar item text views */
-        avatarHeadTextView.setText(controller.equippedHeadItem.getName());
-        avatarBottomTextView.setText(controller.equippedBottomItem.getName());
-        avatarTorsoTextView.setText(controller.equippedTorsoItem.getName());
 
         //Show the images of equipped items
         drawEquippedItems();
@@ -126,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
         textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
+        textViewLvl = (TextView) findViewById(R.id.textViewLevel);
 
         textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
         textViewSteps = (TextView) findViewById(R.id.textViewSteps);
@@ -138,25 +121,34 @@ public class MainActivity extends AppCompatActivity {
 
         buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
 
+
+        controller.checkForLeveling();
+
         EXPERIENCE_CURRENT = controller.getPlayerExp();
-        EXPERIENCE_TARGET = 3000;
+        EXPERIENCE_TARGET = controller.getPlayerLvlTargetExp();
 
         textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
         textViewExpTarget.setText("" + EXPERIENCE_TARGET);
 
+        textViewLvl.setText("" + controller.getPlayerLvl());
+
 
 
         /* adapt the image to the size of the display */
+        /*
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
+
         Bitmap bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
-                getResources(),R.drawable.maisema),size.x,size.y,true);
+                getResources(),R.drawable.maisema),(size.x/2),(size.y/2), true);
+        */
 
         /* fill the background ImageView with the resized image */
+        /*
         ImageView iv_background = (ImageView) findViewById(R.id.iv_background);
         iv_background.setImageBitmap(bmp);
-
+        */
 
 
 
@@ -258,10 +250,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         controller = (PlayerController) getApplicationContext();
-        //Set texts for avatar item text views
-        avatarHeadTextView.setText(controller.equippedHeadItem.getName());
-        avatarBottomTextView.setText(controller.equippedBottomItem.getName());
-        avatarTorsoTextView.setText(controller.equippedTorsoItem.getName());
 
         // Draw equipped items
         drawEquippedItems();
@@ -271,9 +259,15 @@ public class MainActivity extends AppCompatActivity {
         // them, the app will start working.
         buildFitnessClient();
 
+        controller.checkForLeveling();
+
         EXPERIENCE_CURRENT = controller.getPlayerExp();
+        EXPERIENCE_TARGET = controller.getPlayerLvlTargetExp();
+
         textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
         textViewExpTarget.setText("" + EXPERIENCE_TARGET);
+
+        textViewLvl.setText("" + controller.getPlayerLvl());
 
     }
 
@@ -297,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                             new GoogleApiClient.ConnectionCallbacks() {
                                 @Override
                                 public void onConnected(Bundle bundle) {
-                                    Log.i(TAG, "Connected!!!");
+                                    Log.i(TAG, "Connected successfully!");
                                     // Now you can make calls to the Fitness APIs.
                                     //Async To fetch steps
                                 }
@@ -307,11 +301,11 @@ public class MainActivity extends AppCompatActivity {
                                     // If your connection to the sensor gets lost at some point,
                                     // you'll be able to determine the reason and react to it here.
                                     if (i == GoogleApiClient.ConnectionCallbacks.CAUSE_NETWORK_LOST) {
+
                                         Log.i(TAG, "Connection lost.  Cause: Network Lost.");
-                                    } else if (i
-                                            == GoogleApiClient.ConnectionCallbacks.CAUSE_SERVICE_DISCONNECTED) {
-                                        Log.i(TAG,
-                                                "Connection lost.  Reason: Service Disconnected");
+                                    } else if (i == GoogleApiClient.ConnectionCallbacks.CAUSE_SERVICE_DISCONNECTED) {
+
+                                        Log.i(TAG, "Connection lost.  Reason: Service Disconnected");
                                     }
                                 }
                             }
@@ -319,13 +313,11 @@ public class MainActivity extends AppCompatActivity {
                     .enableAutoManage(this, 0, new GoogleApiClient.OnConnectionFailedListener() {
                         @Override
                         public void onConnectionFailed(ConnectionResult result) {
-                            Log.i(TAG, "Google Play services connection failed. Cause: " +
-                                    result.toString());
-                            Snackbar.make(
-                                    MainActivity.this.findViewById(R.id.activity_main),
+                            Log.i(TAG, "Google Play services connection failed. Cause: " + result.toString());
+                            Snackbar.make(MainActivity.this.findViewById(R.id.activity_main),
                                     "Exception while connecting to Google Play services: " +
                                             result.getErrorMessage(),
-                                    Snackbar.LENGTH_INDEFINITE).show();
+                                    Snackbar.LENGTH_SHORT).show();
                         }
                     })
                     .build();
