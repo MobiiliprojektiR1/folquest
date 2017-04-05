@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    tools:context="com.kantele.folquest.MainActivity">
+
+    <!--
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" -->
+
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonHolder"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:text="Avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonAvatar"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Quests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonQuests"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSettings"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/statHolder"
+        android:layout_above="@+id/buttonHolder">
+
+        <TextView
+            android:text="10/50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewLevel"
+            android:textColor="@android:color/black"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/progressBarExp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:background="#00000000"
+                    android:id="@+id/textViewExpCurrent"
+                    android:textColor="@android:color/black"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:background="#00000000"
+                    android:id="@+id/textViewExpSlash"
+                    android:text="/"
+                    android:textColor="@android:color/black"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:background="#00000000"
+                    android:id="@+id/textViewExpTarget"
+                    android:textColor="@android:color/black"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout2">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewStepsHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Steps:"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/textViewSteps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewKcalHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="  Kcal:"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/textViewKcal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewDistHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="  Distance:"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/textViewDist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/statHolder"
+        android:layout_alignParentEnd="true"
+        android:layout_weight="1"
+        android:text="UPDATE"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/avatarHeadTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="38dp"
+            android:layout_weight="1"
+            android:text="Head"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/avatarTorsoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/avatarHeadTextView"
+            android:layout_marginTop="38dp"
+            android:layout_toEndOf="@+id/linearLayout2"
+            android:layout_weight="1"
+            android:text="Torso"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/avatarBottomTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/avatarTorsoTextView"
+            android:layout_below="@+id/avatarTorsoTextView"
+            android:layout_marginTop="38dp"
+            android:layout_weight="1"
+            android:text="Bottom"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/characterImageView"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        app:srcCompat="@drawable/naishahmopohja"
+        android:layout_above="@+id/statHolder"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/headImageView"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        app:srcCompat="@drawable/naishahmopohja"
+        android:layout_toEndOf="@+id/linearLayout2"
+        android:layout_alignStart="@+id/characterImageView"
+        android:layout_above="@+id/statHolder" />
+    <ImageView
+        android:id="@+id/feetImageView"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        app:srcCompat="@drawable/naishahmopohja"
+        android:layout_toEndOf="@+id/linearLayout2"
+        android:layout_alignStart="@+id/characterImageView"
+        android:layout_above="@+id/statHolder" />
+    <ImageView
+        android:id="@+id/bottomImageView"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        app:srcCompat="@drawable/naishahmopohja"
+        android:layout_toEndOf="@+id/linearLayout2"
+        android:layout_alignStart="@+id/characterImageView"
+        android:layout_above="@+id/statHolder" />
+    <ImageView
+        android:id="@+id/torsoImageView"
+        android:layout_width="400dp"
+        android:layout_height="600dp"
+        app:srcCompat="@drawable/naishahmopohja"
+        android:layout_toEndOf="@+id/linearLayout2"
+        android:layout_alignStart="@+id/characterImageView"
+        android:layout_above="@+id/statHolder" />
+
+
+</RelativeLayout>
