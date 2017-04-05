@@ -19,10 +19,9 @@
         <activity android:name=".AvatarActivity" />
         <activity android:name=".QuestsActivity" />
         <activity android:name=".QuestBoardActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.BODY_SENSORS" />
 
 </manifest>
