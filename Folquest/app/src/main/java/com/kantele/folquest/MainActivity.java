@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // BUTTON FUNCTIONALITIES
+        // BUTTONS FUNCTIONALITY
 
         buttonAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
