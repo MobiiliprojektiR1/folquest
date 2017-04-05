@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button buttonAvatar, buttonQuests, buttonSettings;
 
-    TextView textViewExpCurrent, textViewExpTarget, textViewLvl;
+    TextView textViewExpCurrent, textViewExpTarget, textViewLvl, textViewGold;
 
     TextView textViewStepsHolder, textViewSteps;
     TextView textViewKcalHolder, textViewKcal;
@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
         textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
         textViewLvl = (TextView) findViewById(R.id.textViewLevel);
+        textViewGold = (TextView) findViewById(R.id.textViewGold);
 
         textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
         textViewSteps = (TextView) findViewById(R.id.textViewSteps);
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         textViewExpTarget.setText("" + EXPERIENCE_TARGET);
 
         textViewLvl.setText("" + controller.getPlayerLvl());
+        textViewGold.setText("" + controller.getPlayerGold());
 
 
 
@@ -268,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
         textViewExpTarget.setText("" + EXPERIENCE_TARGET);
 
         textViewLvl.setText("" + controller.getPlayerLvl());
+        textViewGold.setText("" + controller.getPlayerGold());
 
     }
 

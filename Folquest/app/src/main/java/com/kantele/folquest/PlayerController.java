@@ -85,7 +85,7 @@ public class PlayerController extends Application{
             int overflow = (int) (getPlayerExp()-getPlayerLvlTargetExp());
 
             setPlayerLvl(getPlayerLvl()+1);
-            setPlayerExp(0+overflow);
+            setPlayerExp(0 + overflow);
 
         } else {
             setPlayerLvl(getPlayerLvl());
