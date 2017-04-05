@@ -1,6 +1,9 @@
 package com.kantele.folquest;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
@@ -9,6 +12,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
@@ -33,6 +39,8 @@ import com.google.android.gms.fitness.result.DailyTotalResult;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int REQUEST_PERMISSIONS = 20;
 
     ItemList itemList = new ItemList();
     TextView avatarHeadTextView,avatarTorsoTextView,avatarBottomTextView;
@@ -152,9 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-        // BUTTONS FUNCTIONALITY
-
+        // BUTTON FUNCTIONALITIES
         buttonAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,27 +185,54 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //UPDATE DATA FROM GOOGLE FIT
 
+        //UPDATE DATA FROM GOOGLE FIT
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FetchStepsAsync().execute();
-                //new FetchCalorieAsync().execute();
+                CheckPermissionsAndSyncData();
+
             }
         });
 
 
         // CREATE THE CONNECTION TO GOOGLE FIT
-
         buildFitnessClient();
 
-        //PERMISSION REQUESTS
+        //PERMISSION REQUESTS ON LAUNCH
+        CheckPermissionsAndSyncData();
+    }
+
+    public void CheckPermissionsAndSyncData() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+                alertBuilder.setCancelable(true);
+                alertBuilder.setTitle("Location permission necessary");
+                alertBuilder.setMessage("Folquest needs permission to access fine location in order to be able to sync your fitness data from Google Fit.\nThis is necessary for the progression of the game.");
+                alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
+                    }
+                });
+
+                AlertDialog alert = alertBuilder.create();
+                alert.show();
+
+
+                //ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
+            } else {
+
+                //Call whatever you want
+                new FetchGoogleFitDataAsync().execute();
+            }
 
         }
     }
-
 
     protected void drawEquippedItems() {
         //Set image for bottom item
@@ -218,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
         int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
         feetImageView.setImageResource(resFeetID);
     }
+
 
     @Override
     protected void onResume() {
@@ -299,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class FetchStepsAsync extends AsyncTask<Object, Object, int[]> {
+    private class FetchGoogleFitDataAsync extends AsyncTask<Object, Object, int[]> {
 
         int[] data = new int[3];
         long totalCal = 0;
