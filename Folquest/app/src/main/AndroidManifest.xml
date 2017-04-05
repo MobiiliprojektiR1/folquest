@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kantele.folquest">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+
     <application
         android:name=".PlayerController"
         android:allowBackup="true"
@@ -19,10 +22,8 @@
         <activity android:name=".AvatarActivity" />
         <activity android:name=".QuestsActivity" />
         <activity android:name=".QuestBoardActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ShopActivity"></activity>
     </application>
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.BODY_SENSORS" />
 
 </manifest>
