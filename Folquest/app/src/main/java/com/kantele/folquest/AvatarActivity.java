@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ public class AvatarActivity extends AppCompatActivity {
     Button buttonFeetRight;
 
     TextView headItemText, torsoItemText, bottomItemText;
+    ImageView headImageView, torsoImageView, bottomImageView, feetImageView;
 
     int equippedHeadItemId;
     int equippedTorsoItemId;
@@ -62,7 +64,7 @@ public class AvatarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Start the PLayerController
+        //Start the PlayerController
         controller = (PlayerController) getApplicationContext();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -101,6 +103,11 @@ public class AvatarActivity extends AppCompatActivity {
         torsoItemText = (TextView)findViewById(R.id.torsoItemText);
         bottomItemText = (TextView)findViewById(R.id.bottomItemText);
 
+        //ImageViews for avatar items
+        headImageView = (ImageView) findViewById(R.id.headImageView);
+        torsoImageView = (ImageView)findViewById(R.id.torsoImageView);
+        bottomImageView = (ImageView)findViewById(R.id.bottomImageView);
+        feetImageView = (ImageView)findViewById(R.id.feetImageView);
 
         //Tab initializing
         tabHost = (TabHost) findViewById(R.id.tabHost);
@@ -187,7 +194,8 @@ public class AvatarActivity extends AppCompatActivity {
                 changeAccessory(BUTTON_BOTTOM_DIRECT, position);
             }
         });
-      
+
+
       
         buttonBack = (Button) findViewById(R.id.buttonBack);
 
@@ -199,6 +207,7 @@ public class AvatarActivity extends AppCompatActivity {
           });
 
         drawItems();
+        drawEquippedItems();
     }
 
 
@@ -294,10 +303,29 @@ public class AvatarActivity extends AppCompatActivity {
                 break;
         }
         drawItems();
+        drawEquippedItems();
     }
     public void drawItems(){
         headItemText.setText(controller.equippedHeadItem.getName());
         torsoItemText.setText(controller.equippedTorsoItem.getName());
         bottomItemText.setText(controller.equippedBottomItem.getName());
+    }
+
+    protected void drawEquippedItems() {
+        //Set image for bottom item
+        int resBottomID = getResources().getIdentifier(controller.equippedBottomItem.getItemId(), "mipmap", this.getPackageName());
+        bottomImageView.setImageResource(resBottomID);
+
+        //Set image for torso item
+        int resTorsoID = getResources().getIdentifier(controller.equippedTorsoItem.getItemId(), "mipmap", this.getPackageName());
+        torsoImageView.setImageResource(resTorsoID);
+
+        //Set image for head item
+        int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
+        headImageView.setImageResource(resHeadID);
+
+        //Set image for head item
+        int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
+        feetImageView.setImageResource(resFeetID);
     }
 }
