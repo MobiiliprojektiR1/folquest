@@ -18,11 +18,12 @@ public class Item {
 
 
 
-    public Item(int itemType, String itemId, String itemName, String itemDescription) {
+    public Item(int itemType, String itemId, String itemName, String itemDescription, int goldPrice) {
         this.itemType = itemType;
         this.itemId = itemId;
         name = itemName;
         description = itemDescription;
+        this.goldPrice = goldPrice;
     }
 
 
