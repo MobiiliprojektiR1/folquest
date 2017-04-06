@@ -121,13 +121,13 @@ public class AvatarActivity extends AppCompatActivity {
         spec.setIndicator("Head");
         tabHost.addTab(spec);
 
-        //tab 1 - torso items
+        //tab 2 - torso items
         spec = tabHost.newTabSpec("Torso");
         spec.setContent(R.id.tab2);
         spec.setIndicator("Torso");
         tabHost.addTab(spec);
 
-        //tab 1 - bottom items
+        //tab 3 - bottom items
         spec = tabHost.newTabSpec("Bottom");
         spec.setContent(R.id.tab3);
         spec.setIndicator("Bottom");

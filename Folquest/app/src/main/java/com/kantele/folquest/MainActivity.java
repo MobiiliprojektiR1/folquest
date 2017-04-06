@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
         controller = (PlayerController) getApplicationContext();
 
+        // LOAD DATA FROM SHARED PREFERENCES
+        sharedPreferences = getSharedPreferences(myPreferences, Context.MODE_APPEND);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -209,42 +212,42 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        // LOAD DATA FROM SHARED PREFERENCES
-        sharedPreferences = getSharedPreferences(myPreferences, Context.MODE_APPEND);
-
     }
 
 
     protected void drawEquippedItems() {
-        //Set image for bottom item
-        int resBottomID = getResources().getIdentifier(controller.equippedBottomItem.getItemId(), "mipmap", this.getPackageName());
-        bottomImageView.setImageResource(resBottomID);
 
-        //Set image for torso item
-        int resTorsoID = getResources().getIdentifier(controller.equippedTorsoItem.getItemId(), "mipmap", this.getPackageName());
-        torsoImageView.setImageResource(resTorsoID);
+            //Set image for bottom item
+            int resBottomID = getResources().getIdentifier(controller.equippedBottomItem.getItemId(), "mipmap", this.getPackageName());
+            bottomImageView.setImageResource(resBottomID);
+
+            //Set image for torso item
+            int resTorsoID = getResources().getIdentifier(controller.equippedTorsoItem.getItemId(), "mipmap", this.getPackageName());
+            torsoImageView.setImageResource(resTorsoID);
 
 
-        //Set image for head item
-        int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
-        headImageView.setImageResource(resHeadID);
+            //Set image for head item
+            int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
+            headImageView.setImageResource(resHeadID);
 
-        //Set image for head item
-        int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
-        feetImageView.setImageResource(resFeetID);
+            //Set image for head item
+            int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
+            feetImageView.setImageResource(resFeetID);
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        // LOAD DATA FROM SHARED PREFERENCES
+        sharedPreferences = getSharedPreferences(myPreferences, Context.MODE_APPEND);
 
         controller = (PlayerController) getApplicationContext();
         //Set texts for avatar item text views
         avatarHeadTextView.setText(controller.equippedHeadItem.getName());
         avatarBottomTextView.setText(controller.equippedBottomItem.getName());
         avatarTorsoTextView.setText(controller.equippedTorsoItem.getName());
-
-        // Load shared preferences
 
 
         // Draw equipped items
@@ -408,8 +411,8 @@ public class MainActivity extends AppCompatActivity {
         editori.putString(savedFeet, savedFeet);
         editori.commit();
 
-        Log.d("TORSO", "Hoi, you're wearing torso: "+ savedTorso);
-        Log.d("TORSO", "Hoi, you're wearing head: "+ savedHead);
+        Log.d("TORSO", "You're wearing torso: "+ savedTorso);
+        Log.d("TORSO", "You're wearing head: "+ savedHead);
 
     }
 
