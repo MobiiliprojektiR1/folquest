@@ -19,8 +19,6 @@ enum questType{
 
 public class Quest{
 
-
-
     //Difficulty level 0-5         NOVICE,   EASY, NORMAL,   HARD, V.HARD,   EPIC
     int pushUpDifficulty[]   =  {      5,     15,     30,     60,    200,    500 }; //reps
     int sitUpDifficulty[]    =  {     10,     25,     50,    100,    500,   1000 }; //reps

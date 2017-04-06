@@ -22,6 +22,8 @@ public class PlayerController extends Application{
     private static final int HEAD = 0;
     private static final int TORSO = 1;
     private static final int BOTTOM = 2;
+    private static final int FEET = 3;
+    private static final int OTHER = 4;
     private static final int OTHER = 3;
 
     SharedPreferences sharedpreferences;
@@ -39,18 +41,29 @@ public class PlayerController extends Application{
     public ArrayList<Item> ownedHeadItems = new ArrayList<>();
     public ArrayList<Item> ownedTorsoItems = new ArrayList<>();
     public ArrayList<Item> ownedBottomItems = new ArrayList<>();
+    public ArrayList<Item> ownedFeetItems = new ArrayList<>();
 
     public Item equippedHeadItem;
     public Item equippedTorsoItem;
     public Item equippedBottomItem;
+    public Item equippedFeetItem;
     /**
      *Item variables end
      */
+
+    /**
+     * PLAYER LEVEL CAPS
+     */
+    //Player levels 1-20        1,       2,      3,      4,      5,      6,      7,        8,       9,       10,     11,     12,     13,     14,     15,     16,     17,     18,     19,     20,
+    int PlayerLevels[]   =  {   100,     200,    500,    750,    1000,   1500,   3000,     5000,    7500,    10000,  12500,  15000,  20000,  25000,  35000,  50000,  80000,  130000, 180000, 250000 }; //exp
+
+
 
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
 
     long playerGold = sharedpreferences.getLong(Gold, 0);
     long playerExp = sharedpreferences.getLong(Exp, 0);
+    long playerLvl = 0;
 
     //Quest tracking
     // TODO: GET ACTIVE QUESTS FROM A SAVE FILE
@@ -66,6 +79,31 @@ public class PlayerController extends Application{
     public long getPlayerExp() { return playerExp; }
 
     public void setPlayerExp(long playerExp) { this.playerExp = playerExp; }
+
+    //Methods for player leveling
+
+    public long getPlayerLvl() { return playerLvl; }
+
+    public void setPlayerLvl(long playerLvl) { this.playerLvl = playerLvl; }
+
+    public long getPlayerLvlTargetExp() {
+        return PlayerLevels[(int) getPlayerLvl()];
+    }
+
+    //CHECKS IF THE PLAYER IS ELIGIBLE FOR A NEW LEVEL AND CALCULATES THE OVERFLOW OF EXCESS EXP ADDING IT TO THE NEXT EXPTARGET
+    public void checkForLeveling() {
+        if(getPlayerExp() >= getPlayerLvlTargetExp()){
+            int overflow = (int) (getPlayerExp()-getPlayerLvlTargetExp());
+
+            setPlayerLvl(getPlayerLvl()+1);
+            setPlayerExp(0 + overflow);
+
+        } else {
+            setPlayerLvl(getPlayerLvl());
+            setPlayerExp(getPlayerExp());
+        }
+    }
+
 
     public void addQuest(Quest newQuest){
         if(activeQuests.size() < maximumQuests)
@@ -113,6 +151,14 @@ public class PlayerController extends Application{
         this.equippedBottomItem = equippedBottomItem;
     }
 
+    public Item getEquippedFeetItem() {
+        return equippedFeetItem;
+    }
+
+    public void setEquippedFeetItem(Item equippedFeetItem) {
+        this.equippedFeetItem = equippedFeetItem;
+    }
+
     private boolean inList(Item item){
         if(item.getItemType() == HEAD) {
             for (Item itemInList : ownedHeadItems) {
@@ -132,6 +178,14 @@ public class PlayerController extends Application{
         }
         if(item.getItemType() == BOTTOM) {
             for (Item itemInList : ownedBottomItems) {
+                if (Objects.equals(item.getItemId(), itemInList.getItemId())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if(item.getItemType() == FEET) {
+            for (Item itemInList : ownedFeetItems) {
                 if (Objects.equals(item.getItemId(), itemInList.getItemId())) {
                     return true;
                 }
@@ -160,6 +214,12 @@ public class PlayerController extends Application{
                 ownedBottomItems.add(item);
             }
         }
+        else if(item.getItemType() == FEET) {
+            if(!inList(item)) {
+                //Item is NOT the list, add it!
+                ownedFeetItems.add(item);
+            }
+        }
     }
 
     /* Adding defaults items when the game is started, these have to be in the database from the start! */
@@ -168,7 +228,9 @@ public class PlayerController extends Application{
         addItem(itemList.defaultHead);
         addItem(itemList.defaultTorso);
         addItem(itemList.defaultBottom);
+        addItem(itemList.defaultFeet);
     }
+
     /**
      *Item Methods end
      */
