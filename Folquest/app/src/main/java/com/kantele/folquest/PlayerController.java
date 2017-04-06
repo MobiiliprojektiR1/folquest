@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.widget.Toast;
 
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -60,6 +61,7 @@ public class PlayerController extends Application{
 
 
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
+
 
     long playerGold = sharedpreferences.getLong(Gold, 0);
     long playerExp = sharedpreferences.getLong(Exp, 0);
@@ -133,6 +135,9 @@ public class PlayerController extends Application{
 
     public void setEquippedHeadItem(Item equippedHeadItem) {
         this.equippedHeadItem = equippedHeadItem;
+
+        // Save item to shared preferences
+
     }
 
     public Item getEquippedTorsoItem() {

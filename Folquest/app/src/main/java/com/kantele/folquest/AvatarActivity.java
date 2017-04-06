@@ -121,13 +121,13 @@ public class AvatarActivity extends AppCompatActivity {
         spec.setIndicator("Head");
         tabHost.addTab(spec);
 
-        //tab 1 - torso items
+        //tab 2 - torso items
         spec = tabHost.newTabSpec("Torso");
         spec.setContent(R.id.tab2);
         spec.setIndicator("Torso");
         tabHost.addTab(spec);
 
-        //tab 1 - bottom items
+        //tab 3 - bottom items
         spec = tabHost.newTabSpec("Bottom");
         spec.setContent(R.id.tab3);
         spec.setIndicator("Bottom");
@@ -322,6 +322,9 @@ public class AvatarActivity extends AppCompatActivity {
         headItemText.setText(controller.equippedHeadItem.getName());
         torsoItemText.setText(controller.equippedTorsoItem.getName());
         bottomItemText.setText(controller.equippedBottomItem.getName());
+
+        // Save drawed items to shared preferences
+
     }
 
     protected void drawEquippedItems() {
