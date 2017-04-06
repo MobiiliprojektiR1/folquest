@@ -162,6 +162,14 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textViewGold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GOLD"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
     <Button
         android:id="@+id/buttonUpdate"
         android:layout_width="wrap_content"
