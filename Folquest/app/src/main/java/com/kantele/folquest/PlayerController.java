@@ -3,7 +3,11 @@ package com.kantele.folquest;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
+import android.widget.Toast;
 
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -21,6 +25,12 @@ public class PlayerController extends Application{
     private static final int BOTTOM = 2;
     private static final int FEET = 3;
     private static final int OTHER = 4;
+    private static final int OTHER = 3;
+
+    SharedPreferences sharedpreferences;
+    public static final String Gold = "goldKey";
+    public static final String Exp = "expKey";
+
     //Variables
 
     /**
@@ -42,10 +52,20 @@ public class PlayerController extends Application{
      *Item variables end
      */
 
+    /**
+     * PLAYER LEVEL CAPS
+     */
+    //Player levels 1-20        1,       2,      3,      4,      5,      6,      7,        8,       9,       10,     11,     12,     13,     14,     15,     16,     17,     18,     19,     20,
+    int PlayerLevels[]   =  {   100,     200,    500,    750,    1000,   1500,   3000,     5000,    7500,    10000,  12500,  15000,  20000,  25000,  35000,  50000,  80000,  130000, 180000, 250000 }; //exp
+
+
+
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
 
-    long playerGold = 0;
-    long playerExp = 0;
+
+    long playerGold = sharedpreferences.getLong(Gold, 0);
+    long playerExp = sharedpreferences.getLong(Exp, 0);
+    long playerLvl = 0;
 
     //Quest tracking
     // TODO: GET ACTIVE QUESTS FROM A SAVE FILE
@@ -61,6 +81,31 @@ public class PlayerController extends Application{
     public long getPlayerExp() { return playerExp; }
 
     public void setPlayerExp(long playerExp) { this.playerExp = playerExp; }
+
+    //Methods for player leveling
+
+    public long getPlayerLvl() { return playerLvl; }
+
+    public void setPlayerLvl(long playerLvl) { this.playerLvl = playerLvl; }
+
+    public long getPlayerLvlTargetExp() {
+        return PlayerLevels[(int) getPlayerLvl()];
+    }
+
+    //CHECKS IF THE PLAYER IS ELIGIBLE FOR A NEW LEVEL AND CALCULATES THE OVERFLOW OF EXCESS EXP ADDING IT TO THE NEXT EXPTARGET
+    public void checkForLeveling() {
+        if(getPlayerExp() >= getPlayerLvlTargetExp()){
+            int overflow = (int) (getPlayerExp()-getPlayerLvlTargetExp());
+
+            setPlayerLvl(getPlayerLvl()+1);
+            setPlayerExp(0 + overflow);
+
+        } else {
+            setPlayerLvl(getPlayerLvl());
+            setPlayerExp(getPlayerExp());
+        }
+    }
+
 
     public void addQuest(Quest newQuest){
         if(activeQuests.size() < maximumQuests)
@@ -190,7 +235,25 @@ public class PlayerController extends Application{
         addItem(itemList.defaultBottom);
         addItem(itemList.defaultFeet);
     }
+
     /**
      *Item Methods end
      */
+
+    /**
+     * Saving
+     */
+
+    public void save(){
+        long goldToSave = this.getPlayerGold();
+        long expToSave = this.getPlayerExp();
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        editor.putLong(Gold, goldToSave);
+        editor.putLong(Exp, expToSave);
+        editor.commit();
+        Toast.makeText(getBaseContext(),"Saved",Toast.LENGTH_LONG).show();
+
+    }
 }

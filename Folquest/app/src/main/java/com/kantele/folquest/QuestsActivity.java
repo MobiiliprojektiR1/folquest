@@ -3,7 +3,6 @@ package com.kantele.folquest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ListViewCompat;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,9 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.List;
 
 public class QuestsActivity extends AppCompatActivity {
 
@@ -50,6 +46,10 @@ public class QuestsActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 controller.setPlayerExp(controller.playerExp + controller.activeQuests.get(position).getRewardExp());
+                controller.setPlayerGold(controller.playerGold + controller.activeQuests.get(position).getRewardGold());
+
+                controller.checkForLeveling();
+
                 activeQuestAdapter.remove(controller.activeQuests.get(position));
                 activeQuestListView.deferNotifyDataSetChanged();
             }
