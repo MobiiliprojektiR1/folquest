@@ -18,7 +18,7 @@ public class Item {
 
 
 
-    public Item(int itemType, String itemId, String itemName, String itemDescription, int goldPrice) {
+    public Item(int itemType, String itemId, String itemName, String itemDescription) {
         this.itemType = itemType;
         this.itemId = itemId;
         name = itemName;

@@ -40,9 +40,9 @@ public class QuestBoardActivity extends AppCompatActivity {
         buttonBack = (Button) findViewById(R.id.buttonBack);
         questListView = (ListView) findViewById(R.id.questListView);
 
-        final ArrayAdapter<Quest> availableQuestsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, controller.availableQuests);
+        /*final ArrayAdapter<Quest> availableQuestsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, controller.availableQuests);
+        questListView.setAdapter(availableQuestsAdapter);*/
 
-        questListView.setAdapter(availableQuestsAdapter);
 
         //Generate a quest for each type
         for(questType type: questType.values()){
@@ -58,13 +58,15 @@ public class QuestBoardActivity extends AppCompatActivity {
             if(!questActive)
                 controller.availableQuests.add(new Quest(type, levelModifier));
         }
+        final QuestBoardAdapter questBoardAdapter = new QuestBoardAdapter(this, controller.availableQuests);
+        questListView.setAdapter(questBoardAdapter);
 
         questListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if(controller.activeQuests.size() < controller.maximumQuests) {
                     controller.addQuest(controller.availableQuests.get(position));
-                    availableQuestsAdapter.remove(controller.availableQuests.get(position));
+                    //questBoardAdapter.remove(controller.availableQuests.get(position));
                     questListView.deferNotifyDataSetChanged();
                 }else;
             }
@@ -74,7 +76,7 @@ public class QuestBoardActivity extends AppCompatActivity {
         buttonQuest1 = (Button) findViewById(R.id.buttonQuest1);
 
         final Quest testQuest1 = new Quest(questType.SITUPS, 3);
-        buttonQuest1.setText(testQuest1.getDescription() + ", req:" + testQuest1.getRequirement() + ", gold:" + testQuest1.getRewardGold() + ", exp:" + testQuest1.getRewardExp());
+        buttonQuest1.setText(testQuest1.getQuestText() + ", req:" + testQuest1.getRequirement() + ", gold:" + testQuest1.getRewardGold() + ", exp:" + testQuest1.getRewardExp());
 
         buttonQuest1.setOnClickListener(new View.OnClickListener() {
             @Override
