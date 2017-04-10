@@ -1,13 +1,16 @@
 package com.kantele.folquest;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,7 +20,10 @@ import java.util.ArrayList;
  * Created by Janne ( ͡° ͜ʖ ͡°) on 27.3.2017.
  */
 
-public class QuestBoardAdapter extends BaseAdapter{
+public class QuestBoardAdapter extends BaseAdapter implements ListAdapter{
+
+
+    private View listView;
 
     private Context context;
     private ArrayList<Quest> questListValues;
@@ -43,13 +49,17 @@ public class QuestBoardAdapter extends BaseAdapter{
     }
 
 
+    public void deleteItem (int position) {
+        questListValues.remove(position);
+        notifyDataSetChanged();
+    }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(final int position, View view, ViewGroup viewGroup) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View listView;
+
 
         if(view == null) {
             listView = new View(context);
@@ -62,9 +72,18 @@ public class QuestBoardAdapter extends BaseAdapter{
             goalText.setText(questListValues.get(position).toString());
 
 
+
         } else {
             listView = (View) view;
         }
+        Button discardQuest = (Button) listView.findViewById(R.id.discardQuestButton);
+        discardQuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ListView", position+"");
+                deleteItem(position);
+            }
+        });
 
         return listView;
     }

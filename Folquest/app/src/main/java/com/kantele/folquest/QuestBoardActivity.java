@@ -2,6 +2,7 @@ package com.kantele.folquest;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,7 +23,6 @@ public class QuestBoardActivity extends AppCompatActivity {
     ListView questListView;
     PlayerController controller;
 
-    int levelModifier = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,31 +44,18 @@ public class QuestBoardActivity extends AppCompatActivity {
         questListView.setAdapter(availableQuestsAdapter);*/
 
 
-        //Generate a quest for each type
-        for(questType type: questType.values()){
-            Boolean questActive = false;
-            for(int i = 0; i < controller.activeQuests.size(); i++){
-                if(controller.activeQuests.get(i).type == type)
-                    questActive = true;
-            }
-            for(int i = 0; i < controller.availableQuests.size(); i++){
-                if(controller.availableQuests.get(i).type == type)
-                    questActive = true;
-            }
-            if(!questActive)
-                controller.availableQuests.add(new Quest(type, levelModifier));
-        }
         final QuestBoardAdapter questBoardAdapter = new QuestBoardAdapter(this, controller.availableQuests);
         questListView.setAdapter(questBoardAdapter);
 
         questListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if(controller.activeQuests.size() < controller.maximumQuests) {
+                /*if(controller.activeQuests.size() < controller.maximumQuests) {
                     controller.addQuest(controller.availableQuests.get(position));
-                    //questBoardAdapter.remove(controller.availableQuests.get(position));
+                    questBoardAdapter.remove(controller.availableQuests.get(position));
                     questListView.deferNotifyDataSetChanged();
-                }else;
+                }else;*/
+                Log.d("ListView", position+"");
             }
         });
 

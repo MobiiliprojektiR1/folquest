@@ -14,7 +14,7 @@ public class Item {
     String itemId;
     String name;
     String description;
-    int goldPrice;
+    int goldPrice = 100;
 
 
 
