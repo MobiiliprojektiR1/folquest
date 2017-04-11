@@ -1,13 +1,9 @@
 package com.kantele.folquest;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.widget.Toast;
 
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -25,7 +21,6 @@ public class PlayerController extends Application{
     private static final int BOTTOM = 2;
     private static final int FEET = 3;
     private static final int OTHER = 4;
-    private static final int OTHER = 3;
 
     SharedPreferences sharedpreferences;
     public static final String Gold = "goldKey";
@@ -62,9 +57,10 @@ public class PlayerController extends Application{
 
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
 
+    boolean isBoy = false;
 
-    long playerGold = sharedpreferences.getLong(Gold, 0);
-    long playerExp = sharedpreferences.getLong(Exp, 0);
+    long playerGold = 0;
+    long playerExp = 0;
     long playerLvl = 0;
 
     //Quest tracking
@@ -239,6 +235,13 @@ public class PlayerController extends Application{
     /**
      *Item Methods end
      */
+
+    /**
+     * Gender settings and avatar drawing
+     */
+    public void setPlayerGender(boolean gender) { this.isBoy = gender; }
+
+    public boolean getPlayerGender() { return isBoy; }
 
     /**
      * Saving
