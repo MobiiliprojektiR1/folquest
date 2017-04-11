@@ -25,13 +25,14 @@ public class PlayerController extends Application{
     private static final int BOTTOM = 2;
     private static final int FEET = 3;
     private static final int OTHER = 4;
-    private static final int OTHER = 3;
 
     SharedPreferences sharedpreferences;
     public static final String Gold = "goldKey";
     public static final String Exp = "expKey";
 
+
     //Variables
+    public Boolean firstTimeState = true;
 
     /**
      * Item variables start
@@ -63,8 +64,8 @@ public class PlayerController extends Application{
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
 
 
-    long playerGold = sharedpreferences.getLong(Gold, 0);
-    long playerExp = sharedpreferences.getLong(Exp, 0);
+    long playerGold = 0;
+    long playerExp = 0;
     long playerLvl = 0;
 
     //Quest tracking
@@ -240,9 +241,19 @@ public class PlayerController extends Application{
      *Item Methods end
      */
 
+    public Boolean getFirstTimeSavedState() {
+        return firstTimeState;
+    }
+
+    public void setFirstTimeSavedState(Boolean state) {
+        this.firstTimeState = state;
+    }
+
     /**
      * Saving
      */
+
+
 
     public void save(){
         long goldToSave = this.getPlayerGold();
