@@ -26,7 +26,9 @@ public class PlayerController extends Application{
     public static final String Gold = "goldKey";
     public static final String Exp = "expKey";
 
+
     //Variables
+    public Boolean firstTimeState = true;
 
     /**
      * Item variables start
@@ -236,6 +238,14 @@ public class PlayerController extends Application{
      *Item Methods end
      */
 
+    public Boolean getFirstTimeSavedState() {
+        return firstTimeState;
+    }
+
+    public void setFirstTimeSavedState(Boolean state) {
+        this.firstTimeState = state;
+    }
+
     /**
      * Gender settings and avatar drawing
      */
@@ -246,6 +256,8 @@ public class PlayerController extends Application{
     /**
      * Saving
      */
+
+
 
     public void save(){
         long goldToSave = this.getPlayerGold();

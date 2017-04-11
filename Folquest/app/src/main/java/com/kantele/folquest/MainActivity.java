@@ -62,10 +62,9 @@ public class MainActivity extends AppCompatActivity {
     //Start the PLayerController
     PlayerController controller;
 
-    // Saved preferences
-    public SharedPreferences sharedPreferences;
-    public String savedTorso, savedHead, savedBottom, savedFeet;
-    public String myPreferences;
+    Boolean isFirstTime;
+
+
 
 
     @Override
@@ -74,82 +73,86 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Start the PLayerController
-
         controller = (PlayerController) getApplicationContext();
 
-        // LOAD DATA FROM SHARED PREFERENCES
-        sharedPreferences = getSharedPreferences(myPreferences, Context.MODE_APPEND);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
-        setContentView(R.layout.activity_main);
+        isFirstTime = controller.getFirstTimeSavedState();
+
+        // Load First Time if this is player first time playing
+        if (isFirstTime) {
+            Intent intent = new Intent(MainActivity.this, FirstTimeLaunchActivity.class);
+            startActivity(intent);
+        }
+
+            setContentView(R.layout.activity_main);
 
         /* Adding defaults items when the game is started, these have to be in the database from the start! */
-        controller.addDefaultItems();
+            controller.addDefaultItems();
 
-        //adding some items for demo
-        controller.addItem(itemList.headBald);
-        //controller.addItem(itemList.bottomHighHeels);
-        //controller.addItem(itemList.bottomSandals);
-        controller.addItem(itemList.bottomTest);
-        controller.addItem(itemList.torsoTest);
-        //controller.addItem(itemList.torsoPinkDress);
+            //adding some items for demo
+            controller.addItem(itemList.headBald);
+            //controller.addItem(itemList.bottomHighHeels);
+            //controller.addItem(itemList.bottomSandals);
+            controller.addItem(itemList.bottomTest);
+            controller.addItem(itemList.torsoTest);
+            //controller.addItem(itemList.torsoPinkDress);
 
         /* Set the default items, this will be modified later */
-        controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
-        controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
-        controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
-        controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
+            controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
+            controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
+            controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
+            controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
 
-        //ImageView for avatar
-        characterImageView = (ImageView) findViewById(R.id.characterImageView);
+            //ImageView for avatar
+            characterImageView = (ImageView) findViewById(R.id.characterImageView);
+            drawAvatar();
+      
+            //ImageViews for avatar items
+            headImageView = (ImageView)findViewById(R.id.headImageView);
+            torsoImageView = (ImageView)findViewById(R.id.torsoImageView);
+            bottomImageView = (ImageView)findViewById(R.id.bottomImageView);
+            feetImageView = (ImageView)findViewById(R.id.feetImageView);
+      
 
-        drawAvatar();
+            //Show the images of equipped items
+            drawEquippedItems();
 
-        //ImageViews for avatar items
-        headImageView = (ImageView)findViewById(R.id.headImageView);
-        torsoImageView = (ImageView)findViewById(R.id.torsoImageView);
-        bottomImageView = (ImageView)findViewById(R.id.bottomImageView);
-        feetImageView = (ImageView)findViewById(R.id.feetImageView);
+            buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
+            buttonQuests = (Button) findViewById(R.id.buttonQuests);
+            buttonSettings = (Button) findViewById(R.id.buttonSettings);
 
+            textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
+            textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
+            textViewLvl = (TextView) findViewById(R.id.textViewLevel);
+            textViewGold = (TextView) findViewById(R.id.textViewGold);
 
-        //Show the images of equipped items
-        drawEquippedItems();
+            textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
+            textViewSteps = (TextView) findViewById(R.id.textViewSteps);
 
-        buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
-        buttonQuests = (Button) findViewById(R.id.buttonQuests);
-        buttonSettings = (Button) findViewById(R.id.buttonSettings);
+            textViewKcalHolder = (TextView) findViewById(R.id.textViewKcalHolder);
+            textViewKcal = (TextView) findViewById(R.id.textViewKcal);
 
-        textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
-        textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
-        textViewLvl = (TextView) findViewById(R.id.textViewLevel);
-        textViewGold = (TextView) findViewById(R.id.textViewGold);
+            textViewDistHolder = (TextView) findViewById(R.id.textViewDistHolder);
+            textViewDist = (TextView) findViewById(R.id.textViewDist);
 
-        textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
-        textViewSteps = (TextView) findViewById(R.id.textViewSteps);
-
-        textViewKcalHolder = (TextView) findViewById(R.id.textViewKcalHolder);
-        textViewKcal = (TextView) findViewById(R.id.textViewKcal);
-
-        textViewDistHolder = (TextView) findViewById(R.id.textViewDistHolder);
-        textViewDist = (TextView) findViewById(R.id.textViewDist);
-
-        buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
+            buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
 
 
-        controller.checkForLeveling();
+            controller.checkForLeveling();
 
-        EXPERIENCE_CURRENT = controller.getPlayerExp();
-        EXPERIENCE_TARGET = controller.getPlayerLvlTargetExp();
+            EXPERIENCE_CURRENT = controller.getPlayerExp();
+            EXPERIENCE_TARGET = controller.getPlayerLvlTargetExp();
 
-        textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
-        textViewExpTarget.setText("" + EXPERIENCE_TARGET);
+            textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
+            textViewExpTarget.setText("" + EXPERIENCE_TARGET);
 
-        textViewLvl.setText("" + controller.getPlayerLvl());
-        textViewGold.setText("" + controller.getPlayerGold());
+            textViewLvl.setText("" + controller.getPlayerLvl());
+            textViewGold.setText("" + controller.getPlayerGold());
 
 
 
@@ -170,48 +173,48 @@ public class MainActivity extends AppCompatActivity {
         */
 
 
+            // BUTTON FUNCTIONALITIES
+            buttonAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, AvatarActivity.class);
+                    startActivity(intent);
+                }
+            });
 
-        // BUTTON FUNCTIONALITIES
-        buttonAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AvatarActivity.class);
-                startActivity(intent);
-            }
-        });
+            buttonQuests.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, QuestsActivity.class);
+                    startActivity(intent);
+                }
+            });
 
-        buttonQuests.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, QuestsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        //UPDATE DATA FROM GOOGLE FIT
-        buttonUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckPermissionsAndSyncData();
-
-            }
-        });
+            buttonSettings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
+            });
 
 
-        // CREATE THE CONNECTION TO GOOGLE FIT
-        buildFitnessClient();
+            //UPDATE DATA FROM GOOGLE FIT
+            buttonUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CheckPermissionsAndSyncData();
 
-        //PERMISSION REQUESTS ON LAUNCH
-        CheckPermissionsAndSyncData();
+                }
+            });
+
+
+            // CREATE THE CONNECTION TO GOOGLE FIT
+            buildFitnessClient();
+
+            //PERMISSION REQUESTS ON LAUNCH
+            CheckPermissionsAndSyncData();
+
     }
 
     public void CheckPermissionsAndSyncData() {
@@ -280,9 +283,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        // LOAD DATA FROM SHARED PREFERENCES
-        sharedPreferences = getSharedPreferences(myPreferences, Context.MODE_APPEND);
 
         controller = (PlayerController) getApplicationContext();
 
@@ -435,30 +435,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        savedTorso  = controller.getEquippedTorsoItem().getItemId();
-        savedHead = controller.getEquippedHeadItem().getItemId();
-        savedBottom = controller.getEquippedBottomItem().getItemId();
-        savedFeet = controller.getEquippedFeetItem().getItemId();
-
-        sharedPreferences = getSharedPreferences(myPreferences, Context.MODE_APPEND);
-        SharedPreferences.Editor editori = sharedPreferences.edit();
-        editori.putString(savedTorso, savedTorso);
-        editori.putString(savedHead, savedHead);
-        editori.putString(savedBottom, savedBottom);
-        editori.putString(savedFeet, savedFeet);
-        editori.commit();
-
-        Log.d("TORSO", "You're wearing torso: "+ savedTorso);
-        Log.d("TORSO", "You're wearing head: "+ savedHead);
-
-    }
-
 }
 
 
