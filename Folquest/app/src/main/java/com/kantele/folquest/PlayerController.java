@@ -1,13 +1,9 @@
 package com.kantele.folquest;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.widget.Toast;
 
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -63,6 +59,7 @@ public class PlayerController extends Application{
 
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
 
+    boolean isBoy = false;
 
     long playerGold = 0;
     long playerExp = 0;
@@ -248,6 +245,13 @@ public class PlayerController extends Application{
     public void setFirstTimeSavedState(Boolean state) {
         this.firstTimeState = state;
     }
+
+    /**
+     * Gender settings and avatar drawing
+     */
+    public void setPlayerGender(boolean gender) { this.isBoy = gender; }
+
+    public boolean getPlayerGender() { return isBoy; }
 
     /**
      * Saving
