@@ -31,6 +31,8 @@ public class QuestBoardActivity extends AppCompatActivity {
         //Start the PLayerController
         controller = (PlayerController) getApplicationContext();
 
+        controller.createAvailableQuests();
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);

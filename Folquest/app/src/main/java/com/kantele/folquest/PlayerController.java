@@ -229,8 +229,8 @@ public class PlayerController extends Application{
      */
 
     //Generate a quest for each type
-    private void createAvalableQuests() {
-        for (questType type : questType.values()) {
+    protected void createAvailableQuests() {
+        /*for (questType type : questType.values()) {
             Boolean questActive = false;
             for (int i = 0; i < activeQuests.size(); i++) {
                 if (activeQuests.get(i).type == type)
@@ -242,7 +242,9 @@ public class PlayerController extends Application{
             }
             if (!questActive)
                 availableQuests.add(new Quest(type, levelModifier));
-        }
+        }*/
+        availableQuests.add(new Quest(questType.PUSHUPS, levelModifier));
+        availableQuests.add(new Quest(questType.SQUATS, levelModifier));
     }
 
     /**

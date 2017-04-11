@@ -31,10 +31,12 @@ public class QuestBoardAdapter extends BaseAdapter implements ListAdapter{
     public QuestBoardAdapter(Context context, ArrayList<Quest> questListValues) {
         this.context = context;
         this.questListValues = questListValues;
+        Log.d("TAG_QUESTLIST", questListValues + "");
     }
 
     @Override
     public int getCount() {
+        Log.d("TAG_QUESTLIST", "getCount()");
         return questListValues.size();
     }
 
@@ -50,12 +52,13 @@ public class QuestBoardAdapter extends BaseAdapter implements ListAdapter{
 
 
     public void deleteItem (int position) {
+        Log.d("TAG_QUESTLIST", questListValues.get(position) +"");
         questListValues.remove(position);
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     @Override
-    public View getView(final int position, View view, ViewGroup viewGroup) {
+    public View getView(final int position, final View view, ViewGroup viewGroup) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -82,6 +85,8 @@ public class QuestBoardAdapter extends BaseAdapter implements ListAdapter{
             public void onClick(View v) {
                 Log.d("ListView", position+"");
                 deleteItem(position);
+
+
             }
         });
 
