@@ -1,22 +1,14 @@
 package com.kantele.folquest;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.PixelFormat;
-import android.graphics.Point;
-
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -40,8 +32,6 @@ import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -64,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonUpdate;
 
     ImageView headImageView, torsoImageView, bottomImageView, feetImageView;
+    ImageView characterImageView;
 
     // GOOGLE FIT
     GoogleApiClient apiClient;
@@ -112,6 +103,11 @@ public class MainActivity extends AppCompatActivity {
         controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
         controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
         controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
+
+        //ImageView for avatar
+        characterImageView = (ImageView) findViewById(R.id.characterImageView);
+
+        drawAvatar();
 
         //ImageViews for avatar items
         headImageView = (ImageView)findViewById(R.id.headImageView);
@@ -271,6 +267,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void drawAvatar(){
+
+        if (controller.getPlayerGender() == true) {
+            characterImageView.setImageResource(R.drawable.mieshahmopohja);
+        } else if (controller.getPlayerGender() == false) {
+            characterImageView.setImageResource(R.drawable.naishahmopohja);
+        }
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -280,6 +286,7 @@ public class MainActivity extends AppCompatActivity {
 
         controller = (PlayerController) getApplicationContext();
 
+        drawAvatar();
 
         // Draw equipped items
         drawEquippedItems();
