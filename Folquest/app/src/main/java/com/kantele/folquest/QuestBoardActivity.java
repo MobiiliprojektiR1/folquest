@@ -2,6 +2,7 @@ package com.kantele.folquest;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,7 +23,6 @@ public class QuestBoardActivity extends AppCompatActivity {
     ListView questListView;
     PlayerController controller;
 
-    int levelModifier = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,8 @@ public class QuestBoardActivity extends AppCompatActivity {
 
         //Start the PLayerController
         controller = (PlayerController) getApplicationContext();
+
+        controller.createAvailableQuests();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -40,33 +42,22 @@ public class QuestBoardActivity extends AppCompatActivity {
         buttonBack = (Button) findViewById(R.id.buttonBack);
         questListView = (ListView) findViewById(R.id.questListView);
 
-        final ArrayAdapter<Quest> availableQuestsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, controller.availableQuests);
+        /*final ArrayAdapter<Quest> availableQuestsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, controller.availableQuests);
+        questListView.setAdapter(availableQuestsAdapter);*/
 
-        questListView.setAdapter(availableQuestsAdapter);
 
-        //Generate a quest for each type
-        for(questType type: questType.values()){
-            Boolean questActive = false;
-            for(int i = 0; i < controller.activeQuests.size(); i++){
-                if(controller.activeQuests.get(i).type == type)
-                    questActive = true;
-            }
-            for(int i = 0; i < controller.availableQuests.size(); i++){
-                if(controller.availableQuests.get(i).type == type)
-                    questActive = true;
-            }
-            if(!questActive)
-                controller.availableQuests.add(new Quest(type, levelModifier));
-        }
+        final QuestBoardAdapter questBoardAdapter = new QuestBoardAdapter(this, controller.availableQuests);
+        questListView.setAdapter(questBoardAdapter);
 
         questListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if(controller.activeQuests.size() < controller.maximumQuests) {
+                /*if(controller.activeQuests.size() < controller.maximumQuests) {
                     controller.addQuest(controller.availableQuests.get(position));
-                    availableQuestsAdapter.remove(controller.availableQuests.get(position));
+                    questBoardAdapter.remove(controller.availableQuests.get(position));
                     questListView.deferNotifyDataSetChanged();
-                }else;
+                }else;*/
+                Log.d("ListView", position+"");
             }
         });
 
@@ -74,7 +65,7 @@ public class QuestBoardActivity extends AppCompatActivity {
         buttonQuest1 = (Button) findViewById(R.id.buttonQuest1);
 
         final Quest testQuest1 = new Quest(questType.SITUPS, 3);
-        buttonQuest1.setText(testQuest1.getDescription() + ", req:" + testQuest1.getRequirement() + ", gold:" + testQuest1.getRewardGold() + ", exp:" + testQuest1.getRewardExp());
+        buttonQuest1.setText(testQuest1.getQuestText() + ", req:" + testQuest1.getRequirement() + ", gold:" + testQuest1.getRewardGold() + ", exp:" + testQuest1.getRewardExp());
 
         buttonQuest1.setOnClickListener(new View.OnClickListener() {
             @Override

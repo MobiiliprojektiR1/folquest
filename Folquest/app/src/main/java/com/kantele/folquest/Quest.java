@@ -41,8 +41,10 @@ public class Quest{
     protected int progress;
     protected long rewardGold;
     protected long rewardExp;
-    protected String description;
+    protected String questText;
     protected String requirementUnit;
+    protected String description;
+
 
     //Methods
     public Quest(questType newType, int newDifficultyLevel){
@@ -52,52 +54,54 @@ public class Quest{
         rewardGold = goldRewards[newDifficultyLevel];
         rewardExp = expRewards[newDifficultyLevel];
         progress = 0;
+        //TODO: make it change with quest type
+        description = "Default description";
 
         switch (type){
             case PUSHUPS:
                 requirement = pushUpDifficulty[difficultyLevel];
-                description = "Push up quest";
+                questText = "Push up quest";
                 requirementUnit  = " reps";
                 break;
             case SITUPS:
                 requirement = sitUpDifficulty[difficultyLevel];
-                description = "Sit up quest";
+                questText = "Sit up quest";
                 requirementUnit  = " reps";
                 break;
             case SQUATS:
                 requirement = squatsDifficulty[difficultyLevel];
-                description = "Squat quest";
+                questText = "Squat quest";
                 requirementUnit  = " reps";
                 break;
             case WALLSIT:
                 requirement = wallSitDifficulty[difficultyLevel];
-                description = "Wall sit quest";
+                questText = "Wall sit quest";
                 requirementUnit  = " minutes";
                 break;
             case DISTANCE:
                 requirement = distanceDifficulty[difficultyLevel];
-                description = "Distance quest";
+                questText = "Distance quest";
                 requirementUnit  = " meters";
                 break;
             case STEPS:
                 requirement = stepsDifficulty[difficultyLevel];
-                description = "Step quest";
+                questText = "Step quest";
                 requirementUnit  = " steps";
                 break;
             case WATER:
                 requirement = waterDifficulty[difficultyLevel];
-                description = "Water quest";
+                questText = "Water quest";
                 //TODO: Requirement can be more than one day
                 requirementUnit  = " glasses of water a day";
                 break;
             case CALORIES:
                 requirement = caloriesDifficulty[difficultyLevel];
-                description = "Calorie quest";
+                questText = "Calorie quest";
                 requirementUnit  = " kilocalories to burn";
                 break;
             case REST:
                 requirement = restDifficulty[difficultyLevel];
-                description = "Rest quest";
+                questText = "Rest quest";
                 //TODO: Requirement can be more than one day
                 requirementUnit  = " nights at least 8 hours of sleep";
                 break;
@@ -119,12 +123,17 @@ public class Quest{
         return rewardExp;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
+    public String getQuestText(){
+        return questText;
+    }
+
+    //We don't need this if we use adapter
     public String toString(){
-        return description + "\nGoal: " + requirement + requirementUnit;
+        return questText + "\nGoal: " + requirement + requirementUnit;
     }
 
 }
