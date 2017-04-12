@@ -47,11 +47,12 @@ public class PlayerController extends Application{
 
 
     //Variables
-    public Boolean firstTimeState = true;
 
     /**
      * Item variables start
      */
+
+    public Boolean firstTimeState = false;
 
     ItemList itemList = new ItemList();
 
@@ -59,11 +60,13 @@ public class PlayerController extends Application{
     public ArrayList<Item> ownedTorsoItems = new ArrayList<>();
     public ArrayList<Item> ownedBottomItems = new ArrayList<>();
     public ArrayList<Item> ownedFeetItems = new ArrayList<>();
+    public ArrayList<Item> ownedAccessoryItems = new ArrayList<>();
 
     public Item equippedHeadItem;
     public Item equippedTorsoItem;
     public Item equippedBottomItem;
     public Item equippedFeetItem;
+    public Item equippedAccessoryItem;
     /**
      *Item variables end
      */
@@ -194,6 +197,14 @@ public class PlayerController extends Application{
         this.equippedFeetItem = equippedFeetItem;
     }
 
+    public Item getEquippedAccessoryItem() {
+        return equippedAccessoryItem;
+    }
+
+    public void setEquippedAccessoryItem(Item equippedAccessoryItem) {
+        this.equippedAccessoryItem = equippedAccessoryItem;
+    }
+
     private boolean inList(Item item){
         if(item.getItemType() == HEAD) {
             for (Item itemInList : ownedHeadItems) {
@@ -221,6 +232,14 @@ public class PlayerController extends Application{
         }
         if(item.getItemType() == FEET) {
             for (Item itemInList : ownedFeetItems) {
+                if (Objects.equals(item.getItemId(), itemInList.getItemId())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if(item.getItemType() == OTHER) {
+            for (Item itemInList : ownedAccessoryItems) {
                 if (Objects.equals(item.getItemId(), itemInList.getItemId())) {
                     return true;
                 }
@@ -255,6 +274,12 @@ public class PlayerController extends Application{
                 ownedFeetItems.add(item);
             }
         }
+        else if(item.getItemType() == OTHER) {
+            if(!inList(item)) {
+                //Item is NOT the list, add it!
+                ownedAccessoryItems.add(item);
+            }
+        }
     }
 
     /* Adding defaults items when the game is started, these have to be in the database from the start! */
@@ -264,6 +289,7 @@ public class PlayerController extends Application{
         addItem(itemList.defaultTorso);
         addItem(itemList.defaultBottom);
         addItem(itemList.defaultFeet);
+        addItem(itemList.accessoryNone);
     }
 
     /**
