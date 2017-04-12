@@ -3,7 +3,6 @@ package com.kantele.folquest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,8 +12,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class AvatarActivity extends AppCompatActivity {
 
@@ -48,6 +45,7 @@ public class AvatarActivity extends AppCompatActivity {
 
     TextView headItemText, torsoItemText, bottomItemText;
     ImageView headImageView, torsoImageView, bottomImageView, feetImageView;
+    ImageView characterImageView;
 
     int equippedHeadItemId;
     int equippedTorsoItemId;
@@ -74,6 +72,12 @@ public class AvatarActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_avatar);
+
+
+        //Find Avatarview
+
+        characterImageView = (ImageView) findViewById(R.id.characterImageView);
+
 
         //Find initialize gridView*/
         GridView inventoryHeadGridView = (GridView)findViewById(R.id.inventoryHeadGridView);
@@ -121,13 +125,13 @@ public class AvatarActivity extends AppCompatActivity {
         spec.setIndicator("Head");
         tabHost.addTab(spec);
 
-        //tab 1 - torso items
+        //tab 2 - torso items
         spec = tabHost.newTabSpec("Torso");
         spec.setContent(R.id.tab2);
         spec.setIndicator("Torso");
         tabHost.addTab(spec);
 
-        //tab 1 - bottom items
+        //tab 3 - bottom items
         spec = tabHost.newTabSpec("Bottom");
         spec.setContent(R.id.tab3);
         spec.setIndicator("Bottom");
@@ -218,9 +222,18 @@ public class AvatarActivity extends AppCompatActivity {
             }
         });
 
+        drawAvatar();
+
         drawItems();
         drawEquippedItems();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        drawAvatar();
     }
 
 
@@ -318,10 +331,25 @@ public class AvatarActivity extends AppCompatActivity {
         drawItems();
         drawEquippedItems();
     }
+
+
+    public void drawAvatar(){
+
+        if (controller.getPlayerGender() == true) {
+            characterImageView.setImageResource(R.drawable.mieshahmopohja);
+        } else if (controller.getPlayerGender() == false) {
+            characterImageView.setImageResource(R.drawable.naishahmopohja);
+        }
+    }
+
+
     public void drawItems(){
         headItemText.setText(controller.equippedHeadItem.getName());
         torsoItemText.setText(controller.equippedTorsoItem.getName());
         bottomItemText.setText(controller.equippedBottomItem.getName());
+
+        // Save drawed items to shared preferences
+
     }
 
     protected void drawEquippedItems() {

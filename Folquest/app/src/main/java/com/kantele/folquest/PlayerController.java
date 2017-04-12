@@ -1,6 +1,7 @@
 package com.kantele.folquest;
 
 import android.app.Application;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
@@ -10,6 +11,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import android.content.SharedPreferences;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,7 +45,9 @@ public class PlayerController extends Application{
     public static final String ActiveQuests = "activeQuestKey";
 
 
+
     //Variables
+    public Boolean firstTimeState = true;
 
     /**
      * Item variables start
@@ -67,7 +74,10 @@ public class PlayerController extends Application{
     //Player levels 1-20        1,       2,      3,      4,      5,      6,      7,        8,       9,       10,     11,     12,     13,     14,     15,     16,     17,     18,     19,     20,
     int PlayerLevels[]   =  {   100,     200,    500,    750,    1000,   1500,   3000,     5000,    7500,    10000,  12500,  15000,  20000,  25000,  35000,  50000,  80000,  130000, 180000, 250000 }; //exp
 
+    int levelModifier = 1;
+  
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
+    boolean isBoy = false;
 
     long playerGold;
     long playerExp;
@@ -155,6 +165,9 @@ public class PlayerController extends Application{
 
     public void setEquippedHeadItem(Item equippedHeadItem) {
         this.equippedHeadItem = equippedHeadItem;
+
+        // Save item to shared preferences
+
     }
 
     public Item getEquippedTorsoItem() {
@@ -258,11 +271,55 @@ public class PlayerController extends Application{
      */
 
 
+
+    /**
+     * Quest board methods
+     */
+
+    //Generate a quest for each type
+    protected void createAvailableQuests() {
+        for (questType type : questType.values()) {
+            Boolean questActive = false;
+            for (int i = 0; i < activeQuests.size(); i++) {
+                if (activeQuests.get(i).type == type)
+                    questActive = true;
+            }
+            for (int i = 0; i < availableQuests.size(); i++) {
+                if (availableQuests.get(i).type == type)
+                    questActive = true;
+            }
+            if (!questActive)
+                availableQuests.add(new Quest(type, levelModifier));
+        }
+    }
+
+    /**
+     *  Quest board methods end
+     */
+
+    public Boolean getFirstTimeSavedState() {
+        return firstTimeState;
+    }
+
+    public void setFirstTimeSavedState(Boolean state) {
+        this.firstTimeState = state;
+    }
+
+    /**
+     * Gender settings and avatar drawing
+     */
+    public void setPlayerGender(boolean gender) { this.isBoy = gender; }
+
+    public boolean getPlayerGender() { return isBoy; }
+
+    /**
+     * Saving
+     */
+
     public void save(){
         long goldToSave = this.getPlayerGold();
         long expToSave = this.getPlayerExp();
         long levelToSave = this.getPlayerLvl();
-        //TODO DO QUESTS AS STRING SET
 
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
@@ -280,7 +337,5 @@ public class PlayerController extends Application{
         }
 
         editor.commit();
-
     }
 }
-
