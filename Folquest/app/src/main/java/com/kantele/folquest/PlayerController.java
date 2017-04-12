@@ -3,12 +3,19 @@ package com.kantele.folquest;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * Created by Teemu on 23.3.2017.
@@ -71,6 +78,11 @@ public class PlayerController extends Application{
         playerGold = sharedpreferences.getLong(Gold, 0);
         playerExp = sharedpreferences.getLong(Exp, 0);
         playerLvl = sharedpreferences.getLong(Level, 0);
+        activeQuests = new ArrayList<Quest>();
+        if(sharedpreferences.getStringSet(ActiveQuests,null) !=null ){
+            for (String str : sharedpreferences.getStringSet(ActiveQuests, null))
+                activeQuests.add(new Quest(str));
+        }
     }
 
 
@@ -78,8 +90,8 @@ public class PlayerController extends Application{
     //Quest tracking
     // TODO: GET ACTIVE QUESTS FROM A SAVE FILE
     static int maximumQuests = 3;
-    public final ArrayList<Quest> activeQuests = new ArrayList<>();
-    public final ArrayList<Quest> availableQuests = new ArrayList<>();
+    public ArrayList<Quest> activeQuests = new ArrayList<>();
+    public ArrayList<Quest> availableQuests = new ArrayList<>();
 
     //Methods
     public long getPlayerGold() { return playerGold; }
@@ -244,17 +256,29 @@ public class PlayerController extends Application{
     /**
      *Item Methods end
      */
+
+
     public void save(){
         long goldToSave = this.getPlayerGold();
         long expToSave = this.getPlayerExp();
         long levelToSave = this.getPlayerLvl();
-
+        //TODO DO QUESTS AS STRING SET
 
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         editor.putLong(Gold, goldToSave);
         editor.putLong(Exp, expToSave);
         editor.putLong(Level, levelToSave);
+
+        if(activeQuests.size() > 0){
+            Set<String> questsToSave = new HashSet<String>();
+            for(int i = 0; i < activeQuests.size(); i++){
+                questsToSave.add(activeQuests.get(i).toString());
+            }
+
+            editor.putStringSet(ActiveQuests, questsToSave);
+        }
+
         editor.commit();
 
     }
