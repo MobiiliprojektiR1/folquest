@@ -1,10 +1,8 @@
 package com.kantele.folquest;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button buttonUpdate;
 
-    ImageView headImageView, torsoImageView, bottomImageView, feetImageView, accessoryImageView;
+    ImageView headImageView, torsoImageView, bottomImageView, feetImageView;
     ImageView characterImageView;
 
     // GOOGLE FIT
@@ -82,14 +80,13 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
-        // Load First Time if this is first time playing
         isFirstTime = controller.getFirstTimeSavedState();
 
+        // Load First Time if this is player first time playing
         if (isFirstTime) {
             Intent intent = new Intent(MainActivity.this, FirstTimeLaunchActivity.class);
             startActivity(intent);
         }
-
 
             setContentView(R.layout.activity_main);
 
@@ -97,31 +94,18 @@ public class MainActivity extends AppCompatActivity {
             controller.addDefaultItems();
 
             //adding some items for demo
-
-            // Head
             controller.addItem(itemList.headBald);
-            controller.addItem(itemList.headBoy);
-            controller.addItem(itemList.headBunches);
-
-            // Torso
-            controller.addItem(itemList.torsoBlueWoman);
-            controller.addItem(itemList.torsoBlueMan);
-
-            // Bottom
-            controller.addItem(itemList.bottomBlueTrousers);
-
-            // Boots
-            controller.addItem(itemList.feetBlackBoots);
-
-            // Accessories
-            controller.addItem(itemList.accessoryNone);
+            //controller.addItem(itemList.bottomHighHeels);
+            //controller.addItem(itemList.bottomSandals);
+            controller.addItem(itemList.bottomTest);
+            controller.addItem(itemList.torsoTest);
+            //controller.addItem(itemList.torsoPinkDress);
 
         /* Set the default items, this will be modified later */
             controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
             controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
             controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
             controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
-            controller.setEquippedAccessoryItem(controller.ownedAccessoryItems.get(0));
 
             //ImageView for avatar
             characterImageView = (ImageView) findViewById(R.id.characterImageView);
@@ -132,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
             torsoImageView = (ImageView)findViewById(R.id.torsoImageView);
             bottomImageView = (ImageView)findViewById(R.id.bottomImageView);
             feetImageView = (ImageView)findViewById(R.id.feetImageView);
-            accessoryImageView = (ImageView)findViewById(R.id.accessoryImageView);
       
 
             //Show the images of equipped items
@@ -224,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-
             // CREATE THE CONNECTION TO GOOGLE FIT
             buildFitnessClient();
 
@@ -280,22 +262,17 @@ public class MainActivity extends AppCompatActivity {
             int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
             headImageView.setImageResource(resHeadID);
 
-            //Set image for feet item
+            //Set image for head item
             int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
             feetImageView.setImageResource(resFeetID);
-
-            //Set image for feet item
-            int resAccessoryID = getResources().getIdentifier(controller.equippedAccessoryItem.getItemId(), "mipmap", this.getPackageName());
-            accessoryImageView.setImageResource(resAccessoryID);
-
     }
 
 
     public void drawAvatar(){
 
-        if (controller.getPlayerGender() == true) {
+        if (controller.getPlayerGender()) {
             characterImageView.setImageResource(R.drawable.mieshahmopohja);
-        } else if (controller.getPlayerGender() == false) {
+        } else if (!controller.getPlayerGender()) {
             characterImageView.setImageResource(R.drawable.naishahmopohja);
         }
     }

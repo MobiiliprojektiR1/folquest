@@ -220,14 +220,6 @@
         android:layout_toEndOf="@+id/linearLayout2"
         android:layout_alignStart="@+id/characterImageView"
         android:layout_above="@+id/statHolder" />
-    <ImageView
-        android:id="@+id/accessoryImageView"
-        android:layout_width="400dp"
-        android:layout_height="600dp"
-        app:srcCompat="@drawable/naishahmopohja"
-        android:layout_toEndOf="@+id/linearLayout2"
-        android:layout_alignStart="@+id/characterImageView"
-        android:layout_above="@+id/statHolder" />
 
 
 </RelativeLayout>

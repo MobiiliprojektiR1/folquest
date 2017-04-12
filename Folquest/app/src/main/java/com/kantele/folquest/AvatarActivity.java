@@ -33,9 +33,6 @@ public class AvatarActivity extends AppCompatActivity {
     private static final int BUTTON_FEET_LEFT = 9;
     private static final int BUTTON_FEET_RIGHT = 10;
     private static final int BUTTON_FEET_DIRECT = 11;
-    private static final int BUTTON_ACCESSORY_LEFT = 12;
-    private static final int BUTTON_ACCESSORY_RIGHT = 13;
-    private static final int BUTTON_ACCESSORY_DIRECT = 14;
 
     Button buttonHeadLeft;
     Button buttonHeadRight;
@@ -45,18 +42,15 @@ public class AvatarActivity extends AppCompatActivity {
     Button buttonBottomRight;
     Button buttonFeetLeft;
     Button buttonFeetRight;
-    Button buttonAccessoryLeft;
-    Button buttonAccessoryRight;
 
-    TextView headItemText, torsoItemText, bottomItemText, feetItemText, accessoryItemText;
-    ImageView headImageView, torsoImageView, bottomImageView, feetImageView, accessoryImageView;
+    TextView headItemText, torsoItemText, bottomItemText;
+    ImageView headImageView, torsoImageView, bottomImageView, feetImageView;
     ImageView characterImageView;
 
     int equippedHeadItemId;
     int equippedTorsoItemId;
     int equippedBottomItemId;
     int equippedFeetItemId;
-    int equippedAccessoryItemId;
 
     ItemList itemList = new ItemList();
 
@@ -66,7 +60,6 @@ public class AvatarActivity extends AppCompatActivity {
     Button buttonShop;
 
     PlayerController controller;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,22 +83,16 @@ public class AvatarActivity extends AppCompatActivity {
         GridView inventoryHeadGridView = (GridView)findViewById(R.id.inventoryHeadGridView);
         GridView inventoryTorsoGridView = (GridView)findViewById(R.id.inventoryTorsoGridView);
         GridView inventoryBottomGridView = (GridView)findViewById(R.id.inventoryBottomGridView);
-        GridView inventoryFeetGridView = (GridView) findViewById(R.id.inventoryFeetGridView);
-        GridView inventoryAccessoryGridView = (GridView) findViewById(R.id.inventoryAccessoryGridView);
 
         //set the id in the list of the equipped items
         equippedHeadItemId = controller.ownedHeadItems.indexOf(controller.equippedHeadItem);
         equippedTorsoItemId = controller.ownedTorsoItems.indexOf(controller.equippedTorsoItem);
         equippedBottomItemId = controller.ownedBottomItems.indexOf(controller.equippedBottomItem);
-        equippedFeetItemId = controller.ownedFeetItems.indexOf(controller.equippedFeetItem);
-        equippedAccessoryItemId = controller.ownedAccessoryItems.indexOf(controller.equippedAccessoryItem);
 
         // set the adapters for grid views
         inventoryHeadGridView.setAdapter( new InventoryGridAdapter(this, controller.ownedHeadItems));
         inventoryTorsoGridView.setAdapter( new InventoryGridAdapter(this, controller.ownedTorsoItems));
         inventoryBottomGridView.setAdapter( new InventoryGridAdapter(this, controller.ownedBottomItems));
-        inventoryFeetGridView.setAdapter( new InventoryGridAdapter(this, controller.ownedFeetItems));
-        inventoryAccessoryGridView.setAdapter( new InventoryGridAdapter(this, controller.ownedAccessoryItems));
 
 
         //initialize buttons
@@ -118,24 +105,15 @@ public class AvatarActivity extends AppCompatActivity {
         buttonBottomLeft = (Button)findViewById(R.id.buttonBottomLeft);
         buttonBottomRight = (Button)findViewById(R.id.buttonBottomRight);
 
-        buttonFeetLeft = (Button) findViewById(R.id.buttonFeetLeft);
-        buttonFeetRight = (Button) findViewById(R.id.buttonFeetRight);
-
-        buttonAccessoryLeft = (Button)findViewById(R.id.buttonAccessoryLeft);
-        buttonAccessoryRight = (Button)findViewById(R.id.buttonAccessoryRight);
-
         headItemText = (TextView)findViewById(R.id.headItemText);
         torsoItemText = (TextView)findViewById(R.id.torsoItemText);
         bottomItemText = (TextView)findViewById(R.id.bottomItemText);
-        feetItemText = (TextView) findViewById(R.id.feetItemText);
-        accessoryItemText = (TextView)findViewById(R.id.accessoryItemText);
 
         //ImageViews for avatar items
         headImageView = (ImageView) findViewById(R.id.headImageView);
         torsoImageView = (ImageView)findViewById(R.id.torsoImageView);
         bottomImageView = (ImageView)findViewById(R.id.bottomImageView);
         feetImageView = (ImageView)findViewById(R.id.feetImageView);
-        accessoryImageView = (ImageView)findViewById(R.id.accessoryImageView);
 
         //Tab initializing
         tabHost = (TabHost) findViewById(R.id.tabHost);
@@ -157,18 +135,6 @@ public class AvatarActivity extends AppCompatActivity {
         spec = tabHost.newTabSpec("Bottom");
         spec.setContent(R.id.tab3);
         spec.setIndicator("Bottom");
-        tabHost.addTab(spec);
-
-        //tab 4 - feet items
-        spec = tabHost.newTabSpec("Feet");
-        spec.setContent(R.id.tab4);
-        spec.setIndicator("Feet");
-        tabHost.addTab(spec);
-
-        //tab 5 - accessory items
-        spec = tabHost.newTabSpec("Accessory");
-        spec.setContent(R.id.tab5);
-        spec.setIndicator("Accessory");
         tabHost.addTab(spec);
 
         buttonHeadLeft.setOnClickListener(new View.OnClickListener() {
@@ -213,34 +179,6 @@ public class AvatarActivity extends AppCompatActivity {
             }
         });
 
-        buttonFeetLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeAccessory(BUTTON_FEET_LEFT, 0);
-            }
-        });
-
-        buttonFeetRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeAccessory(BUTTON_FEET_RIGHT, 0);
-            }
-        });
-
-        buttonAccessoryLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeAccessory(BUTTON_ACCESSORY_LEFT, 0);
-            }
-        });
-
-        buttonAccessoryRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeAccessory(BUTTON_ACCESSORY_RIGHT, 0);
-            }
-        });
-
         inventoryHeadGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View v,
@@ -262,23 +200,6 @@ public class AvatarActivity extends AppCompatActivity {
                 changeAccessory(BUTTON_BOTTOM_DIRECT, position);
             }
         });
-
-        inventoryFeetGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                changeAccessory(BUTTON_FEET_DIRECT, position);
-            }
-        });
-
-        inventoryAccessoryGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                changeAccessory(BUTTON_ACCESSORY_DIRECT, position);
-            }
-        });
-
 
 
       
@@ -318,7 +239,6 @@ public class AvatarActivity extends AppCompatActivity {
 
     public void changeAccessory(int accessorySlotToChange, int position) {
         switch (accessorySlotToChange) {
-
             case BUTTON_HEAD_LEFT:
                 if (equippedHeadItemId == 0) {
                     controller.equippedHeadItem = controller.ownedHeadItems.get(controller.ownedHeadItems.size() - 1);
@@ -337,7 +257,6 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedHeadItemId++;
                 }
                 break;
-
             case BUTTON_TORSO_LEFT:
                 if (equippedTorsoItemId == 0) {
                     controller.equippedTorsoItem = controller.ownedTorsoItems.get(controller.ownedTorsoItems.size() - 1);
@@ -356,7 +275,6 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedTorsoItemId++;
                 }
                 break;
-
             case BUTTON_BOTTOM_LEFT:
                 if (equippedBottomItemId == 0) {
                     controller.equippedBottomItem = controller.ownedBottomItems.get(controller.ownedBottomItems.size() - 1);
@@ -375,10 +293,9 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedBottomItemId++;
                 }
                 break;
-
             case BUTTON_FEET_LEFT:
                 if (equippedFeetItemId == 0) {
-                    controller.equippedFeetItem = controller.ownedFeetItems.get(controller.ownedFeetItems.size() - 1);
+                    controller.equippedBottomItem = controller.ownedFeetItems.get(controller.ownedFeetItems.size() - 1);
                     equippedFeetItemId = controller.ownedFeetItems.size() - 1;
                 } else {
                     controller.equippedFeetItem = controller.ownedFeetItems.get(equippedFeetItemId - 1);
@@ -394,27 +311,6 @@ public class AvatarActivity extends AppCompatActivity {
                     equippedFeetItemId++;
                 }
                 break;
-
-            case BUTTON_ACCESSORY_LEFT:
-                if (equippedAccessoryItemId == 0) {
-                    controller.equippedAccessoryItem = controller.ownedAccessoryItems.get(controller.ownedAccessoryItems.size() - 1);
-                    equippedAccessoryItemId = controller.ownedAccessoryItems.size() - 1;
-                } else {
-                    controller.equippedAccessoryItem = controller.ownedAccessoryItems.get(equippedAccessoryItemId - 1);
-                    equippedAccessoryItemId--;
-                }
-                break;
-            case BUTTON_ACCESSORY_RIGHT:
-                if (equippedAccessoryItemId == controller.ownedAccessoryItems.size() - 1) {
-                    controller.equippedAccessoryItem = controller.ownedAccessoryItems.get(0);
-                    equippedAccessoryItemId = 0;
-                } else {
-                    controller.equippedAccessoryItem = controller.ownedAccessoryItems.get(equippedAccessoryItemId + 1);
-                    equippedAccessoryItemId++;
-                }
-                break;
-
-
             case BUTTON_HEAD_DIRECT:
                 controller.equippedHeadItem = controller.ownedHeadItems.get(position);
                 equippedBottomItemId = position;
@@ -430,10 +326,6 @@ public class AvatarActivity extends AppCompatActivity {
             case BUTTON_FEET_DIRECT:
                 controller.equippedFeetItem = controller.ownedFeetItems.get(position);
                 equippedFeetItemId = position;
-                break;
-            case BUTTON_ACCESSORY_DIRECT:
-                controller.equippedAccessoryItem = controller.ownedAccessoryItems.get(position);
-                equippedAccessoryItemId = position;
                 break;
         }
         drawItems();
@@ -455,8 +347,6 @@ public class AvatarActivity extends AppCompatActivity {
         headItemText.setText(controller.equippedHeadItem.getName());
         torsoItemText.setText(controller.equippedTorsoItem.getName());
         bottomItemText.setText(controller.equippedBottomItem.getName());
-        feetItemText.setText(controller.equippedFeetItem.getName());
-        accessoryItemText.setText(controller.equippedAccessoryItem.getName());
 
         // Save drawed items to shared preferences
 
@@ -475,12 +365,9 @@ public class AvatarActivity extends AppCompatActivity {
         int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
         headImageView.setImageResource(resHeadID);
 
-        //Set image for feet item
+        
+        //Set image for head item
         int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
         feetImageView.setImageResource(resFeetID);
-
-        //Set image for feet item
-        int resAccessoryID = getResources().getIdentifier(controller.equippedAccessoryItem.getItemId(), "mipmap", this.getPackageName());
-        accessoryImageView.setImageResource(resAccessoryID);
     }
 }
