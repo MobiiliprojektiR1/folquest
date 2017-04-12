@@ -1,11 +1,26 @@
 package com.kantele.folquest;
 
 import android.app.Application;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Base64;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * Created by Teemu on 23.3.2017.
@@ -23,8 +38,12 @@ public class PlayerController extends Application{
     private static final int OTHER = 4;
 
     SharedPreferences sharedpreferences;
+
     public static final String Gold = "goldKey";
     public static final String Exp = "expKey";
+    public static final String Level = "levelKey";
+    public static final String ActiveQuests = "activeQuestKey";
+
 
 
     //Variables
@@ -56,29 +75,42 @@ public class PlayerController extends Application{
     int PlayerLevels[]   =  {   100,     200,    500,    750,    1000,   1500,   3000,     5000,    7500,    10000,  12500,  15000,  20000,  25000,  35000,  50000,  80000,  130000, 180000, 250000 }; //exp
 
     int levelModifier = 1;
-
+  
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
-
     boolean isBoy = false;
 
-    long playerGold = 0;
-    long playerExp = 0;
-    long playerLvl = 0;
+    long playerGold;
+    long playerExp;
+    long playerLvl;
+
+    void loadSave() {
+        sharedpreferences = getSharedPreferences("SavedPreferences", Context.MODE_PRIVATE);
+        playerGold = sharedpreferences.getLong(Gold, 0);
+        playerExp = sharedpreferences.getLong(Exp, 0);
+        playerLvl = sharedpreferences.getLong(Level, 0);
+        activeQuests = new ArrayList<Quest>();
+        if(sharedpreferences.getStringSet(ActiveQuests,null) !=null ){
+            for (String str : sharedpreferences.getStringSet(ActiveQuests, null))
+                activeQuests.add(new Quest(str));
+        }
+    }
+
+
 
     //Quest tracking
     // TODO: GET ACTIVE QUESTS FROM A SAVE FILE
     static int maximumQuests = 3;
-    public final ArrayList<Quest> activeQuests = new ArrayList<>();
-    public final ArrayList<Quest> availableQuests = new ArrayList<>();
+    public ArrayList<Quest> activeQuests = new ArrayList<>();
+    public ArrayList<Quest> availableQuests = new ArrayList<>();
 
     //Methods
     public long getPlayerGold() { return playerGold; }
 
-    public void setPlayerGold(long playerGold) { this.playerGold = playerGold; }
+    public void setPlayerGold(long playerGold) { this.playerGold = playerGold; save(); }
 
     public long getPlayerExp() { return playerExp; }
 
-    public void setPlayerExp(long playerExp) { this.playerExp = playerExp; }
+    public void setPlayerExp(long playerExp) { this.playerExp = playerExp; save(); }
 
     //Methods for player leveling
 
@@ -239,6 +271,7 @@ public class PlayerController extends Application{
      */
 
 
+
     /**
      * Quest board methods
      */
@@ -283,19 +316,26 @@ public class PlayerController extends Application{
      * Saving
      */
 
-
-
     public void save(){
         long goldToSave = this.getPlayerGold();
         long expToSave = this.getPlayerExp();
+        long levelToSave = this.getPlayerLvl();
 
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         editor.putLong(Gold, goldToSave);
         editor.putLong(Exp, expToSave);
-        editor.commit();
-        Toast.makeText(getBaseContext(),"Saved",Toast.LENGTH_LONG).show();
+        editor.putLong(Level, levelToSave);
 
+        if(activeQuests.size() > 0){
+            Set<String> questsToSave = new HashSet<String>();
+            for(int i = 0; i < activeQuests.size(); i++){
+                questsToSave.add(activeQuests.get(i).toString());
+            }
+
+            editor.putStringSet(ActiveQuests, questsToSave);
+        }
+
+        editor.commit();
     }
 }
-

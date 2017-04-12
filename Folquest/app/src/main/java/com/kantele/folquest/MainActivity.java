@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Start the PLayerController
         controller = (PlayerController) getApplicationContext();
+        controller.loadSave();
 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);

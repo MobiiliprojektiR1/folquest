@@ -1,5 +1,7 @@
 package com.kantele.folquest;
 
+import java.io.Serializable;
+
 /**
  * Created by Teemu on 22.3.2017.
  */
@@ -17,7 +19,7 @@ enum questType{
     REST
 }
 
-public class Quest{
+public class Quest implements Serializable{
 
     //Difficulty level 0-5         NOVICE,   EASY, NORMAL,   HARD, V.HARD,   EPIC
     int pushUpDifficulty[]   =  {      5,     15,     30,     60,    200,    500 }; //reps
@@ -133,7 +135,60 @@ public class Quest{
 
     //We don't need this if we use adapter
     public String toString(){
-        return questText + "\nGoal: " + requirement + requirementUnit;
+        return type + "," + difficultyLevel + "," + description;
+    }
+
+    public Quest(String questAsString){
+        String[] s = questAsString.split(",");
+        type = questType.valueOf(s[0]);
+        difficultyLevel = Integer.parseInt(s[1]);
+        description = s[2];
+
+        rewardGold = goldRewards[difficultyLevel];
+        rewardExp = expRewards[difficultyLevel];
+        progress = 0;
+
+        switch (type){
+            case PUSHUPS:
+                requirement = pushUpDifficulty[difficultyLevel];
+                requirementUnit  = " reps";
+                break;
+            case SITUPS:
+                requirement = sitUpDifficulty[difficultyLevel];
+                requirementUnit  = " reps";
+                break;
+            case SQUATS:
+                requirement = squatsDifficulty[difficultyLevel];
+                requirementUnit  = " reps";
+                break;
+            case WALLSIT:
+                requirement = wallSitDifficulty[difficultyLevel];
+                requirementUnit  = " minutes";
+                break;
+            case DISTANCE:
+                requirement = distanceDifficulty[difficultyLevel];
+                requirementUnit  = " meters";
+                break;
+            case STEPS:
+                requirement = stepsDifficulty[difficultyLevel];
+                requirementUnit  = " steps";
+                break;
+            case WATER:
+                requirement = waterDifficulty[difficultyLevel];
+                //TODO: Requirement can be more than one day
+                requirementUnit  = " glasses of water a day";
+                break;
+            case CALORIES:
+                requirement = caloriesDifficulty[difficultyLevel];
+                requirementUnit  = " kilocalories to burn";
+                break;
+            case REST:
+                requirement = restDifficulty[difficultyLevel];
+                //TODO: Requirement can be more than one day
+                requirementUnit  = " nights at least 8 hours of sleep";
+                break;
+        }
+
     }
 
 }
