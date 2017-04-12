@@ -2,14 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kantele.folquest">
 
-    <application
-        android:largeHeap="true"
-        android:hardwareAccelerated="false"
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
 
+    <application
         android:name=".PlayerController"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".MainActivity">
@@ -24,8 +26,7 @@
         <activity android:name=".QuestBoardActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ShopActivity" />
+        <activity android:name=".FirstTimeLaunchActivity"></activity>
     </application>
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  
 </manifest>

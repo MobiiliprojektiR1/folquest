@@ -1,8 +1,10 @@
 package com.kantele.folquest;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button buttonAvatar, buttonQuests, buttonSettings;
 
-    TextView textViewExpCurrent, textViewExpTarget, textViewLvl;
+    TextView textViewExpCurrent, textViewExpTarget, textViewLvl, textViewGold;
 
     TextView textViewStepsHolder, textViewSteps;
     TextView textViewKcalHolder, textViewKcal;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonUpdate;
 
     ImageView headImageView, torsoImageView, bottomImageView, feetImageView;
+    ImageView characterImageView;
 
     // GOOGLE FIT
     GoogleApiClient apiClient;
@@ -59,78 +62,97 @@ public class MainActivity extends AppCompatActivity {
     //Start the PLayerController
     PlayerController controller;
 
+    Boolean isFirstTime;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
         //Start the PLayerController
-
         controller = (PlayerController) getApplicationContext();
+
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
-        setContentView(R.layout.activity_main);
+        isFirstTime = controller.getFirstTimeSavedState();
+
+        // Load First Time if this is player first time playing
+        if (isFirstTime) {
+            Intent intent = new Intent(MainActivity.this, FirstTimeLaunchActivity.class);
+            startActivity(intent);
+        }
+
+            setContentView(R.layout.activity_main);
 
         /* Adding defaults items when the game is started, these have to be in the database from the start! */
-        controller.addDefaultItems();
+            controller.addDefaultItems();
 
-        //adding some items for demo
-        controller.addItem(itemList.headBald);
-        //controller.addItem(itemList.bottomHighHeels);
-        //controller.addItem(itemList.bottomSandals);
-        controller.addItem(itemList.bottomTest);
-        controller.addItem(itemList.torsoTest);
-        //controller.addItem(itemList.torsoPinkDress);
+            //adding some items for demo
+            controller.addItem(itemList.headBald);
+            //controller.addItem(itemList.bottomHighHeels);
+            //controller.addItem(itemList.bottomSandals);
+            controller.addItem(itemList.bottomTest);
+            controller.addItem(itemList.torsoTest);
+            //controller.addItem(itemList.torsoPinkDress);
 
         /* Set the default items, this will be modified later */
-        controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
-        controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
-        controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
-        controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
+            controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
+            controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
+            controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
+            controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
 
-        //ImageViews for avatar items
-        headImageView = (ImageView)findViewById(R.id.headImageView);
-        torsoImageView = (ImageView)findViewById(R.id.torsoImageView);
-        bottomImageView = (ImageView)findViewById(R.id.bottomImageView);
-        feetImageView = (ImageView)findViewById(R.id.feetImageView);
+            //ImageView for avatar
+            characterImageView = (ImageView) findViewById(R.id.characterImageView);
+            drawAvatar();
+      
+            //ImageViews for avatar items
+            headImageView = (ImageView)findViewById(R.id.headImageView);
+            torsoImageView = (ImageView)findViewById(R.id.torsoImageView);
+            bottomImageView = (ImageView)findViewById(R.id.bottomImageView);
+            feetImageView = (ImageView)findViewById(R.id.feetImageView);
+      
+
+            //Show the images of equipped items
+            drawEquippedItems();
+
+            buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
+            buttonQuests = (Button) findViewById(R.id.buttonQuests);
+            buttonSettings = (Button) findViewById(R.id.buttonSettings);
+
+            textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
+            textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
+            textViewLvl = (TextView) findViewById(R.id.textViewLevel);
+            textViewGold = (TextView) findViewById(R.id.textViewGold);
+
+            textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
+            textViewSteps = (TextView) findViewById(R.id.textViewSteps);
+
+            textViewKcalHolder = (TextView) findViewById(R.id.textViewKcalHolder);
+            textViewKcal = (TextView) findViewById(R.id.textViewKcal);
+
+            textViewDistHolder = (TextView) findViewById(R.id.textViewDistHolder);
+            textViewDist = (TextView) findViewById(R.id.textViewDist);
+
+            buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
 
 
-        //Show the images of equipped items
-        drawEquippedItems();
+            controller.checkForLeveling();
 
-        buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
-        buttonQuests = (Button) findViewById(R.id.buttonQuests);
-        buttonSettings = (Button) findViewById(R.id.buttonSettings);
+            EXPERIENCE_CURRENT = controller.getPlayerExp();
+            EXPERIENCE_TARGET = controller.getPlayerLvlTargetExp();
 
-        textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
-        textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
-        textViewLvl = (TextView) findViewById(R.id.textViewLevel);
+            textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
+            textViewExpTarget.setText("" + EXPERIENCE_TARGET);
 
-        textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
-        textViewSteps = (TextView) findViewById(R.id.textViewSteps);
-
-        textViewKcalHolder = (TextView) findViewById(R.id.textViewKcalHolder);
-        textViewKcal = (TextView) findViewById(R.id.textViewKcal);
-
-        textViewDistHolder = (TextView) findViewById(R.id.textViewDistHolder);
-        textViewDist = (TextView) findViewById(R.id.textViewDist);
-
-        buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
-
-
-        controller.checkForLeveling();
-
-        EXPERIENCE_CURRENT = controller.getPlayerExp();
-        EXPERIENCE_TARGET = controller.getPlayerLvlTargetExp();
-
-        textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
-        textViewExpTarget.setText("" + EXPERIENCE_TARGET);
-
-        textViewLvl.setText("" + controller.getPlayerLvl());
+            textViewLvl.setText("" + controller.getPlayerLvl());
+            textViewGold.setText("" + controller.getPlayerGold());
 
 
 
@@ -151,48 +173,48 @@ public class MainActivity extends AppCompatActivity {
         */
 
 
+            // BUTTON FUNCTIONALITIES
+            buttonAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, AvatarActivity.class);
+                    startActivity(intent);
+                }
+            });
 
-        // BUTTON FUNCTIONALITIES
-        buttonAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AvatarActivity.class);
-                startActivity(intent);
-            }
-        });
+            buttonQuests.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, QuestsActivity.class);
+                    startActivity(intent);
+                }
+            });
 
-        buttonQuests.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, QuestsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        //UPDATE DATA FROM GOOGLE FIT
-        buttonUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckPermissionsAndSyncData();
-
-            }
-        });
+            buttonSettings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
+            });
 
 
-        // CREATE THE CONNECTION TO GOOGLE FIT
-        buildFitnessClient();
+            //UPDATE DATA FROM GOOGLE FIT
+            buttonUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CheckPermissionsAndSyncData();
 
-        //PERMISSION REQUESTS ON LAUNCH
-        CheckPermissionsAndSyncData();
+                }
+            });
+
+
+            // CREATE THE CONNECTION TO GOOGLE FIT
+            buildFitnessClient();
+
+            //PERMISSION REQUESTS ON LAUNCH
+            CheckPermissionsAndSyncData();
+
     }
 
     public void CheckPermissionsAndSyncData() {
@@ -224,24 +246,37 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+
     }
 
     protected void drawEquippedItems() {
-        //Set image for bottom item
-        int resBottomID = getResources().getIdentifier(controller.equippedBottomItem.getItemId(), "mipmap", this.getPackageName());
-        bottomImageView.setImageResource(resBottomID);
 
-        //Set image for torso item
-        int resTorsoID = getResources().getIdentifier(controller.equippedTorsoItem.getItemId(), "mipmap", this.getPackageName());
-        torsoImageView.setImageResource(resTorsoID);
+            //Set image for bottom item
+            int resBottomID = getResources().getIdentifier(controller.equippedBottomItem.getItemId(), "mipmap", this.getPackageName());
+            bottomImageView.setImageResource(resBottomID);
 
-        //Set image for head item
-        int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
-        headImageView.setImageResource(resHeadID);
+            //Set image for torso item
+            int resTorsoID = getResources().getIdentifier(controller.equippedTorsoItem.getItemId(), "mipmap", this.getPackageName());
+            torsoImageView.setImageResource(resTorsoID);
 
-        //Set image for head item
-        int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
-        feetImageView.setImageResource(resFeetID);
+
+            //Set image for head item
+            int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
+            headImageView.setImageResource(resHeadID);
+
+            //Set image for head item
+            int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
+            feetImageView.setImageResource(resFeetID);
+    }
+
+
+    public void drawAvatar(){
+
+        if (controller.getPlayerGender() == true) {
+            characterImageView.setImageResource(R.drawable.mieshahmopohja);
+        } else if (controller.getPlayerGender() == false) {
+            characterImageView.setImageResource(R.drawable.naishahmopohja);
+        }
     }
 
 
@@ -250,6 +285,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         controller = (PlayerController) getApplicationContext();
+
+        drawAvatar();
 
         // Draw equipped items
         drawEquippedItems();
@@ -268,6 +305,7 @@ public class MainActivity extends AppCompatActivity {
         textViewExpTarget.setText("" + EXPERIENCE_TARGET);
 
         textViewLvl.setText("" + controller.getPlayerLvl());
+        textViewGold.setText("" + controller.getPlayerGold());
 
     }
 
@@ -398,3 +436,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

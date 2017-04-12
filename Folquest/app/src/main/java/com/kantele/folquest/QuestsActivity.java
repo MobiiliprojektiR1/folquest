@@ -46,6 +46,10 @@ public class QuestsActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 controller.setPlayerExp(controller.playerExp + controller.activeQuests.get(position).getRewardExp());
+                controller.setPlayerGold(controller.playerGold + controller.activeQuests.get(position).getRewardGold());
+
+                controller.checkForLeveling();
+
                 activeQuestAdapter.remove(controller.activeQuests.get(position));
                 activeQuestListView.deferNotifyDataSetChanged();
             }

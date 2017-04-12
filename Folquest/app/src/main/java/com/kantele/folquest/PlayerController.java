@@ -1,6 +1,8 @@
 package com.kantele.folquest;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -19,7 +21,14 @@ public class PlayerController extends Application{
     private static final int BOTTOM = 2;
     private static final int FEET = 3;
     private static final int OTHER = 4;
+
+    SharedPreferences sharedpreferences;
+    public static final String Gold = "goldKey";
+    public static final String Exp = "expKey";
+
+
     //Variables
+    public Boolean firstTimeState = true;
 
     /**
      * Item variables start
@@ -50,7 +59,9 @@ public class PlayerController extends Application{
 
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
 
-    long playerGold;
+    boolean isBoy = false;
+
+    long playerGold = 0;
     long playerExp = 0;
     long playerLvl = 0;
 
@@ -85,7 +96,7 @@ public class PlayerController extends Application{
             int overflow = (int) (getPlayerExp()-getPlayerLvlTargetExp());
 
             setPlayerLvl(getPlayerLvl()+1);
-            setPlayerExp(0+overflow);
+            setPlayerExp(0 + overflow);
 
         } else {
             setPlayerLvl(getPlayerLvl());
@@ -122,6 +133,9 @@ public class PlayerController extends Application{
 
     public void setEquippedHeadItem(Item equippedHeadItem) {
         this.equippedHeadItem = equippedHeadItem;
+
+        // Save item to shared preferences
+
     }
 
     public Item getEquippedTorsoItem() {
@@ -224,6 +238,7 @@ public class PlayerController extends Application{
      *Item Methods end
      */
 
+
     /**
      * Quest board methods
      */
@@ -248,4 +263,39 @@ public class PlayerController extends Application{
     /**
      *  Quest board methods end
      */
+
+    public Boolean getFirstTimeSavedState() {
+        return firstTimeState;
+    }
+
+    public void setFirstTimeSavedState(Boolean state) {
+        this.firstTimeState = state;
+    }
+
+    /**
+     * Gender settings and avatar drawing
+     */
+    public void setPlayerGender(boolean gender) { this.isBoy = gender; }
+
+    public boolean getPlayerGender() { return isBoy; }
+
+    /**
+     * Saving
+     */
+
+
+
+    public void save(){
+        long goldToSave = this.getPlayerGold();
+        long expToSave = this.getPlayerExp();
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        editor.putLong(Gold, goldToSave);
+        editor.putLong(Exp, expToSave);
+        editor.commit();
+        Toast.makeText(getBaseContext(),"Saved",Toast.LENGTH_LONG).show();
+
+    }
 }
+
