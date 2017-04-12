@@ -14,7 +14,7 @@ public class Item {
     String itemId;
     String name;
     String description;
-    int goldPrice;
+    int goldPrice = 100;
 
 
 
@@ -23,6 +23,7 @@ public class Item {
         this.itemId = itemId;
         name = itemName;
         description = itemDescription;
+        this.goldPrice = goldPrice;
     }
 
 
