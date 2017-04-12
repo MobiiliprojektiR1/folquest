@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
             controller.addItem(itemList.feetBlackBoots);
 
             // Accessories
-            controller.addItem(itemList.accessorySword);
             controller.addItem(itemList.accessoryNone);
 
         /* Set the default items, this will be modified later */

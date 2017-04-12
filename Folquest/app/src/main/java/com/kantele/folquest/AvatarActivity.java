@@ -263,7 +263,7 @@ public class AvatarActivity extends AppCompatActivity {
             }
         });
 
-        inventoryAccessoryGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        inventoryFeetGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {

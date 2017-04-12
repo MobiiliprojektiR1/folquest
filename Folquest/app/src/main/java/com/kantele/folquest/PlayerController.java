@@ -257,7 +257,7 @@ public class PlayerController extends Application{
         addItem(itemList.defaultTorso);
         addItem(itemList.defaultBottom);
         addItem(itemList.defaultFeet);
-        addItem(itemList.accessorySword);
+        addItem(itemList.accessoryNone);
     }
 
     /**
