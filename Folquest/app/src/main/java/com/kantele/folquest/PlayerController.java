@@ -292,6 +292,10 @@ public class PlayerController extends Application{
         addItem(itemList.accessoryNone);
     }
 
+    public void addDefaultItemsForBoy() {
+        
+    }
+
     /**
      *Item Methods end
      */
