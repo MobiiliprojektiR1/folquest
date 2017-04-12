@@ -10,6 +10,11 @@ import android.widget.Button;
 public class SettingsActivity extends AppCompatActivity {
 
     Button buttonBack;
+    Button buttonMale;
+    Button buttonFemale;
+
+    //Start the PLayerController
+    PlayerController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +28,30 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         buttonBack = (Button) findViewById(R.id.buttonBack);
+        buttonMale = (Button) findViewById(R.id.buttonMale);
+        buttonFemale = (Button) findViewById(R.id.buttonFemale);
+
+
+        controller = (PlayerController) getApplicationContext();
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SettingsActivity.super.finish();
+            }
+        });
+
+        buttonMale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.setPlayerGender(true);
+            }
+        });
+
+        buttonFemale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.setPlayerGender(false);
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.kantele.folquest;
 
+import java.io.Serializable;
+
 /**
  * Created by Teemu on 22.3.2017.
  */
@@ -17,7 +19,7 @@ enum questType{
     REST
 }
 
-public class Quest{
+public class Quest implements Serializable{
 
     //Difficulty level 0-5         NOVICE,   EASY, NORMAL,   HARD, V.HARD,   EPIC
     int pushUpDifficulty[]   =  {      5,     15,     30,     60,    200,    500 }; //reps
@@ -41,8 +43,10 @@ public class Quest{
     protected int progress;
     protected long rewardGold;
     protected long rewardExp;
-    protected String description;
+    protected String questText;
     protected String requirementUnit;
+    protected String description;
+
 
     //Methods
     public Quest(questType newType, int newDifficultyLevel){
@@ -52,52 +56,54 @@ public class Quest{
         rewardGold = goldRewards[newDifficultyLevel];
         rewardExp = expRewards[newDifficultyLevel];
         progress = 0;
+        //TODO: make it change with quest type
+        description = "Default description";
 
         switch (type){
             case PUSHUPS:
                 requirement = pushUpDifficulty[difficultyLevel];
-                description = "Push up quest";
+                questText = "Push up quest";
                 requirementUnit  = " reps";
                 break;
             case SITUPS:
                 requirement = sitUpDifficulty[difficultyLevel];
-                description = "Sit up quest";
+                questText = "Sit up quest";
                 requirementUnit  = " reps";
                 break;
             case SQUATS:
                 requirement = squatsDifficulty[difficultyLevel];
-                description = "Squat quest";
+                questText = "Squat quest";
                 requirementUnit  = " reps";
                 break;
             case WALLSIT:
                 requirement = wallSitDifficulty[difficultyLevel];
-                description = "Wall sit quest";
+                questText = "Wall sit quest";
                 requirementUnit  = " minutes";
                 break;
             case DISTANCE:
                 requirement = distanceDifficulty[difficultyLevel];
-                description = "Distance quest";
+                questText = "Distance quest";
                 requirementUnit  = " meters";
                 break;
             case STEPS:
                 requirement = stepsDifficulty[difficultyLevel];
-                description = "Step quest";
+                questText = "Step quest";
                 requirementUnit  = " steps";
                 break;
             case WATER:
                 requirement = waterDifficulty[difficultyLevel];
-                description = "Water quest";
+                questText = "Water quest";
                 //TODO: Requirement can be more than one day
                 requirementUnit  = " glasses of water a day";
                 break;
             case CALORIES:
                 requirement = caloriesDifficulty[difficultyLevel];
-                description = "Calorie quest";
+                questText = "Calorie quest";
                 requirementUnit  = " kilocalories to burn";
                 break;
             case REST:
                 requirement = restDifficulty[difficultyLevel];
-                description = "Rest quest";
+                questText = "Rest quest";
                 //TODO: Requirement can be more than one day
                 requirementUnit  = " nights at least 8 hours of sleep";
                 break;
@@ -119,12 +125,70 @@ public class Quest{
         return rewardExp;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
+    public String getQuestText(){
+        return questText;
+    }
+
+    //We don't need this if we use adapter
     public String toString(){
-        return description + "\nGoal: " + requirement + requirementUnit;
+        return type + "," + difficultyLevel + "," + description;
+    }
+
+    public Quest(String questAsString){
+        String[] s = questAsString.split(",");
+        type = questType.valueOf(s[0]);
+        difficultyLevel = Integer.parseInt(s[1]);
+        description = s[2];
+
+        rewardGold = goldRewards[difficultyLevel];
+        rewardExp = expRewards[difficultyLevel];
+        progress = 0;
+
+        switch (type){
+            case PUSHUPS:
+                requirement = pushUpDifficulty[difficultyLevel];
+                requirementUnit  = " reps";
+                break;
+            case SITUPS:
+                requirement = sitUpDifficulty[difficultyLevel];
+                requirementUnit  = " reps";
+                break;
+            case SQUATS:
+                requirement = squatsDifficulty[difficultyLevel];
+                requirementUnit  = " reps";
+                break;
+            case WALLSIT:
+                requirement = wallSitDifficulty[difficultyLevel];
+                requirementUnit  = " minutes";
+                break;
+            case DISTANCE:
+                requirement = distanceDifficulty[difficultyLevel];
+                requirementUnit  = " meters";
+                break;
+            case STEPS:
+                requirement = stepsDifficulty[difficultyLevel];
+                requirementUnit  = " steps";
+                break;
+            case WATER:
+                requirement = waterDifficulty[difficultyLevel];
+                //TODO: Requirement can be more than one day
+                requirementUnit  = " glasses of water a day";
+                break;
+            case CALORIES:
+                requirement = caloriesDifficulty[difficultyLevel];
+                requirementUnit  = " kilocalories to burn";
+                break;
+            case REST:
+                requirement = restDifficulty[difficultyLevel];
+                //TODO: Requirement can be more than one day
+                requirementUnit  = " nights at least 8 hours of sleep";
+                break;
+        }
+
     }
 
 }

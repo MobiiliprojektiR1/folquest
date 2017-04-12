@@ -18,12 +18,26 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/buttonBack" />
 
-    <TextView
-        android:text="WELCOME TO SETTINGS"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="115dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="107dp"
-        android:id="@+id/textView2" />
+        android:layout_toStartOf="@+id/buttonBack">
+
+        <Button
+            android:id="@+id/buttonMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male" />
+
+        <Button
+            android:id="@+id/buttonFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female" />
+
+
+    </LinearLayout>
+
 </RelativeLayout>

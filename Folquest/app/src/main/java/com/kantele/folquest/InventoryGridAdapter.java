@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -54,6 +55,7 @@ public class InventoryGridAdapter extends BaseAdapter{
 
             ImageView imageView = (ImageView) gridView.findViewById(R.id.itemImageButton);
             imageView.setImageResource(R.mipmap.ic_launcher);
+
         } else {
             gridView = (View) view;
         }
