@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by Janne ( ͡° ͜ʖ ͡°) on 27.3.2017.
  */
 
-public class QuestBoardAdapter extends BaseAdapter implements ListAdapter{
+public class QuestBoardAdapter extends BaseAdapter {
 
 
     private View listView;
@@ -31,28 +31,25 @@ public class QuestBoardAdapter extends BaseAdapter implements ListAdapter{
     public QuestBoardAdapter(Context context, ArrayList<Quest> questListValues) {
         this.context = context;
         this.questListValues = questListValues;
-        Log.d("TAG_QUESTLIST", questListValues + "");
     }
 
     @Override
     public int getCount() {
-        Log.d("TAG_QUESTLIST", "getCount()");
         return questListValues.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return questListValues.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return questListValues.indexOf(getItem(position));
     }
 
 
     public void deleteItem (int position) {
-        Log.d("TAG_QUESTLIST", questListValues.get(position) +"");
         questListValues.remove(position);
         this.notifyDataSetChanged();
     }
@@ -68,17 +65,16 @@ public class QuestBoardAdapter extends BaseAdapter implements ListAdapter{
             listView = new View(context);
             listView = inflater.inflate(R.layout.quest_board_quest, null);
 
-            TextView decriptionText = (TextView) listView.findViewById(R.id.questDescriptionTextView);
-            decriptionText.setText(questListValues.get(position).getDescription());
-
-            TextView goalText = (TextView) listView.findViewById(R.id.questGoal);
-            goalText.setText(questListValues.get(position).toString());
-
-
-
         } else {
             listView = (View) view;
         }
+
+        TextView decriptionText = (TextView) listView.findViewById(R.id.questDescriptionTextView);
+        decriptionText.setText(questListValues.get(position).getDescription());
+
+        TextView goalText = (TextView) listView.findViewById(R.id.questGoal);
+        goalText.setText(questListValues.get(position).toString());
+
         Button discardQuest = (Button) listView.findViewById(R.id.discardQuestButton);
         discardQuest.setOnClickListener(new View.OnClickListener() {
             @Override
