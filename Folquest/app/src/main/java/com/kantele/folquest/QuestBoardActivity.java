@@ -69,6 +69,13 @@ public class QuestBoardActivity extends AppCompatActivity {
         });
     }
 
+    public void addQuest(int itemPosition) {
+        if(controller.activeQuests.size() < controller.maximumQuests) {
+            Log.d("QUESTADAPTER", "Quest accepted!");
+            controller.addQuest(controller.availableQuests.get(itemPosition));
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
