@@ -115,6 +115,7 @@ public class Quest implements Serializable{
     public int getProgress(){
         return progress;
     }
+
     public void setProgress( int newProgress ) { this.progress = newProgress; }
 
     public long getRewardGold(){

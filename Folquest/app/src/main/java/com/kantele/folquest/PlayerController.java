@@ -1,26 +1,15 @@
 package com.kantele.folquest;
 
 import android.app.Application;
-
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Base64;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-import android.content.SharedPreferences;
-import android.widget.Toast;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
-import java.util.SortedSet;
 
 /**
  * Created by Teemu on 23.3.2017.
@@ -39,20 +28,22 @@ public class PlayerController extends Application{
 
     SharedPreferences sharedpreferences;
 
+    public static final String FTS = "ftsKey";
+
     public static final String Gold = "goldKey";
     public static final String Exp = "expKey";
     public static final String Level = "levelKey";
+    public static final String Gender = "genderKey";
     public static final String ActiveQuests = "activeQuestsKey";
     public static final String AvailableQuests = "availableQuestsKey";
 
 
     //Variables
+    public Boolean firstTimeState = true;
 
     /**
      * Item variables start
      */
-
-    public Boolean firstTimeState = false;
 
     ItemList itemList = new ItemList();
 
@@ -74,13 +65,19 @@ public class PlayerController extends Application{
     /**
      * PLAYER LEVEL CAPS
      */
-    //Player levels 1-20        1,       2,      3,      4,      5,      6,      7,        8,       9,       10,     11,     12,     13,     14,     15,     16,     17,     18,     19,     20,
-    int PlayerLevels[]   =  {   100,     200,    500,    750,    1000,   1500,   3000,     5000,    7500,    10000,  12500,  15000,  20000,  25000,  35000,  50000,  80000,  130000, 180000, 250000 }; //exp
 
-    int levelModifier = 1;
+    //Player levels 1-20        1,       2,      3,      4,      5,      6,      7,        8,       9,       10,
+    //                          11,      12,     13,     14,     15,     16,     17,       18,      19,      20,
+    //                          21,      22,     23,     24,     25,     26,     27,       28,      29,      30;
+
+    int PlayerLevels[]   =  {   100,     200,    500,    750,    1000,   1500,   3000,     5000,    7500,    10000,
+                                12500,   15000,  20000,  25000,  35000,  50000,  80000,    130000,  180000,  250000,
+                                250000,  400000, 400000, 600000, 600000, 800000, 800000,   1000000, 1000000, 1000000 }; //exp
+
+    int levelModifier;
   
-    //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
-    boolean isBoy = false;
+    //GET PLAYER GOLD, EXP, LVL, GENDER AND QUESTS //TODO: GET PLAYERS OWNED AND WORN CLOTHING!
+    boolean isBoy;
 
     long playerGold;
     long playerExp;
@@ -292,9 +289,26 @@ public class PlayerController extends Application{
      * Quest board methods
      */
 
+    double mapLevelModifier(double x, double in_min, double in_max, double out_min, double out_max)
+    {
+        return Math.round((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min);
+    }
+
+    int createRandomLevelModifier() {
+        Random randomGenerator = new Random();
+        int randomInt = randomGenerator.nextInt(31);
+        double mappedLevelModifier = mapLevelModifier((getPlayerLvl() + randomInt), 0, 60, (-0.49), 5.49);
+        return (int) mappedLevelModifier;
+    }
+
     //Generate a quest for each type
     protected void createAvailableQuests() {
+
         for (questType type : questType.values()) {
+
+            levelModifier = createRandomLevelModifier();
+            Log.d("RNG", "Type: " + type + " LevelModifier: " + levelModifier);
+
             Boolean questActive = false;
             for (int i = 0; i < activeQuests.size(); i++) {
                 if (activeQuests.get(i).type == type)
@@ -336,12 +350,16 @@ public class PlayerController extends Application{
         long goldToSave = this.getPlayerGold();
         long expToSave = this.getPlayerExp();
         long levelToSave = this.getPlayerLvl();
+        boolean genderToSave = this.getPlayerGender();
+        boolean ftsToSave = this.firstTimeState;
 
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         editor.putLong(Gold, goldToSave);
         editor.putLong(Exp, expToSave);
         editor.putLong(Level, levelToSave);
+        editor.putBoolean(Gender, genderToSave);
+        editor.putBoolean(FTS, ftsToSave);
 
         if(activeQuests.size() > 0){
             Set<String> questsToSave = new HashSet<String>();
@@ -368,6 +386,9 @@ public class PlayerController extends Application{
         playerGold = sharedpreferences.getLong(Gold, 0);
         playerExp = sharedpreferences.getLong(Exp, 0);
         playerLvl = sharedpreferences.getLong(Level, 0);
+        isBoy = sharedpreferences.getBoolean(Gender, false);
+        firstTimeState = sharedpreferences.getBoolean(FTS, true);
+      
         activeQuests = new ArrayList<Quest>();
         availableQuests = new ArrayList<Quest>();
         if(sharedpreferences.getStringSet(ActiveQuests,null) !=null ){
