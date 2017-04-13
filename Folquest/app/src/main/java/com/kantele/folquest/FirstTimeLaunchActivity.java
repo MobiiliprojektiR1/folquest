@@ -29,6 +29,7 @@ public class FirstTimeLaunchActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     controller.setFirstTimeSavedState(false);
+                    controller.setPlayerGender(true);
                     Intent intent = new Intent(FirstTimeLaunchActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
@@ -38,6 +39,7 @@ public class FirstTimeLaunchActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     controller.setFirstTimeSavedState(false);
+                    controller.setPlayerGender(false);
                     Intent intent = new Intent(FirstTimeLaunchActivity.this, MainActivity.class);
                     startActivity(intent);
                 }

@@ -46,6 +46,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="L" />
+
+                <Button
+                    android:id="@+id/buttonFeetLeft"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="L" />
+
+                <Button
+                    android:id="@+id/buttonAccessoryLeft"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="L" />
             </LinearLayout>
 
             <LinearLayout
@@ -70,11 +82,6 @@
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/naishahmopohja" />
 
-                <ImageView
-                    android:id="@+id/feetImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/naishahmopohja" />
 
                 <ImageView
                     android:id="@+id/bottomImageView"
@@ -86,6 +93,19 @@
                     android:layout_width="400dp"
                     android:layout_height="600dp"
                     app:srcCompat="@drawable/naishahmopohja" />
+
+                <ImageView
+                    android:id="@+id/feetImageView"
+                    android:layout_width="400dp"
+                    android:layout_height="600dp"
+                    app:srcCompat="@drawable/naishahmopohja" />
+
+                <ImageView
+                    android:id="@+id/accessoryImageView"
+                    android:layout_width="400dp"
+                    android:layout_height="600dp"
+                    app:srcCompat="@drawable/naishahmopohja" />
+
                 </RelativeLayout>
             </LinearLayout>
 
@@ -136,6 +156,35 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.12"
                     android:text="Bottom"
+                    android:textAlignment="center"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/buttonFeetRight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="R" />
+
+                <TextView
+                    android:id="@+id/feetItemText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.12"
+                    android:text="Feet"
+                    android:textAlignment="center"
+                    android:visibility="gone" />
+                <Button
+                    android:id="@+id/buttonAccessoryRight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="R" />
+
+                <TextView
+                    android:id="@+id/accessoryItemText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.12"
+                    android:text="Accessory"
                     android:textAlignment="center"
                     android:visibility="gone" />
             </LinearLayout>
@@ -224,6 +273,48 @@
                         </GridLayout>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/inventoryFeetLayout">
+
+                            <GridView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/inventoryFeetGridView"
+                                android:numColumns="4"/>
+                        </GridLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/tab5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/inventoryAccessoryLayout">
+
+                            <GridView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/inventoryAccessoryGridView"
+                                android:numColumns="4"/>
+                        </GridLayout>
+
+                    </LinearLayout>
+
                 </FrameLayout>
             </LinearLayout>
         </TabHost>
