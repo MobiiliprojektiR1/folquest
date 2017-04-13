@@ -86,6 +86,18 @@ public class QuestBoardAdapter extends BaseAdapter {
             }
         });
 
+        Button acceptQuest = (Button) listView.findViewById(R.id.acceptQuestButton);
+        acceptQuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ListView", position+"");
+                if(context instanceof QuestBoardActivity) {
+                    ((QuestBoardActivity)context).addQuest(position);
+                    deleteItem(position);
+                }
+            }
+        });
+
         return listView;
     }
 }
