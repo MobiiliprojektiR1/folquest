@@ -170,15 +170,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
-    <Button
-        android:id="@+id/buttonUpdate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/statHolder"
-        android:layout_alignParentEnd="true"
-        android:layout_weight="1"
-        android:text="UPDATE"/>
-
 
     <ImageView
         android:id="@+id/characterImageView"
