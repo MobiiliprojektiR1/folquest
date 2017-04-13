@@ -42,8 +42,8 @@ public class PlayerController extends Application{
     public static final String Gold = "goldKey";
     public static final String Exp = "expKey";
     public static final String Level = "levelKey";
-    public static final String ActiveQuests = "activeQuestKey";
-
+    public static final String ActiveQuests = "activeQuestsKey";
+    public static final String AvailableQuests = "availableQuestsKey";
 
 
     //Variables
@@ -82,20 +82,6 @@ public class PlayerController extends Application{
     long playerGold;
     long playerExp;
     long playerLvl;
-
-    void loadSave() {
-        sharedpreferences = getSharedPreferences("SavedPreferences", Context.MODE_PRIVATE);
-        playerGold = sharedpreferences.getLong(Gold, 0);
-        playerExp = sharedpreferences.getLong(Exp, 0);
-        playerLvl = sharedpreferences.getLong(Level, 0);
-        activeQuests = new ArrayList<Quest>();
-        if(sharedpreferences.getStringSet(ActiveQuests,null) !=null ){
-            for (String str : sharedpreferences.getStringSet(ActiveQuests, null))
-                activeQuests.add(new Quest(str));
-        }
-    }
-
-
 
     //Quest tracking
     // TODO: GET ACTIVE QUESTS FROM A SAVE FILE
@@ -335,7 +321,32 @@ public class PlayerController extends Application{
 
             editor.putStringSet(ActiveQuests, questsToSave);
         }
+        if(availableQuests.size() > 0){
+            Set<String> questsToSave = new HashSet<String>();
+            for(int i = 0; i < availableQuests.size(); i++){
+                questsToSave.add(availableQuests.get(i).toString());
+            }
+
+            editor.putStringSet(AvailableQuests, questsToSave);
+        }
 
         editor.commit();
+    }
+
+    public void loadSave() {
+        sharedpreferences = getSharedPreferences("SavedPreferences", Context.MODE_PRIVATE);
+        playerGold = sharedpreferences.getLong(Gold, 0);
+        playerExp = sharedpreferences.getLong(Exp, 0);
+        playerLvl = sharedpreferences.getLong(Level, 0);
+        activeQuests = new ArrayList<Quest>();
+        availableQuests = new ArrayList<Quest>();
+        if(sharedpreferences.getStringSet(ActiveQuests,null) !=null ){
+            for (String str : sharedpreferences.getStringSet(ActiveQuests, null))
+                activeQuests.add(new Quest(str));
+        }
+        if(sharedpreferences.getStringSet(AvailableQuests,null) !=null ){
+            for (String str : sharedpreferences.getStringSet(AvailableQuests, null))
+                availableQuests.add(new Quest(str));
+        }
     }
 }
