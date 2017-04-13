@@ -1,13 +1,26 @@
 package com.kantele.folquest;
 
 import android.app.Application;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * Created by Teemu on 23.3.2017.
@@ -26,22 +39,20 @@ public class PlayerController extends Application{
 
     SharedPreferences sharedpreferences;
 
-    public static final String FTS = "ftsKey";
-
     public static final String Gold = "goldKey";
     public static final String Exp = "expKey";
     public static final String Level = "levelKey";
     public static final String ActiveQuests = "activeQuestKey";
-    public static final String Gender = "genderKey";
 
 
 
     //Variables
-    public Boolean firstTimeState = true;
 
     /**
      * Item variables start
      */
+
+    public Boolean firstTimeState = false;
 
     ItemList itemList = new ItemList();
 
@@ -69,7 +80,7 @@ public class PlayerController extends Application{
     int levelModifier = 1;
   
     //TODO: GET PLAYERGOLD AND PLAYEREXP FROM A SAVED VALUE FROM A DATABASE DATABASE BASE
-    boolean isBoy;
+    boolean isBoy = false;
 
     long playerGold;
     long playerExp;
@@ -80,11 +91,7 @@ public class PlayerController extends Application{
         playerGold = sharedpreferences.getLong(Gold, 0);
         playerExp = sharedpreferences.getLong(Exp, 0);
         playerLvl = sharedpreferences.getLong(Level, 0);
-        isBoy = sharedpreferences.getBoolean(Gender, false);
-        firstTimeState = sharedpreferences.getBoolean(FTS, true);
-
         activeQuests = new ArrayList<Quest>();
-
         if(sharedpreferences.getStringSet(ActiveQuests,null) !=null ){
             for (String str : sharedpreferences.getStringSet(ActiveQuests, null))
                 activeQuests.add(new Quest(str));
@@ -343,16 +350,12 @@ public class PlayerController extends Application{
         long goldToSave = this.getPlayerGold();
         long expToSave = this.getPlayerExp();
         long levelToSave = this.getPlayerLvl();
-        boolean genderToSave = this.getPlayerGender();
-        boolean ftsToSave = this.firstTimeState;
 
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         editor.putLong(Gold, goldToSave);
         editor.putLong(Exp, expToSave);
         editor.putLong(Level, levelToSave);
-        editor.putBoolean(Gender, genderToSave);
-        editor.putBoolean(FTS, ftsToSave);
 
         if(activeQuests.size() > 0){
             Set<String> questsToSave = new HashSet<String>();

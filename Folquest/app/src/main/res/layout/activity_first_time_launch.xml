@@ -52,6 +52,7 @@
         android:layout_alignBottom="@+id/buttonBoy"
         android:layout_toEndOf="@+id/buttonBoy" />
 
+
     <Button
         android:id="@+id/buttonContinue"
         android:layout_width="wrap_content"
@@ -60,4 +61,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp"
         android:text="Continue" />
+
 </RelativeLayout>
