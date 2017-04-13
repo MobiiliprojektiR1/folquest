@@ -15,10 +15,10 @@
         tools:layout_editor_absoluteX="126dp"
         tools:layout_editor_absoluteY="16dp"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView3" />
+        android:layout_alignStart="@+id/textView2" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Are you a boy or a girl?"
@@ -27,6 +27,14 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp" />
+
+    <TextView
+        android:id="@+id/textViewGenderHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="128dp" />
 
     <Button
         android:id="@+id/buttonBoy"
@@ -52,7 +60,6 @@
         android:layout_alignBottom="@+id/buttonBoy"
         android:layout_toEndOf="@+id/buttonBoy" />
 
-
     <Button
         android:id="@+id/buttonContinue"
         android:layout_width="wrap_content"
@@ -61,5 +68,4 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp"
         android:text="Continue" />
-
 </RelativeLayout>
