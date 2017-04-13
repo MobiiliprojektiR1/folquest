@@ -136,18 +136,18 @@ public class Quest implements Serializable{
 
     //We don't need this if we use adapter
     public String toString(){
-        return type + "," + difficultyLevel + "," + description;
+        return type + "," + difficultyLevel + "," + progress + "," + description;
     }
 
     public Quest(String questAsString){
         String[] s = questAsString.split(",");
         type = questType.valueOf(s[0]);
         difficultyLevel = Integer.parseInt(s[1]);
-        description = s[2];
+        progress = Integer.parseInt(s[2]);
+        description = s[3];
 
         rewardGold = goldRewards[difficultyLevel];
         rewardExp = expRewards[difficultyLevel];
-        progress = 0;
 
         switch (type){
             case PUSHUPS:

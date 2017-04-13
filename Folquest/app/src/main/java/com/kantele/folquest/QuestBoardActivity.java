@@ -61,28 +61,19 @@ public class QuestBoardActivity extends AppCompatActivity {
             }
         });
 
-        /*KAKKEA :D
-        buttonQuest1 = (Button) findViewById(R.id.buttonQuest1);
-
-        final Quest testQuest1 = new Quest(questType.SITUPS, 3);
-        buttonQuest1.setText(testQuest1.getQuestText() + ", req:" + testQuest1.getRequirement() + ", gold:" + testQuest1.getRewardGold() + ", exp:" + testQuest1.getRewardExp());
-
-        buttonQuest1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(PlayerController.activeQuests.size() < PlayerController.maximumQuests)
-                PlayerController.addQuest(testQuest1);
-            }
-        });
-        */
-
-
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 QuestBoardActivity.super.finish();
             }
         });
+    }
+
+    public void addQuest(int itemPosition) {
+        if(controller.activeQuests.size() < controller.maximumQuests) {
+            Log.d("QUESTADAPTER", "Quest accepted!");
+            controller.addQuest(controller.availableQuests.get(itemPosition));
+        }
     }
 
     @Override
