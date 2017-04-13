@@ -94,7 +94,11 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
 
         /* Adding defaults items when the game is started, these have to be in the database from the start! */
-            controller.addDefaultItems();
+            if (controller.isBoy) {
+                controller.addDefaultItemsForBoy();
+            } else  {
+                controller.addDefaultItemsForGirl();
+            }
 
             //adding some items for demo
 
@@ -114,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             controller.addItem(itemList.feetBlackBoots);
 
             // Accessories
-            controller.addItem(itemList.accessoryNone);
+            controller.addItem(itemList.accessorySword);
 
         /* Set the default items, this will be modified later */
             controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));

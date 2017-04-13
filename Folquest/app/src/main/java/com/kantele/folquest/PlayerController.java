@@ -283,9 +283,9 @@ public class PlayerController extends Application{
     }
 
     /* Adding defaults items when the game is started, these have to be in the database from the start! */
-    public void addDefaultItems() {
+    public void addDefaultItemsForGirl() {
 
-        addItem(itemList.defaultHead);
+        addItem(itemList.defaultHeadGirl);
         addItem(itemList.defaultTorso);
         addItem(itemList.defaultBottom);
         addItem(itemList.defaultFeet);
@@ -293,7 +293,11 @@ public class PlayerController extends Application{
     }
 
     public void addDefaultItemsForBoy() {
-        
+        addItem(itemList.defaultHeadBoy);
+        addItem(itemList.defaultTorso);
+        addItem(itemList.defaultBottom);
+        addItem(itemList.defaultFeet);
+        addItem(itemList.accessoryNone);
     }
 
     /**
