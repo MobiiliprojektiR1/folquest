@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         if (isFirstTime) {
             Intent intent = new Intent(MainActivity.this, FirstTimeLaunchActivity.class);
             startActivity(intent);
+            controller.clearItems();
         }
 
 
@@ -100,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
             // Head
             controller.addItem(itemList.headBald);
-            controller.addItem(itemList.headBoy);
             controller.addItem(itemList.headBunches);
 
             // Torso
