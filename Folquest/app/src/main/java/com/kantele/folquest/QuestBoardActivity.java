@@ -1,5 +1,6 @@
 package com.kantele.folquest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -57,6 +59,16 @@ public class QuestBoardActivity extends AppCompatActivity {
                     questBoardAdapter.remove(controller.availableQuests.get(position));
                     questListView.deferNotifyDataSetChanged();
                 }else;*/
+
+                /*if(questBoardAdapter.visibility){
+                    questBoardAdapter.visibility = false;
+                    questBoardAdapter.hideButtons(position);
+
+                } else {
+                    questBoardAdapter.visibility = true;
+                    questBoardAdapter.hideButtons(position);
+
+                }*/
                 Log.d("ListView", position+"");
             }
         });
@@ -69,9 +81,16 @@ public class QuestBoardActivity extends AppCompatActivity {
         });
     }
 
+    public void removeQuest(int itemPosition){
+        //TODO: remove the quest by name or something, not possible by the position!!
+        controller.activeQuests.remove(itemPosition);
+        Log.d("QuestBoard", "Quest " + itemPosition+"" + " removed!");
+    }
+
     public void addQuest(int itemPosition) {
+
         if(controller.activeQuests.size() < controller.maximumQuests) {
-            Log.d("QUESTADAPTER", "Quest accepted!");
+            Log.d("QuestBoard", "Quest " + itemPosition+"" + " accepted!");
             controller.addQuest(controller.availableQuests.get(itemPosition));
         }
     }
