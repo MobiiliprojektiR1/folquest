@@ -268,15 +268,30 @@ public class PlayerController extends Application{
     /* Adding defaults items when the game is started, these have to be in the database from the start! */
     public void addDefaultItems() {
 
-        addItem(itemList.defaultHead);
-        addItem(itemList.defaultTorso);
-        addItem(itemList.defaultBottom);
-        addItem(itemList.defaultFeet);
-        addItem(itemList.accessoryNone);
+        if (isBoy) {
+            addItem(itemList.defaultHeadBoy);
+            addItem(itemList.defaultTorso);
+            addItem(itemList.defaultBottom);
+            addItem(itemList.defaultFeet);
+            addItem(itemList.accessorySword);
+            Log.d("Boy_clothes", "You have boy clothes.");
+        } else {
+            addItem(itemList.defaultHeadGirl);
+            addItem(itemList.defaultTorso);
+            addItem(itemList.defaultBottom);
+            addItem(itemList.defaultFeet);
+            addItem(itemList.accessoryNone);
+            Log.d("Girl_clothes", "You have girl clothes.");
+        }
     }
 
-    public void addDefaultItemsForBoy() {
-        
+    public void clearItems() {
+        ownedHeadItems = null;
+        ownedTorsoItems = null;
+        ownedBottomItems = null;
+        ownedFeetItems = null;
+        ownedAccessoryItems = null;
+        Log.d("clear_items", "You cleared all your items.");
     }
 
     /**

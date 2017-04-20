@@ -25,7 +25,7 @@
             android:text="TextView" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/itemImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_alignParentBottom="true"
@@ -66,12 +66,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:id="@+id/inventoryHeadLayout">
+                            android:id="@+id/shopHeadLayout">
 
                             <GridView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:id="@+id/inventoryHeadGridView"
+                                android:id="@+id/shopHeadGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
 
@@ -87,12 +87,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:id="@+id/inventoryTorsoLayout">
+                            android:id="@+id/shopTorsoLayout">
 
                             <GridView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:id="@+id/inventoryTorsoGridView"
+                                android:id="@+id/shopTorsoGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
 
@@ -108,12 +108,52 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:id="@+id/inventoryBottomLayout">
+                            android:id="@+id/shopBottomLayout">
 
                             <GridView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:id="@+id/inventoryBottomGridView"
+                                android:id="@+id/shopBottomGridView"
+                                android:numColumns="4"/>
+                        </GridLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/tab4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/shopFootLayout">
+
+                            <GridView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/shopFootGridView"
+                                android:numColumns="4"/>
+                        </GridLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/tab3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/shopAccessoryLayout">
+
+                            <GridView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/shopAccessoryGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
 

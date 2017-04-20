@@ -44,6 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
         buttonMale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                controller.clearItems();
                 controller.setPlayerGender(true);
             }
         });
@@ -51,6 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
         buttonFemale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                controller.clearItems();
                 controller.setPlayerGender(false);
             }
         });

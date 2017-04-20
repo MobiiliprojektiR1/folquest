@@ -5,6 +5,9 @@ import android.graphics.Bitmap;
 import com.kantele.folquest.Item;
 import com.kantele.folquest.R;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 class ItemList {
 
     private static final int HEAD = 0;
@@ -13,7 +16,10 @@ class ItemList {
     private static final int FEET = 3;
     private static final int OTHER = 4;
 
-    Item defaultHead = new Item(HEAD, "default_hair_woman", "Default Head", "Your default hair");
+    public ArrayList<Item> allItems = new ArrayList<>();
+
+    Item defaultHeadGirl = new Item(HEAD, "default_hair_woman", "Default Head", "Your default hair");
+    Item defaultHeadBoy = new Item(HEAD, "default_hair_man", "Default Head", "Male default hair");
     Item defaultTorso = new Item(TORSO, "default_torso", "Dirty rags", "Your default torso");
     Item defaultBottom = new Item(BOTTOM, "default_bottom", "Default Pants", "Your default bottom");
     Item defaultFeet = new Item(FEET, "default_feet", "Boots", "Your default boots");

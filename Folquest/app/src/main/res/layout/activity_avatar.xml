@@ -82,6 +82,11 @@
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/naishahmopohja" />
 
+                <ImageView
+                    android:id="@+id/feetImageView"
+                    android:layout_width="400dp"
+                    android:layout_height="600dp"
+                    app:srcCompat="@drawable/naishahmopohja" />
 
                 <ImageView
                     android:id="@+id/bottomImageView"
@@ -94,11 +99,6 @@
                     android:layout_height="600dp"
                     app:srcCompat="@drawable/naishahmopohja" />
 
-                <ImageView
-                    android:id="@+id/feetImageView"
-                    android:layout_width="400dp"
-                    android:layout_height="600dp"
-                    app:srcCompat="@drawable/naishahmopohja" />
 
                 <ImageView
                     android:id="@+id/accessoryImageView"

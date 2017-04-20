@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         if (isFirstTime) {
             Intent intent = new Intent(MainActivity.this, FirstTimeLaunchActivity.class);
             startActivity(intent);
+            controller.clearItems();
         }
 
         setContentView(R.layout.activity_main);
@@ -288,6 +289,13 @@ public class MainActivity extends AppCompatActivity {
         textViewGold.setText("" + controller.getPlayerGold());
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        drawEquippedItems();
+    }
 
     @Override
     protected void onResume() {
