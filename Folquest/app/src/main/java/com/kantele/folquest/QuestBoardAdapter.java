@@ -98,8 +98,8 @@ public class QuestBoardAdapter extends BaseAdapter {
             view = (LinearLayout) inflater.inflate(R.layout.quest_board_quest, viewGroup, false);
         }
 
-        TextView decriptionText = (TextView) view.findViewById(R.id.questDescriptionTextView);
-        decriptionText.setText(questListValues.get(position).getDescription());
+       /* TextView decriptionText = (TextView) view.findViewById(R.id.questDescriptionTextView);
+        decriptionText.setText(questListValues.get(position).getDescription());*/
 
         TextView goalText = (TextView) view.findViewById(R.id.questGoal);
         goalText.setText(questListValues.get(position).toString());
@@ -127,7 +127,7 @@ public class QuestBoardAdapter extends BaseAdapter {
                 if(context instanceof QuestBoardActivity) {
                     if(questListValues.get(position).isQuestActive()) {
                         questListValues.get(position).setQuestActive(false);
-                        ((QuestBoardActivity)context).removeQuest(position);
+                        ((QuestBoardActivity)context).removeQuest(questListValues.get(position));
                         toggleCheckBoxImage(position);
                     } else {
                         ((QuestBoardActivity)context).addQuest(position);
@@ -140,6 +140,8 @@ public class QuestBoardAdapter extends BaseAdapter {
 
         if(questListValues.get(position).isQuestActive()){
             acceptQuest.setBackgroundResource(R.mipmap.check_icon_104x96px);
+        } else {
+            acceptQuest.setBackgroundResource(R.mipmap.unchecked_icon_96x96px);
         }
 
         return view;

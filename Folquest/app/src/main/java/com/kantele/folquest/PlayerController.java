@@ -321,10 +321,15 @@ public class PlayerController extends Application{
             if (!questActive)
                 availableQuests.add(new Quest(type, levelModifier));
         }*/
-       if(availableQuests.size() >= 0 && availableQuests.size() <= 3)
-        availableQuests.add(new Quest(questType.WALLSIT, levelModifier));
-        availableQuests.add(new Quest(questType.DISTANCE, levelModifier));
-        availableQuests.add(new Quest(questType.STEPS, levelModifier));
+       //Testausta varten laitetaan vaan 3 questia tälleen
+       if(availableQuests.size() == 0) {
+           Log.d("PlayerController", "Avaivable quest EI täynnä" + availableQuests.size() + "");
+           availableQuests.add(new Quest(questType.WALLSIT, levelModifier));
+           availableQuests.add(new Quest(questType.DISTANCE, levelModifier));
+           availableQuests.add(new Quest(questType.STEPS, levelModifier));
+       } else {
+           Log.d("PlayerController", "Avaivable quest täynnä" + availableQuests.size() + "");
+       }
     }
 
     /**

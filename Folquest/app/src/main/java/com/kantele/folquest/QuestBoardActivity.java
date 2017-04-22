@@ -73,6 +73,9 @@ public class QuestBoardActivity extends AppCompatActivity {
             }
         });
 
+        questListView.setDivider(null);
+        questListView.setDividerHeight(0);
+
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,10 +84,10 @@ public class QuestBoardActivity extends AppCompatActivity {
         });
     }
 
-    public void removeQuest(int itemPosition){
-        //TODO: remove the quest by name or something, not possible by the position!!
-        controller.activeQuests.remove(itemPosition);
-        Log.d("QuestBoard", "Quest " + itemPosition+"" + " removed!");
+    public void removeQuest(Quest quest){
+        //TODO: remove the quest by name or something, not possible by the position!! <- probably fixed
+        controller.activeQuests.remove(quest);
+        Log.d("QuestBoard", "Quest " + quest +"" + " removed!");
     }
 
     public void addQuest(int itemPosition) {
