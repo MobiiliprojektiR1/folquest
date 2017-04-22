@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
     Boolean isFirstTime;
 
+    Boolean dialogShown = false;
+
 
 
 
@@ -179,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         buildFitnessClient();
 
         //PERMISSION REQUESTS ON LAUNCH
-        CheckPermissionsAndSyncData();
+ //       CheckPermissionsAndSyncData();
     }
 
     public void CheckPermissionsAndSyncData() {
@@ -188,19 +190,7 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
 
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-                alertBuilder.setCancelable(true);
-                alertBuilder.setTitle("Location permission necessary");
-                alertBuilder.setMessage("Folquest needs permission to access fine location in order to be able to sync your fitness data from Google Fit.\nThis is necessary for the in game quests.");
-                alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
-                    }
-                });
-
-                AlertDialog alert = alertBuilder.create();
-                alert.show();
+                createAlertDialog();
 
                 //ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
             } else {
@@ -211,6 +201,26 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private void createAlertDialog() {
+
+        if (dialogShown == false) {
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+            alertBuilder.setCancelable(true);
+            alertBuilder.setTitle("Location permission necessary");
+            alertBuilder.setMessage("Folquest needs permission to access fine location in order to be able to sync your fitness data from Google Fit.\nThis is necessary for the in game quests.");
+            alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
+                }
+            });
+
+            AlertDialog alert = alertBuilder.create();
+            alert.show();
+            dialogShown = true;
+        }
     }
 
 
@@ -334,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onConnected(Bundle bundle) {
                                     Log.i(TAG, "Connected successfully!");
                                     // Now you can make calls to the Fitness APIs.
-                                    //Async To fetch steps
+                                    // Async To fetch steps
                                 }
 
                                 @Override
