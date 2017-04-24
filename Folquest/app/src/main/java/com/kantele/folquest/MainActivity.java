@@ -1,9 +1,13 @@
 package com.kantele.folquest;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -31,6 +36,7 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     PlayerController controller;
 
     Boolean isFirstTime;
+
+    Boolean dialogShown = false;
 
 
 
@@ -108,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
         //Show the images of equipped items
         drawEquippedItems();
 
+        // UPDATE BG
+        backgroundUpdate();
+
 
         //Setting Buttons and TextViews
         buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
@@ -134,21 +145,6 @@ public class MainActivity extends AppCompatActivity {
 
         setPlayerStats();
 
-        /* adapt the image to the size of the display */
-        /*
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
-        Bitmap bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
-                getResources(),R.drawable.maisema),(size.x/2),(size.y/2), true);
-        */
-
-        /* fill the background ImageView with the resized image */
-        /*
-        ImageView iv_background = (ImageView) findViewById(R.id.iv_background);
-        iv_background.setImageBitmap(bmp);
-        */
 
         //BUTTON FUNCTIONALITIES
         buttonAvatar.setOnClickListener(new View.OnClickListener() {
@@ -179,8 +175,9 @@ public class MainActivity extends AppCompatActivity {
         buildFitnessClient();
 
         //PERMISSION REQUESTS ON LAUNCH
-        CheckPermissionsAndSyncData();
+ //       CheckPermissionsAndSyncData();
     }
+
 
     public void CheckPermissionsAndSyncData() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -188,19 +185,7 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
 
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-                alertBuilder.setCancelable(true);
-                alertBuilder.setTitle("Location permission necessary");
-                alertBuilder.setMessage("Folquest needs permission to access fine location in order to be able to sync your fitness data from Google Fit.\nThis is necessary for the in game quests.");
-                alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
-                    }
-                });
-
-                AlertDialog alert = alertBuilder.create();
-                alert.show();
+                createAlertDialog();
 
                 //ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
             } else {
@@ -211,6 +196,26 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private void createAlertDialog() {
+
+        if (dialogShown == false) {
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+            alertBuilder.setCancelable(true);
+            alertBuilder.setTitle("Location permission necessary");
+            alertBuilder.setMessage("Folquest needs permission to access fine location in order to be able to sync your fitness data from Google Fit.\nThis is necessary for the in game quests.");
+            alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
+                }
+            });
+
+            AlertDialog alert = alertBuilder.create();
+            alert.show();
+            dialogShown = true;
+        }
     }
 
 
@@ -268,6 +273,54 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    public void backgroundUpdate() {
+        Activity activity = this;
+
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+
+                /* adapt the image to the size of the display */
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+
+                Bitmap bmp_morning = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                        getResources(),R.drawable.bg_morning),(size.x),(size.y), true);
+
+                Bitmap bmp_day = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                        getResources(),R.drawable.bg_day),(size.x),(size.y), true);
+
+                Bitmap bmp_evening = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                        getResources(),R.drawable.bg_evening),(size.x),(size.y), true);
+
+                Bitmap bmp_night = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                        getResources(),R.drawable.bg_night),(size.x),(size.y), true);
+
+
+                /* fill the background ImageView with the resized image */
+                ImageView iv_background = (ImageView) findViewById(R.id.iv_background);
+
+                // CHECK BG ACCORDING TO TIME! //
+                Calendar c = Calendar.getInstance();
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+
+                if (hour <= 6 ) {
+                    iv_background.setImageBitmap(bmp_night);
+                } else if (hour > 6 && hour < 11) {
+                    iv_background.setImageBitmap(bmp_morning);
+                } else if (hour >= 11 && hour < 18) {
+                    iv_background.setImageBitmap(bmp_day);
+                } else if (hour >= 18 && hour < 22) {
+                    iv_background.setImageBitmap(bmp_evening);
+                } else if (hour >= 22) {
+                    iv_background.setImageBitmap(bmp_night);
+                }
+            }
+        });
+    }
+
+
     public void drawAvatar(){
 
         if (controller.getPlayerGender() == true) {
@@ -299,6 +352,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Draw equipped items
         drawEquippedItems();
+
+        // Draw backgroud according to clock
+        backgroundUpdate();
+
 
         // This ensures that if the user denies the permissions then uses Settings to re-enable
         // them, the app will start working.
@@ -334,7 +391,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onConnected(Bundle bundle) {
                                     Log.i(TAG, "Connected successfully!");
                                     // Now you can make calls to the Fitness APIs.
-                                    //Async To fetch steps
+                                    // Async To fetch steps
                                 }
 
                                 @Override

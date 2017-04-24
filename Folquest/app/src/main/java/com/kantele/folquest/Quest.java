@@ -47,6 +47,16 @@ public class Quest implements Serializable{
     protected String requirementUnit;
     protected String description;
 
+    public boolean isQuestActive() {
+        return questActive;
+    }
+
+    public void setQuestActive(boolean questActive) {
+        this.questActive = questActive;
+    }
+
+    protected boolean questActive = false;
+
 
     //Methods
     public Quest(questType newType, int newDifficultyLevel){

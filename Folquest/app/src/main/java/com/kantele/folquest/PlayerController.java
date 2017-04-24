@@ -310,7 +310,7 @@ public class PlayerController extends Application{
     //Generate a quest for each type
     protected void createAvailableQuests() {
 
-        for (questType type : questType.values()) {
+       /* for (questType type : questType.values()) {
 
             levelModifier = createRandomLevelModifier();
             Log.d("RNG", "Type: " + type + " LevelModifier: " + levelModifier);
@@ -326,7 +326,11 @@ public class PlayerController extends Application{
             }
             if (!questActive)
                 availableQuests.add(new Quest(type, levelModifier));
-        }
+        }*/
+       if(availableQuests.size() >= 0 && availableQuests.size() <= 3)
+        availableQuests.add(new Quest(questType.WALLSIT, levelModifier));
+        availableQuests.add(new Quest(questType.DISTANCE, levelModifier));
+        availableQuests.add(new Quest(questType.STEPS, levelModifier));
     }
 
     /**
@@ -483,7 +487,7 @@ public class PlayerController extends Application{
             }
         }
 
-      
+      /*
         activeQuests = new ArrayList<Quest>();
         availableQuests = new ArrayList<Quest>();
         if(sharedpreferences.getStringSet(ActiveQuests,null) !=null ){
@@ -493,7 +497,7 @@ public class PlayerController extends Application{
         if(sharedpreferences.getStringSet(AvailableQuests,null) !=null ){
             for (String str : sharedpreferences.getStringSet(AvailableQuests, null))
                 availableQuests.add(new Quest(str));
-        }
+        }*/
     }
 
 }

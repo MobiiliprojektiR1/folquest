@@ -8,12 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Folquest
@@ -23,13 +27,17 @@ import java.util.ArrayList;
 public class QuestBoardAdapter extends BaseAdapter {
 
 
-    private View listView;
+    private View view;
+
+    public boolean visibility = true;
 
     private Context context;
     private ArrayList<Quest> questListValues;
-
+    Button discardQuest, acceptQuest;
+    LayoutInflater inflater;
     public QuestBoardAdapter(Context context, ArrayList<Quest> questListValues) {
         this.context = context;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.questListValues = questListValues;
     }
 
@@ -48,6 +56,16 @@ public class QuestBoardAdapter extends BaseAdapter {
         return questListValues.indexOf(getItem(position));
     }
 
+    public void hideButtons(int position){
+        if (!visibility) {
+            acceptQuest.setVisibility(View.GONE);
+            discardQuest.setVisibility(View.GONE);
+        } else {
+            acceptQuest.setVisibility(View.VISIBLE);
+            discardQuest.setVisibility(View.VISIBLE);
+        }
+        this.notifyDataSetChanged();
+    }
 
     public void deleteItem (int position) {
         questListValues.remove(position);
@@ -55,28 +73,40 @@ public class QuestBoardAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, final View view, ViewGroup viewGroup) {
+    public int getViewTypeCount() {
+        return getCount();
+    }
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
-
-
-        if(view == null) {
-            listView = new View(context);
-            listView = inflater.inflate(R.layout.quest_board_quest, null);
-
+    void toggleCheckBoxImage(int position){
+        if(questListValues.get(position).isQuestActive()){
+            acceptQuest.setBackgroundResource(R.mipmap.check_icon_104x96px);
         } else {
-            listView = (View) view;
+            acceptQuest.setBackgroundResource(R.mipmap.unchecked_icon_96x96px);
+        }
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public View getView(final int position, final View convertView, ViewGroup viewGroup) {
+        LinearLayout view = (LinearLayout) convertView;
+        if(view == null){
+            view = (LinearLayout) inflater.inflate(R.layout.quest_board_quest, viewGroup, false);
         }
 
-        TextView decriptionText = (TextView) listView.findViewById(R.id.questDescriptionTextView);
+        TextView decriptionText = (TextView) view.findViewById(R.id.questDescriptionTextView);
         decriptionText.setText(questListValues.get(position).getDescription());
 
-        TextView goalText = (TextView) listView.findViewById(R.id.questGoal);
+        TextView goalText = (TextView) view.findViewById(R.id.questGoal);
         goalText.setText(questListValues.get(position).toString());
 
-        Button discardQuest = (Button) listView.findViewById(R.id.discardQuestButton);
+        discardQuest = (Button) view.findViewById(R.id.discardQuestButton);
         discardQuest.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Log.d("ListView", position+"");
@@ -86,18 +116,79 @@ public class QuestBoardAdapter extends BaseAdapter {
             }
         });
 
-        Button acceptQuest = (Button) listView.findViewById(R.id.acceptQuestButton);
+        acceptQuest = (Button) view.findViewById(R.id.acceptQuestButton);
+
         acceptQuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("ListView", position+"");
+
+                //check that its the instance of quest board activity, to get the quest from quest board activity
                 if(context instanceof QuestBoardActivity) {
-                    ((QuestBoardActivity)context).addQuest(position);
-                    deleteItem(position);
+                    if(questListValues.get(position).isQuestActive()) {
+                        questListValues.get(position).setQuestActive(false);
+                        ((QuestBoardActivity)context).removeQuest(position);
+                        toggleCheckBoxImage(position);
+                    } else {
+                        ((QuestBoardActivity)context).addQuest(position);
+                        questListValues.get(position).setQuestActive(true);
+                        toggleCheckBoxImage(position);
+                    }
                 }
             }
         });
 
-        return listView;
+        if(questListValues.get(position).isQuestActive()){
+            acceptQuest.setBackgroundResource(R.mipmap.check_icon_104x96px);
+        }
+
+        return view;
+/*
+        Log.d("QuestAdapter", "getView()");
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        if(view == null) {
+            listView = new View(context);
+            listView = inflater.inflate(R.layout.quest_board_quest, null);
+
+        } else {
+            listView = (View) view;
+        }
+
+
+        TextView decriptionText = (TextView) listView.findViewById(R.id.questDescriptionTextView);
+        decriptionText.setText(questListValues.get(position).getDescription());
+
+        TextView goalText = (TextView) listView.findViewById(R.id.questGoal);
+        goalText.setText(questListValues.get(position).toString());
+
+        discardQuest = (Button) listView.findViewById(R.id.discardQuestButton);
+        discardQuest.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.d("ListView", position+"");
+                deleteItem(position);
+
+
+            }
+        });
+
+        acceptQuest = (CheckBox) listView.findViewById(R.id.acceptQuestButton);
+        acceptQuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ListView", position+"");
+                //check that its the instance of questboard activity, to get the quest ftom questboard activity
+                if(context instanceof QuestBoardActivity) {
+                    ((QuestBoardActivity)context).addQuest(position);
+                    //deleteItem(position);
+                }
+            }
+        });
+        Log.d("QuestAdapter", this.getItemId(position) + " AcceptQuest button visibility = " + acceptQuest.getVisibility()+"");
+        return listView;*/
     }
+
 }

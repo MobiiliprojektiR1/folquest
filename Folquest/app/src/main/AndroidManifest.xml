@@ -26,7 +26,8 @@
         <activity android:name=".QuestBoardActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".ShopActivity" />
-        <activity android:name=".FirstTimeLaunchActivity"></activity>
+        <activity android:name=".FirstTimeLaunchActivity" />
+        <activity android:name=".ExpandedQuestActivity"></activity>
     </application>
 
 </manifest>
