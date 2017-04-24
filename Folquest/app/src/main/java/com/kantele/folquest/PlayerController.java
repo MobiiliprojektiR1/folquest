@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
@@ -36,6 +37,11 @@ public class PlayerController extends Application{
     public static final String Gender = "genderKey";
     public static final String ActiveQuests = "activeQuestsKey";
     public static final String AvailableQuests = "availableQuestsKey";
+    public static final String OwnedHeadItems = "ownedHeadItemsKey";
+    public static final String OwnedTorsoItems = "ownedTorsoItemsKey";
+    public static final String OwnedBottomItems = "ownedBottomItemsKey";
+    public static final String OwnedFeetItems = "ownedFeetItemsKey";
+    public static final String OwnedAccessoryItems = "ownedAccessoryItemsKey";
 
 
     //Variables
@@ -347,19 +353,51 @@ public class PlayerController extends Application{
      */
 
     public void save(){
-        long goldToSave = this.getPlayerGold();
-        long expToSave = this.getPlayerExp();
-        long levelToSave = this.getPlayerLvl();
-        boolean genderToSave = this.getPlayerGender();
-        boolean ftsToSave = this.firstTimeState;
-
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
-        editor.putLong(Gold, goldToSave);
-        editor.putLong(Exp, expToSave);
-        editor.putLong(Level, levelToSave);
-        editor.putBoolean(Gender, genderToSave);
-        editor.putBoolean(FTS, ftsToSave);
+        ArrayList<Item> ownedItems = new ArrayList<>();
+        ownedItems.addAll(ownedHeadItems);
+        ownedItems.addAll(ownedTorsoItems);
+        ownedItems.addAll(ownedBottomItems);
+        ownedItems.addAll(ownedFeetItems);
+        ownedItems.addAll(ownedAccessoryItems);
+
+        editor.putLong(Gold, this.getPlayerGold());
+        editor.putLong(Exp, this.getPlayerExp());
+        editor.putLong(Level, this.getPlayerLvl());
+        editor.putBoolean(Gender, this.getPlayerGender());
+        editor.putBoolean(FTS, this.firstTimeState);
+
+
+        Set<String> headItemsToSave = new HashSet<String>();
+        for(int i = 0; i < ownedHeadItems.size(); i++){
+            headItemsToSave.add(ownedHeadItems.get(i).getItemId());
+        }
+        editor.putStringSet(OwnedHeadItems, headItemsToSave);
+
+        Set<String> torsoItemsToSave = new HashSet<String>();
+        for(int i = 0; i < ownedTorsoItems.size(); i++){
+            torsoItemsToSave.add(ownedTorsoItems.get(i).getItemId());
+        }
+        editor.putStringSet(OwnedTorsoItems, torsoItemsToSave);
+
+        Set<String> bottomItemsToSave = new HashSet<String>();
+        for(int i = 0; i < ownedBottomItems.size(); i++){
+            bottomItemsToSave.add(ownedBottomItems.get(i).getItemId());
+        }
+        editor.putStringSet(OwnedBottomItems, bottomItemsToSave);
+
+        Set<String> feetItemsToSave = new HashSet<String>();
+        for(int i = 0; i < ownedFeetItems.size(); i++){
+            feetItemsToSave.add(ownedFeetItems.get(i).getItemId());
+        }
+        editor.putStringSet(OwnedFeetItems, feetItemsToSave);
+
+        Set<String> accessoryItemsToSave = new HashSet<String>();
+        for(int i = 0; i < ownedAccessoryItems.size(); i++){
+            accessoryItemsToSave.add(ownedAccessoryItems.get(i).getItemId());
+        }
+        editor.putStringSet(OwnedAccessoryItems, accessoryItemsToSave);
 
         if(activeQuests.size() > 0){
             Set<String> questsToSave = new HashSet<String>();
@@ -388,6 +426,63 @@ public class PlayerController extends Application{
         playerLvl = sharedpreferences.getLong(Level, 0);
         isBoy = sharedpreferences.getBoolean(Gender, false);
         firstTimeState = sharedpreferences.getBoolean(FTS, true);
+
+        ownedHeadItems = new ArrayList<>();
+        ownedTorsoItems = new ArrayList<>();
+        ownedBottomItems = new ArrayList<>();
+        ownedFeetItems = new ArrayList<>();
+        ownedAccessoryItems = new ArrayList<>();
+
+        if(sharedpreferences.getStringSet(OwnedHeadItems,null) !=null ){
+            for (String str : sharedpreferences.getStringSet(OwnedHeadItems, null)) {
+                for (int i = 0; i < ItemList.itemList.size(); i++) {
+                    if (str.equals(ItemList.itemList.get(i).getItemId())) {
+                        addItem(ItemList.itemList.get(i));
+                    }
+                }
+            }
+        }
+
+        if(sharedpreferences.getStringSet(OwnedTorsoItems,null) !=null ){
+            for (String str : sharedpreferences.getStringSet(OwnedTorsoItems, null)) {
+                for (int i = 0; i < ItemList.itemList.size(); i++) {
+                    if (str.equals(ItemList.itemList.get(i).getItemId())) {
+                        addItem(ItemList.itemList.get(i));
+                    }
+                }
+            }
+        }
+
+        if(sharedpreferences.getStringSet(OwnedBottomItems,null) !=null ){
+            for (String str : sharedpreferences.getStringSet(OwnedBottomItems, null)) {
+                for (int i = 0; i < ItemList.itemList.size(); i++) {
+                    if (str.equals(ItemList.itemList.get(i).getItemId())) {
+                        addItem(ItemList.itemList.get(i));
+                    }
+                }
+            }
+        }
+
+        if(sharedpreferences.getStringSet(OwnedFeetItems,null) !=null ){
+            for (String str : sharedpreferences.getStringSet(OwnedFeetItems, null)) {
+                for (int i = 0; i < ItemList.itemList.size(); i++) {
+                    if (str.equals(ItemList.itemList.get(i).getItemId())) {
+                        addItem(ItemList.itemList.get(i));
+                    }
+                }
+            }
+        }
+
+        if(sharedpreferences.getStringSet(OwnedAccessoryItems,null) !=null ){
+            for (String str : sharedpreferences.getStringSet(OwnedAccessoryItems, null)) {
+                for (int i = 0; i < ItemList.itemList.size(); i++) {
+                    if (str.equals(ItemList.itemList.get(i).getItemId())) {
+                        addItem(ItemList.itemList.get(i));
+                    }
+                }
+            }
+        }
+
       
         activeQuests = new ArrayList<Quest>();
         availableQuests = new ArrayList<Quest>();
@@ -400,4 +495,5 @@ public class PlayerController extends Application{
                 availableQuests.add(new Quest(str));
         }
     }
+
 }
