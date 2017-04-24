@@ -304,7 +304,7 @@ public class PlayerController extends Application{
     //Generate a quest for each type
     protected void createAvailableQuests() {
 
-       /* for (questType type : questType.values()) {
+        for (questType type : questType.values()) {
 
             levelModifier = createRandomLevelModifier();
             Log.d("RNG", "Type: " + type + " LevelModifier: " + levelModifier);
@@ -320,16 +320,16 @@ public class PlayerController extends Application{
             }
             if (!questActive)
                 availableQuests.add(new Quest(type, levelModifier));
-        }*/
+        }
        //Testausta varten laitetaan vaan 3 questia tälleen
-       if(availableQuests.size() == 0) {
+       /*if(availableQuests.size() == 0) {
            Log.d("PlayerController", "Avaivable quest EI täynnä" + availableQuests.size() + "");
            availableQuests.add(new Quest(questType.WALLSIT, levelModifier));
            availableQuests.add(new Quest(questType.DISTANCE, levelModifier));
            availableQuests.add(new Quest(questType.STEPS, levelModifier));
        } else {
            Log.d("PlayerController", "Avaivable quest täynnä" + availableQuests.size() + "");
-       }
+       }*/
     }
 
     /**
@@ -397,7 +397,7 @@ public class PlayerController extends Application{
         playerLvl = sharedpreferences.getLong(Level, 0);
         isBoy = sharedpreferences.getBoolean(Gender, false);
         firstTimeState = sharedpreferences.getBoolean(FTS, true);
-      /*
+
         activeQuests = new ArrayList<Quest>();
         availableQuests = new ArrayList<Quest>();
         if(sharedpreferences.getStringSet(ActiveQuests,null) !=null ){
@@ -407,6 +407,6 @@ public class PlayerController extends Application{
         if(sharedpreferences.getStringSet(AvailableQuests,null) !=null ){
             for (String str : sharedpreferences.getStringSet(AvailableQuests, null))
                 availableQuests.add(new Quest(str));
-        }*/
+        }
     }
 }

@@ -26,7 +26,6 @@ import java.util.List;
 
 public class QuestBoardAdapter extends BaseAdapter {
 
-
     private View view;
 
     public boolean visibility = true;
@@ -133,6 +132,7 @@ public class QuestBoardAdapter extends BaseAdapter {
                         ((QuestBoardActivity)context).addQuest(position);
                         questListValues.get(position).setQuestActive(true);
                         toggleCheckBoxImage(position);
+
                     }
                 }
             }
