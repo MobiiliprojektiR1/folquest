@@ -5,26 +5,81 @@
     android:id="@+id/activity_quest_board"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2e5cb"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.kantele.folquest.QuestBoardActivity">
 
-    <ListView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/buttonBack"
-        android:id="@+id/questListView">
-    </ListView>
+        android:gravity="center"
+        android:orientation="vertical"
+        >
 
-    <Button
-        android:text="Back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/buttonBack" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:gravity="center_horizontal|center"
+            android:orientation="horizontal"
+            android:background="@mipmap/viiva">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="65dp"
+                android:layout_marginRight="36dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/buttonCoin"
+                    android:layout_width="39dp"
+                    android:layout_height="30dp"
+                    android:background="@mipmap/raha_iconi_156x120px" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:text="1234"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonBack"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginRight="36dp"
+                android:background="@mipmap/level_nelio_256x256px_questboard"
+                android:text="17" />
+
+            <Button
+                android:id="@+id/buttonAvatar"
+                android:layout_width="36dp"
+                android:layout_height="47dp"
+                android:background="@mipmap/hahamopaa_144x188px" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="267dp"
+            android:layout_height="49dp"
+            android:layout_margin="25dp"
+            android:background="@mipmap/puulankku_1068x196px"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="BillBoard"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textSize="27.5dp" />
+
+        <ListView
+            android:id="@+id/questListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"></ListView>
+    </LinearLayout>
+
 
 </RelativeLayout>
