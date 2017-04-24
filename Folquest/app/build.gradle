@@ -25,8 +25,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
-
+    wearApp project(':folquest2')
+    compile 'com.google.android.gms:play-services:10.2.0'
 
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
