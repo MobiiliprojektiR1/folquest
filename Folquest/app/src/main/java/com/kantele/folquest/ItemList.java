@@ -30,19 +30,32 @@ class ItemList {
     Item headBald   = new Item(HEAD, "head_bald", "Bald head", "Who needs helmet? or even hair");
     Item headBoy = new Item(HEAD, "default_hair_man", "Male Default Hair", "Nice and simple");
     Item headBunches = new Item(HEAD, "hair_bunches", "Ponytails", "Super cute and fearsome");
+    Item headVainamoinenGray = new Item(HEAD, "vainamoinen_long_gray", "Long hair", "For a true kantele player");
+    Item headVainamoinenBrown = new Item(HEAD, "vainamoinen_long_brown", "Long hair", "For a true kantele player");
+    Item headVainaGirlGray = new Item(HEAD, "vainamoinen_long_hair_gray", "Long hair", "For a true kantele player");
+    Item headVainaGirlBrown = new Item(HEAD, "vainamoinen_long_hair_brown", "Long hair", "For a true kantele player");
+    Item headLadyFinHair = new Item(HEAD, "ladyfin_hair", "Long hair with band", "Nice hair");
 
     // TORSO
     Item torsoBlueWoman = new Item(TORSO, "shirt_blue_woman", "Blue Knight Armor", "Nice armor");
     Item torsoBlueMan = new Item(TORSO, "shirt_man_blue", "Blue Knight Armor", "Nice armor");
+    Item torsoFinguyShirt = new Item(TORSO, "finguy_shirt", "White tunic", "Nice tunic");
+    Item torsoLadyfinDress = new Item(TORSO, "ladyfin_dress", "White dress", "Nice dress");
 
     //BOTTOM
     Item bottomBlueTrousers = new Item(BOTTOM, "legs_blue", "Jeans", "Jeans.");
+    Item bottomFinguyPants = new Item(BOTTOM, "finguy_pants", "Pants", "Just pants.");
+    Item bottomLadyfinPants = new Item(BOTTOM, "ladyfin_pants", "Pants", "Just pants. For women.");
 
     // FEET
     Item feetBlackBoots = new Item(FEET, "feet_black_boots", "Black Boots", "Nice and casual");
+    Item feetFinguyShoes = new Item(FEET, "finguy_shoe", "Woodboots", "Wood and casual");
+    Item feetLadyfinShoes = new Item(FEET, "ladyfin_shoe", "Woodshoes", "Nice and wood");
 
     // ACCESSORIES
-    Item accessorySword = new Item(OTHER, "accessory_sword", "Sword", "Slay those Dragon");
+    Item accessorySword = new Item(OTHER, "accessory_sword", "Sword", "Slay those Dragons");
+    Item accessoryAxe = new Item(OTHER, "axe", "Axe", "Axe those Dragons");
+    Item accessoryKantele = new Item(OTHER, "kantele", "Kantele", "Kantele those Dragons");
     Item accessoryNone = new Item(OTHER, "none", "No accessory", "No accessory");
 
 }

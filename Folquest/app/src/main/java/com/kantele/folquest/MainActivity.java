@@ -235,18 +235,35 @@ public class MainActivity extends AppCompatActivity implements
         controller.addItem(itemList.headBoy);
         controller.addItem(itemList.headBunches);
 
+        controller.addItem(itemList.headLadyFinHair);
+        controller.addItem(itemList.headVainaGirlBrown);
+        controller.addItem(itemList.headVainaGirlGray);
+        controller.addItem(itemList.headVainamoinenBrown);
+        controller.addItem(itemList.headVainamoinenGray);
+
         // Torso
         controller.addItem(itemList.torsoBlueWoman);
         controller.addItem(itemList.torsoBlueMan);
 
+        controller.addItem(itemList.torsoFinguyShirt);
+        controller.addItem(itemList.torsoLadyfinDress);
+
         // Bottom
         controller.addItem(itemList.bottomBlueTrousers);
 
+        controller.addItem(itemList.bottomLadyfinPants);
+        controller.addItem(itemList.bottomFinguyPants);
+
         // Boots
         controller.addItem(itemList.feetBlackBoots);
-
+        controller.addItem(itemList.feetFinguyShoes);
+        controller.addItem(itemList.feetLadyfinShoes);
+        
         // Accessories
         controller.addItem(itemList.accessoryNone);
+        controller.addItem(itemList.accessorySword);
+        controller.addItem(itemList.accessoryKantele);
+        controller.addItem(itemList.accessoryAxe);
 
         /* Set the default items, this will be modified later */
         controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));

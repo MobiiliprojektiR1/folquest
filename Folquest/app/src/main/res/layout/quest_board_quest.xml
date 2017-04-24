@@ -62,9 +62,9 @@
 -->
         <LinearLayout
             android:layout_width="318dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingBottom="25dp"
+            android:paddingBottom="10dp"
             android:paddingLeft="25dp">
 
             <TextView
@@ -72,11 +72,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textStyle="italic"
                 android:text="Good folk,You all surely know the well in the ruined village, and the devil that guards it with a fury.
 Whoever drives that monster away from the well will get a purse full of gold.-Odolan"
                 android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="italic" />
 
             <Button
                 android:id="@+id/acceptQuestButton"
