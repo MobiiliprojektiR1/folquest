@@ -2,6 +2,8 @@ package com.kantele.folquest;
 
 import android.graphics.Bitmap;
 
+import static com.kantele.folquest.ItemList.itemList;
+
 
 /**
  * Folquest
@@ -24,6 +26,7 @@ public class Item {
         name = itemName;
         description = itemDescription;
         this.goldPrice = goldPrice;
+        itemList.add(this);
     }
 
 
