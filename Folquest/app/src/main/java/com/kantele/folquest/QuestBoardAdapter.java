@@ -1,6 +1,8 @@
 package com.kantele.folquest;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -33,6 +35,7 @@ public class QuestBoardAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Quest> questListValues;
     Button discardQuest, acceptQuest;
+    public TextView goalText;
     LayoutInflater inflater;
     public QuestBoardAdapter(Context context, ArrayList<Quest> questListValues) {
         this.context = context;
@@ -53,17 +56,6 @@ public class QuestBoardAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return questListValues.indexOf(getItem(position));
-    }
-
-    public void hideButtons(int position){
-        if (!visibility) {
-            acceptQuest.setVisibility(View.GONE);
-            discardQuest.setVisibility(View.GONE);
-        } else {
-            acceptQuest.setVisibility(View.VISIBLE);
-            discardQuest.setVisibility(View.VISIBLE);
-        }
-        this.notifyDataSetChanged();
     }
 
     public void deleteItem (int position) {
@@ -100,7 +92,7 @@ public class QuestBoardAdapter extends BaseAdapter {
        /* TextView decriptionText = (TextView) view.findViewById(R.id.questDescriptionTextView);
         decriptionText.setText(questListValues.get(position).getDescription());*/
 
-        TextView goalText = (TextView) view.findViewById(R.id.questGoal);
+        goalText = (TextView) view.findViewById(R.id.questGoal);
         goalText.setText(questListValues.get(position).toString());
 
         discardQuest = (Button) view.findViewById(R.id.discardQuestButton);

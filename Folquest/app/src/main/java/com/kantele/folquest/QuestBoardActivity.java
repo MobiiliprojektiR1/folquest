@@ -1,6 +1,7 @@
 package com.kantele.folquest;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -69,12 +70,15 @@ public class QuestBoardActivity extends AppCompatActivity {
                     questBoardAdapter.hideButtons(position);
 
                 }*/
-                Log.d("ListView", position+"");
+                Log.d("QuestBoardActivity", position+"");
             }
         });
 
         questListView.setDivider(null);
         questListView.setDividerHeight(0);
+
+
+
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override

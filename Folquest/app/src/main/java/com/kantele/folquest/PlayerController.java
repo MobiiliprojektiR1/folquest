@@ -3,6 +3,7 @@ package com.kantele.folquest;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Set;
  */
 
 public class PlayerController extends Application{
+
 
     private static final int HEAD = 0;
     private static final int TORSO = 1;
