@@ -1,9 +1,13 @@
 package com.kantele.folquest;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -31,6 +36,7 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -110,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
         //Show the images of equipped items
         drawEquippedItems();
 
+        // UPDATE BG
+        backgroundUpdate();
+
 
         //Setting Buttons and TextViews
         buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
@@ -136,21 +145,6 @@ public class MainActivity extends AppCompatActivity {
 
         setPlayerStats();
 
-        /* adapt the image to the size of the display */
-        /*
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
-        Bitmap bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
-                getResources(),R.drawable.maisema),(size.x/2),(size.y/2), true);
-        */
-
-        /* fill the background ImageView with the resized image */
-        /*
-        ImageView iv_background = (ImageView) findViewById(R.id.iv_background);
-        iv_background.setImageBitmap(bmp);
-        */
 
         //BUTTON FUNCTIONALITIES
         buttonAvatar.setOnClickListener(new View.OnClickListener() {
@@ -183,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
         //PERMISSION REQUESTS ON LAUNCH
  //       CheckPermissionsAndSyncData();
     }
+
 
     public void CheckPermissionsAndSyncData() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -278,6 +273,54 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    public void backgroundUpdate() {
+        Activity activity = this;
+
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+
+                /* adapt the image to the size of the display */
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+
+                Bitmap bmp_morning = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                        getResources(),R.drawable.bg_morning),(size.x),(size.y), true);
+
+                Bitmap bmp_day = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                        getResources(),R.drawable.bg_day),(size.x),(size.y), true);
+
+                Bitmap bmp_evening = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                        getResources(),R.drawable.bg_evening),(size.x),(size.y), true);
+
+                Bitmap bmp_night = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                        getResources(),R.drawable.bg_night),(size.x),(size.y), true);
+
+
+                /* fill the background ImageView with the resized image */
+                ImageView iv_background = (ImageView) findViewById(R.id.iv_background);
+
+                // CHECK BG ACCORDING TO TIME! //
+                Calendar c = Calendar.getInstance();
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+
+                if (hour <= 6 ) {
+                    iv_background.setImageBitmap(bmp_night);
+                } else if (hour > 6 && hour < 11) {
+                    iv_background.setImageBitmap(bmp_morning);
+                } else if (hour >= 11 && hour < 18) {
+                    iv_background.setImageBitmap(bmp_day);
+                } else if (hour >= 18 && hour < 22) {
+                    iv_background.setImageBitmap(bmp_evening);
+                } else if (hour >= 22) {
+                    iv_background.setImageBitmap(bmp_night);
+                }
+            }
+        });
+    }
+
+
     public void drawAvatar(){
 
         if (controller.getPlayerGender() == true) {
@@ -309,6 +352,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Draw equipped items
         drawEquippedItems();
+
+        // Draw backgroud according to clock
+        backgroundUpdate();
+
 
         // This ensures that if the user denies the permissions then uses Settings to re-enable
         // them, the app will start working.
