@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void addAndEquip() {
         //adding some items for demo
-
+        //TODO Tää pitäs varmaan poistaa
         // Head
         controller.addItem(itemList.headBald);
         controller.addItem(itemList.headBoy);
@@ -299,13 +299,6 @@ public class MainActivity extends AppCompatActivity implements
         controller.addItem(itemList.accessorySword);
         controller.addItem(itemList.accessoryKantele);
         controller.addItem(itemList.accessoryAxe);
-
-        /* Set the default items, this will be modified later */
-        controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
-        controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
-        controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
-        controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
-        controller.setEquippedAccessoryItem(controller.ownedAccessoryItems.get(0));
     }
 
 
