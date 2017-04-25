@@ -44,6 +44,11 @@ public class PlayerController extends Application{
     public static final String OwnedBottomItems = "ownedBottomItemsKey";
     public static final String OwnedFeetItems = "ownedFeetItemsKey";
     public static final String OwnedAccessoryItems = "ownedAccessoryItemsKey";
+    public static final String EquippedHeadItem = "equippedHeadItemKey";
+    public static final String EquippedTorsoItem = "equippedTorsoItemKey";
+    public static final String EquippedBottomItem = "equippedBottomItemKey";
+    public static final String EquippedFeetItem = "equippedFeetItemKey";
+    public static final String EquippedAccessoryItem = "equippedAccessoryItemKey";
 
 
     //Variables
@@ -366,19 +371,17 @@ public class PlayerController extends Application{
     public void save(){
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
-        ArrayList<Item> ownedItems = new ArrayList<>();
-        ownedItems.addAll(ownedHeadItems);
-        ownedItems.addAll(ownedTorsoItems);
-        ownedItems.addAll(ownedBottomItems);
-        ownedItems.addAll(ownedFeetItems);
-        ownedItems.addAll(ownedAccessoryItems);
-
         editor.putLong(Gold, this.getPlayerGold());
         editor.putLong(Exp, this.getPlayerExp());
         editor.putLong(Level, this.getPlayerLvl());
         editor.putBoolean(Gender, this.getPlayerGender());
         editor.putBoolean(FTS, this.firstTimeState);
 
+        editor.putString(EquippedHeadItem, this.equippedHeadItem.getItemId());
+        editor.putString(EquippedTorsoItem, this.equippedTorsoItem.getItemId());
+        editor.putString(EquippedBottomItem, this.equippedBottomItem.getItemId());
+        editor.putString(EquippedFeetItem, this.equippedFeetItem.getItemId());
+        editor.putString(EquippedAccessoryItem, this.equippedAccessoryItem.getItemId());
 
         Set<String> headItemsToSave = new HashSet<String>();
         for(int i = 0; i < ownedHeadItems.size(); i++){
@@ -438,7 +441,6 @@ public class PlayerController extends Application{
         isBoy = sharedpreferences.getBoolean(Gender, false);
         firstTimeState = sharedpreferences.getBoolean(FTS, true);
 
-
         ownedHeadItems = new ArrayList<>();
         ownedTorsoItems = new ArrayList<>();
         ownedBottomItems = new ArrayList<>();
@@ -451,6 +453,11 @@ public class PlayerController extends Application{
                     if (str.equals(ItemList.itemList.get(i).getItemId())) {
                         addItem(ItemList.itemList.get(i));
                     }
+                    if (sharedpreferences.getString(EquippedHeadItem, null) != null) {
+                        if (sharedpreferences.getString(EquippedHeadItem, null).equals(ItemList.itemList.get(i).getItemId())) {
+                            equippedHeadItem = ItemList.itemList.get(i);
+                        }
+                    }
                 }
             }
         }
@@ -460,6 +467,11 @@ public class PlayerController extends Application{
                 for (int i = 0; i < ItemList.itemList.size(); i++) {
                     if (str.equals(ItemList.itemList.get(i).getItemId())) {
                         addItem(ItemList.itemList.get(i));
+                    }
+                    if (sharedpreferences.getString(EquippedTorsoItem, null) != null) {
+                        if (sharedpreferences.getString(EquippedTorsoItem, null).equals(ItemList.itemList.get(i).getItemId())) {
+                            equippedTorsoItem = ItemList.itemList.get(i);
+                        }
                     }
                 }
             }
@@ -471,6 +483,11 @@ public class PlayerController extends Application{
                     if (str.equals(ItemList.itemList.get(i).getItemId())) {
                         addItem(ItemList.itemList.get(i));
                     }
+                    if (sharedpreferences.getString(EquippedBottomItem, null) != null) {
+                        if (sharedpreferences.getString(EquippedBottomItem, null).equals(ItemList.itemList.get(i).getItemId())) {
+                            equippedBottomItem = ItemList.itemList.get(i);
+                        }
+                    }
                 }
             }
         }
@@ -481,6 +498,11 @@ public class PlayerController extends Application{
                     if (str.equals(ItemList.itemList.get(i).getItemId())) {
                         addItem(ItemList.itemList.get(i));
                     }
+                    if (sharedpreferences.getString(EquippedFeetItem, null) != null) {
+                        if (sharedpreferences.getString(EquippedFeetItem, null).equals(ItemList.itemList.get(i).getItemId())) {
+                            equippedFeetItem = ItemList.itemList.get(i);
+                        }
+                    }
                 }
             }
         }
@@ -490,6 +512,11 @@ public class PlayerController extends Application{
                 for (int i = 0; i < ItemList.itemList.size(); i++) {
                     if (str.equals(ItemList.itemList.get(i).getItemId())) {
                         addItem(ItemList.itemList.get(i));
+                    }
+                    if (sharedpreferences.getString(EquippedAccessoryItem, null) != null) {
+                        if (sharedpreferences.getString(EquippedAccessoryItem, null).equals(ItemList.itemList.get(i).getItemId())) {
+                            equippedAccessoryItem = ItemList.itemList.get(i);
+                        }
                     }
                 }
             }

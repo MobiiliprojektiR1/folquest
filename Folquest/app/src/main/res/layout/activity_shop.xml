@@ -74,7 +74,6 @@
                                 android:id="@+id/inventoryHeadGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -95,7 +94,6 @@
                                 android:id="@+id/inventoryTorsoGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -116,7 +114,46 @@
                                 android:id="@+id/inventoryBottomGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
+                    </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/tab4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/inventoryFeetLayout">
+
+                            <GridView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/inventoryFeetGridView"
+                                android:numColumns="4"/>
+                        </GridLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:id="@+id/inventoryAccessoryLayout">
+
+                            <GridView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/inventoryAccessoryGridView"
+                                android:numColumns="4"/>
+                        </GridLayout>
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>

@@ -1,7 +1,7 @@
 package com.kantele.folquest;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TabHost;
@@ -56,7 +56,17 @@ public class ShopActivity extends AppCompatActivity {
         spec.setContent(R.id.tab3);
         spec.setIndicator("Bottom");
         tabHost.addTab(spec);
+
+        //tab 4 - feet items
+        spec = tabHost.newTabSpec("Feet");
+        spec.setContent(R.id.tab4);
+        spec.setIndicator("Feet");
+        tabHost.addTab(spec);
+
+        //tab 5 - accessory items
+        spec = tabHost.newTabSpec("Accessory");
+        spec.setContent(R.id.tab5);
+        spec.setIndicator("Accessory");
+        tabHost.addTab(spec);
     }
-
-
 }

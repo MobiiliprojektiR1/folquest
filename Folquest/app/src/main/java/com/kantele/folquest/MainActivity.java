@@ -21,12 +21,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements
 
     Boolean dialogShown = false;
 
-
+    int shownQuestIndex = 0;
 
 
     @Override
@@ -101,22 +105,22 @@ public class MainActivity extends AppCompatActivity implements
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // Load First Time if this is first time playing
-        isFirstTime = controller.getFirstTimeSavedState();
-
-        if (isFirstTime) {
-            Intent intent = new Intent(MainActivity.this, FirstTimeLaunchActivity.class);
-            startActivity(intent);
-        }
-
-        setContentView(R.layout.activity_main);
-
 
         /* Adding defaults items when the game is started, these have to be in the database from the start! */
         controller.addDefaultItems();
 
         //Add items and equips the chosen ones
         addAndEquip();
+        // Load First Time if this is first time playing
+        isFirstTime = controller.getFirstTimeSavedState();
+
+        if (isFirstTime) {
+            Intent intent = new Intent(MainActivity.this, FirstTimeLaunchActivity.class);
+            startActivity(intent);
+
+        }
+
+        setContentView(R.layout.activity_main);
 
         //ImageView for avatar
         characterImageView = (ImageView) findViewById(R.id.characterImageView);
@@ -173,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
-
         //BUTTON FUNCTIONALITIES
         buttonAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,13 +201,47 @@ public class MainActivity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
+        if(controller.activeQuests.size() > 0) {
+            questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+        } else{
+            questTextView.setText("No quest at the moment!");
+        }
 
         buttonQuestLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d("QuestButtonRight", shownQuestIndex+"");
+                if(shownQuestIndex > 0) {
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    shownQuestIndex--;
+                } else if (shownQuestIndex == 0) {
+                    shownQuestIndex = controller.activeQuests.size();
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                }
             }
         });
+
+        buttonQuestRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(shownQuestIndex < controller.activeQuests.size()) {
+                    Log.d("QuestButtonLeft", shownQuestIndex+"");
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    shownQuestIndex++;
+                } else if(shownQuestIndex == controller.activeQuests.size()) {
+                    shownQuestIndex = 0;
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                }
+            }
+        });
+
+        questTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                controller.completeQuest(shownQuestIndex);
+            }
+        });
+
 
         //CREATE THE CONNECTION TO GOOGLE FIT
         buildFitnessClient();
@@ -256,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void addAndEquip() {
         //adding some items for demo
-
+        //TODO Tää pitäs varmaan poistaa
         // Head
         controller.addItem(itemList.headBald);
         controller.addItem(itemList.headBoy);
@@ -292,37 +329,47 @@ public class MainActivity extends AppCompatActivity implements
         controller.addItem(itemList.accessoryKantele);
         controller.addItem(itemList.accessoryAxe);
 
-        /* Set the default items, this will be modified later */
-        controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
-        controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
-        controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
-        controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
-        controller.setEquippedAccessoryItem(controller.ownedAccessoryItems.get(0));
     }
 
 
     protected void drawEquippedItems() {
 
             //Set image for bottom item
+        if(controller.equippedBottomItem != null) {
             int resBottomID = getResources().getIdentifier(controller.equippedBottomItem.getItemId(), "mipmap", this.getPackageName());
             bottomImageView.setImageResource(resBottomID);
+        }  else {
+            controller.equippedBottomItem = controller.ownedBottomItems.get(0);
+        }
 
             //Set image for torso item
+        if(controller.equippedTorsoItem != null) {
             int resTorsoID = getResources().getIdentifier(controller.equippedTorsoItem.getItemId(), "mipmap", this.getPackageName());
             torsoImageView.setImageResource(resTorsoID);
-
+        } else {
+            controller.equippedTorsoItem = controller.ownedTorsoItems.get(0);
+        }
             //Set image for head item
+        if(controller.equippedHeadItem != null) {
             int resHeadID = getResources().getIdentifier(controller.equippedHeadItem.getItemId(), "mipmap", this.getPackageName());
             headImageView.setImageResource(resHeadID);
-
+        } else {
+            controller.equippedHeadItem = controller.ownedHeadItems.get(0);
+        }
             //Set image for feet item
+        if(controller.equippedFeetItem != null) {
             int resFeetID = getResources().getIdentifier(controller.equippedFeetItem.getItemId(), "mipmap", this.getPackageName());
             feetImageView.setImageResource(resFeetID);
-
+        } else {
+            controller.equippedFeetItem = controller.ownedFeetItems.get(0);
+        }
             //Set image for feet item
+        if(controller.equippedAccessoryItem != null) {
             int resAccessoryID = getResources().getIdentifier(controller.equippedAccessoryItem.getItemId(), "mipmap", this.getPackageName());
             accessoryImageView.setImageResource(resAccessoryID);
-
+        } else {
+            controller.equippedAccessoryItem = controller.ownedAccessoryItems.get(0);
+        }
     }
 
 
@@ -414,7 +461,6 @@ public class MainActivity extends AppCompatActivity implements
         // Draw backgroud according to clock
         backgroundUpdate();
 
-
         // This ensures that if the user denies the permissions then uses Settings to re-enable
         // them, the app will start working.
         buildFitnessClient();
@@ -496,7 +542,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        apiClient.connect();
+        if (apiClient != null) {
+            apiClient.connect();
+        }
     }
 
     @Override
@@ -571,8 +619,6 @@ public class MainActivity extends AppCompatActivity implements
                 Log.w(TAG, "There was a problem getting the distance.");
             }
 
-
-
             data[0] = (int) totalSteps;
             data[1] = (int) totalCal;
             data[2] = (int) totalDist;
@@ -590,9 +636,9 @@ public class MainActivity extends AppCompatActivity implements
             Log.i(TAG, "Total distance: " + aData[2]);
 
             textViewSteps.setText("Steps today: " + aData[0]);
-            /*
+            
             new SendToDataLayerThread("/data_path", "" + data[0] + ", " + data[1] + ", " + data[2]).start();
-
+            /*
             textViewSteps.setText("" + aData[0]);
             textViewKcal.setText("" + aData[1]);
             textViewDist.setText("" + aData[2]);

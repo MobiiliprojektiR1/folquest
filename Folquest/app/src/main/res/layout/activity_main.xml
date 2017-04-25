@@ -151,7 +151,7 @@
                 android:id="@+id/headImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/naishahmopohja"
+                app:srcCompat="@mipmap/default_hair_woman"
 
                 />
 
@@ -159,7 +159,7 @@
                 android:id="@+id/feetImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/naishahmopohja"
+                app:srcCompat="@mipmap/default_feet"
 
                 />
 
@@ -167,19 +167,19 @@
                 android:id="@+id/bottomImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/naishahmopohja" />
+                app:srcCompat="@mipmap/default_bottom" />
 
             <ImageView
                 android:id="@+id/torsoImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/naishahmopohja" />
+                app:srcCompat="@mipmap/default_torso" />
 
             <ImageView
                 android:id="@+id/accessoryImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/naishahmopohja" />
+                app:srcCompat="@mipmap/head_bald" />
 
         </FrameLayout>
     </LinearLayout>
@@ -273,11 +273,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-
-
-
-
-
 
 </RelativeLayout>

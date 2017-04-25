@@ -48,9 +48,10 @@ public class AvatarActivity extends AppCompatActivity {
     Button buttonAccessoryLeft;
     Button buttonAccessoryRight;
 
-    TextView headItemText, torsoItemText, bottomItemText, feetItemText, accessoryItemText;
     ImageView headImageView, torsoImageView, bottomImageView, feetImageView, accessoryImageView;
     ImageView characterImageView;
+
+    TextView goldHolder, levelHolder;
 
     int equippedHeadItemId;
     int equippedTorsoItemId;
@@ -124,11 +125,6 @@ public class AvatarActivity extends AppCompatActivity {
         buttonAccessoryLeft = (Button)findViewById(R.id.buttonAccessoryLeft);
         buttonAccessoryRight = (Button)findViewById(R.id.buttonAccessoryRight);
 
-        headItemText = (TextView)findViewById(R.id.headItemText);
-        torsoItemText = (TextView)findViewById(R.id.torsoItemText);
-        bottomItemText = (TextView)findViewById(R.id.bottomItemText);
-        feetItemText = (TextView) findViewById(R.id.feetItemText);
-        accessoryItemText = (TextView)findViewById(R.id.accessoryItemText);
 
         //ImageViews for avatar items
         headImageView = (ImageView) findViewById(R.id.headImageView);
@@ -280,9 +276,8 @@ public class AvatarActivity extends AppCompatActivity {
         });
 
 
+        buttonBack = (Button) findViewById(R.id.buttonBack);
 
-      
-        buttonBack = (Button) findViewById(R.id.textViewLevel);
 
           buttonBack.setOnClickListener(new View.OnClickListener() {
               @Override
@@ -291,7 +286,7 @@ public class AvatarActivity extends AppCompatActivity {
               }
           });
 
-        buttonShop = (Button) findViewById(R.id.buttonShop);
+        buttonShop = (Button) findViewById(R.id.buttonCoin);
 
         buttonShop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,6 +298,17 @@ public class AvatarActivity extends AppCompatActivity {
 
         drawAvatar();
 
+        //UPDATE PLAYER STATS TO THE TOP BAR
+        long gold = controller.getPlayerGold();
+        long level = controller.getPlayerLvl();
+
+        goldHolder = (TextView) findViewById(R.id.textViewGoldHolder);
+        goldHolder.setText("" + gold);
+
+        levelHolder = (TextView) findViewById(R.id.buttonBack);
+        levelHolder.setText("" + level);
+
+
         drawItems();
         drawEquippedItems();
 
@@ -311,6 +317,15 @@ public class AvatarActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        //Hide navigation bar! This goes to onResume!
+                View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         drawAvatar();
     }
@@ -452,12 +467,6 @@ public class AvatarActivity extends AppCompatActivity {
 
 
     public void drawItems(){
-        headItemText.setText(controller.equippedHeadItem.getName());
-        torsoItemText.setText(controller.equippedTorsoItem.getName());
-        bottomItemText.setText(controller.equippedBottomItem.getName());
-        feetItemText.setText(controller.equippedFeetItem.getName());
-        accessoryItemText.setText(controller.equippedAccessoryItem.getName());
-
         // Save drawed items to shared preferences
 
     }
