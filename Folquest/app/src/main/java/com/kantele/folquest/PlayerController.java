@@ -441,7 +441,6 @@ public class PlayerController extends Application{
         isBoy = sharedpreferences.getBoolean(Gender, false);
         firstTimeState = sharedpreferences.getBoolean(FTS, true);
 
-
         ownedHeadItems = new ArrayList<>();
         ownedTorsoItems = new ArrayList<>();
         ownedBottomItems = new ArrayList<>();
