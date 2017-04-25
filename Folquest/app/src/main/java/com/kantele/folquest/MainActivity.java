@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements
     private static String TAG = "FIT";
     long EXPERIENCE_CURRENT, EXPERIENCE_TARGET;
 
-    Button buttonAvatar, buttonQuests, buttonSettings;
+    ImageButton buttonAvatar, buttonQuests, buttonSettings;
+
     Button buttonQuestLeft, buttonQuestRight;
 
     TextView textViewExpCurrent, textViewExpTarget, textViewLvl, textViewGold;
@@ -131,28 +134,25 @@ public class MainActivity extends AppCompatActivity implements
 
 
         //Setting Buttons and TextViews
-        buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
-        buttonQuests = (Button) findViewById(R.id.buttonQuests);
-        buttonSettings = (Button) findViewById(R.id.buttonSettings);
+        buttonAvatar = (ImageButton) findViewById(R.id.buttonAvatar);
+        buttonQuests = (ImageButton) findViewById(R.id.buttonQuests);
+        buttonSettings = (ImageButton) findViewById(R.id.buttonSettings);
 
         buttonQuestLeft = (Button) findViewById(R.id.buttonLeft);
         buttonQuestRight = (Button) findViewById(R.id.buttonRight);
 
         questTextView = (TextView) findViewById(R.id.activeQuestTextView);
 
+        /*
         textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
         textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
+        */
+
         textViewLvl = (TextView) findViewById(R.id.textViewLevel);
         textViewGold = (TextView) findViewById(R.id.textViewGold);
 
         textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
         textViewSteps = (TextView) findViewById(R.id.textViewSteps);
-
-        textViewKcalHolder = (TextView) findViewById(R.id.textViewKcalHolder);
-        textViewKcal = (TextView) findViewById(R.id.textViewKcal);
-
-        textViewDistHolder = (TextView) findViewById(R.id.textViewDistHolder);
-        textViewDist = (TextView) findViewById(R.id.textViewDist);
 
 
 
@@ -160,6 +160,9 @@ public class MainActivity extends AppCompatActivity implements
         controller.checkForLeveling();
 
         setPlayerStats();
+
+        // Load custom fonts
+        loadFonts();
 
 
         //BUTTON FUNCTIONALITIES
@@ -219,6 +222,23 @@ public class MainActivity extends AppCompatActivity implements
 
         }
 
+    }
+
+    private void loadFonts() {
+
+        Typeface basicFont = Typeface.createFromAsset(getAssets(), "fonts/MYRIADPRO-REGULAR.OTF");
+        Typeface labelFont = Typeface.createFromAsset(getAssets(), "fonts/LITHOSPRO-REGULAR.OTF");
+
+        textViewGold.setTypeface(basicFont);
+        textViewSteps.setTypeface(basicFont);
+
+        /*
+        TextView tx = (TextView)findViewById(R.id.textview1);
+
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/abc.ttf");
+
+        tx.setTypeface(custom_font);
+        */
     }
 
     private void createAlertDialog() {
@@ -374,8 +394,10 @@ public class MainActivity extends AppCompatActivity implements
         EXPERIENCE_CURRENT = controller.getPlayerExp();
         EXPERIENCE_TARGET = controller.getPlayerLvlTargetExp();
 
+        /*
         textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
         textViewExpTarget.setText("" + EXPERIENCE_TARGET);
+        */
 
         textViewLvl.setText("" + controller.getPlayerLvl());
         textViewGold.setText("" + controller.getPlayerGold());
@@ -562,11 +584,14 @@ public class MainActivity extends AppCompatActivity implements
             Log.i(TAG, "Total cals: " + aData[1]);
             Log.i(TAG, "Total distance: " + aData[2]);
 
+            textViewSteps.setText("Steps today: " + aData[0]);
+            /*
             new SendToDataLayerThread("/data_path", "" + data[0] + ", " + data[1] + ", " + data[2]).start();
 
             textViewSteps.setText("" + aData[0]);
             textViewKcal.setText("" + aData[1]);
             textViewDist.setText("" + aData[2]);
+            */
 
         }
     }

@@ -72,49 +72,126 @@
 
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonHolder"
-        android:layout_alignParentBottom="true">
+        android:orientation="vertical"
+        android:background="@mipmap/hamburger_valikko_248x1172px"
+        android:layout_width="62dp"
+        android:layout_height="293dp"
+        >
 
-        <Button
-            android:text="Avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <ImageButton
             android:id="@+id/buttonAvatar"
-            android:layout_weight="1" />
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="8dp"
+            android:text="Avatar"
+            app:srcCompat="@mipmap/hahmomuokkas_iconi_192x192px" />
 
-        <Button
-            android:text="Quests"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
             android:id="@+id/buttonQuests"
-            android:layout_weight="1" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:text="Quests"
+            app:srcCompat="@mipmap/questlog_iconi_192x192px" />
 
-        <Button
-            android:text="Settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/buttonShop"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:text="Quests"
+            app:srcCompat="@mipmap/kauppa_iconi_192x192px" />
+
+        <ImageButton
             android:id="@+id/buttonSettings"
-            android:layout_weight="1" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:text="Settings"
+            app:srcCompat="@mipmap/settings_iconi_192x192px" />
+
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/statHolder"
-        android:layout_above="@+id/buttonHolder">
+        android:id="@+id/StepsLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/iv_background">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewStepsHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Steps today:" />
+
+            <TextView
+                android:id="@+id/textViewSteps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/linearLayout">
 
         <TextView
+            android:id="@+id/textViewGold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewLevel"/>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:text="GOLD" />
+
+
+        <ImageView
+            android:id="@+id/levelBackground"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/textViewLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/textViewGold"
+            android:text="LEVEL" />
+
+
+
+        <!--
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            >
 
             <ProgressBar
                 android:layout_width="match_parent"
@@ -148,78 +225,9 @@
 
             </LinearLayout>
         </RelativeLayout>
+        -->
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewStepsHolder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Steps:"/>
-
-            <TextView
-                android:id="@+id/textViewSteps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewKcalHolder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="  Kcal:"/>
-
-            <TextView
-                android:id="@+id/textViewKcal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textViewDistHolder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="  Distance:"/>
-
-            <TextView
-                android:id="@+id/textViewDist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textViewGold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GOLD"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
 
 
     <ImageView
@@ -227,48 +235,50 @@
         android:layout_width="400dp"
         android:layout_height="600dp"
         app:srcCompat="@drawable/naishahmopohja"
-        android:layout_above="@+id/statHolder"
-        android:layout_alignParentEnd="true" />
+        android:layout_toStartOf="@+id/buttonHolder"
+        android:layout_below="@+id/linearLayout" />
 
     <ImageView
         android:id="@+id/headImageView"
         android:layout_width="400dp"
         android:layout_height="600dp"
         app:srcCompat="@drawable/naishahmopohja"
-        android:layout_toEndOf="@+id/linearLayout2"
-        android:layout_alignStart="@+id/characterImageView"
-        android:layout_above="@+id/statHolder" />
+        android:layout_toStartOf="@+id/buttonHolder"
+        android:layout_below="@+id/linearLayout"
+ />
     <ImageView
         android:id="@+id/feetImageView"
         android:layout_width="400dp"
         android:layout_height="600dp"
         app:srcCompat="@drawable/naishahmopohja"
-        android:layout_toEndOf="@+id/linearLayout2"
-        android:layout_alignStart="@+id/characterImageView"
-        android:layout_above="@+id/statHolder" />
+        android:layout_toStartOf="@+id/buttonHolder"
+        android:layout_below="@+id/linearLayout"
+    />
     <ImageView
         android:id="@+id/bottomImageView"
         android:layout_width="400dp"
         android:layout_height="600dp"
         app:srcCompat="@drawable/naishahmopohja"
-        android:layout_toEndOf="@+id/linearLayout2"
-        android:layout_alignStart="@+id/characterImageView"
-        android:layout_above="@+id/statHolder" />
+        android:layout_toStartOf="@+id/buttonHolder"
+        android:layout_below="@+id/linearLayout"
+        />
     <ImageView
         android:id="@+id/torsoImageView"
         android:layout_width="400dp"
         android:layout_height="600dp"
         app:srcCompat="@drawable/naishahmopohja"
-        android:layout_toEndOf="@+id/linearLayout2"
-        android:layout_alignStart="@+id/characterImageView"
-        android:layout_above="@+id/statHolder" />
+        android:layout_toStartOf="@+id/buttonHolder"
+        android:layout_below="@+id/linearLayout"
+ />
+
     <ImageView
         android:id="@+id/accessoryImageView"
         android:layout_width="400dp"
         android:layout_height="600dp"
         app:srcCompat="@drawable/naishahmopohja"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toStartOf="@+id/buttonHolder"
+        android:layout_below="@+id/linearLayout" />
+
 
 
 </RelativeLayout>
