@@ -12,6 +12,8 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -37,11 +39,17 @@ import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.Wearable;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final int REQUEST_PERMISSIONS = 20;
 
@@ -51,11 +59,14 @@ public class MainActivity extends AppCompatActivity {
 
     ImageButton buttonAvatar, buttonQuests, buttonSettings;
 
+    Button buttonQuestLeft, buttonQuestRight;
+
     TextView textViewExpCurrent, textViewExpTarget, textViewLvl, textViewGold;
 
     TextView textViewStepsHolder, textViewSteps;
     TextView textViewKcalHolder, textViewKcal;
     TextView textViewDistHolder, textViewDist;
+    TextView questTextView;
 
     Button buttonUpdate;
 
@@ -127,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
         buttonQuests = (ImageButton) findViewById(R.id.buttonQuests);
         buttonSettings = (ImageButton) findViewById(R.id.buttonSettings);
 
+        buttonQuestLeft = (Button) findViewById(R.id.buttonLeft);
+        buttonQuestRight = (Button) findViewById(R.id.buttonRight);
+
+        questTextView = (TextView) findViewById(R.id.activeQuestTextView);
+
         /*
         textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
         textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
@@ -137,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
         textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
         textViewSteps = (TextView) findViewById(R.id.textViewSteps);
+
 
 
 
@@ -170,6 +187,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        buttonQuestLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -246,18 +270,35 @@ public class MainActivity extends AppCompatActivity {
         controller.addItem(itemList.headBoy);
         controller.addItem(itemList.headBunches);
 
+        controller.addItem(itemList.headLadyFinHair);
+        controller.addItem(itemList.headVainaGirlBrown);
+        controller.addItem(itemList.headVainaGirlGray);
+        controller.addItem(itemList.headVainamoinenBrown);
+        controller.addItem(itemList.headVainamoinenGray);
+
         // Torso
         controller.addItem(itemList.torsoBlueWoman);
         controller.addItem(itemList.torsoBlueMan);
 
+        controller.addItem(itemList.torsoFinguyShirt);
+        controller.addItem(itemList.torsoLadyfinDress);
+
         // Bottom
         controller.addItem(itemList.bottomBlueTrousers);
 
+        controller.addItem(itemList.bottomLadyfinPants);
+        controller.addItem(itemList.bottomFinguyPants);
+
         // Boots
         controller.addItem(itemList.feetBlackBoots);
-
+        controller.addItem(itemList.feetFinguyShoes);
+        controller.addItem(itemList.feetLadyfinShoes);
+        
         // Accessories
         controller.addItem(itemList.accessoryNone);
+        controller.addItem(itemList.accessorySword);
+        controller.addItem(itemList.accessoryKantele);
+        controller.addItem(itemList.accessoryAxe);
 
         /* Set the default items, this will be modified later */
         controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
@@ -439,8 +480,41 @@ public class MainActivity extends AppCompatActivity {
                                     Snackbar.LENGTH_SHORT).show();
                         }
                     })
+                    .addApi(Wearable.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
                     .build();
         }
+    }
+
+    // Connect to the data layer when the Activity starts
+    @Override
+    protected void onStart() {
+        super.onStart();
+        apiClient.connect();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    protected void onStop() {
+        if (null != apiClient && apiClient.isConnected()) {
+            apiClient.disconnect();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 
 
@@ -512,12 +586,42 @@ public class MainActivity extends AppCompatActivity {
 
             textViewSteps.setText("Steps today: " + aData[0]);
             /*
+            new SendToDataLayerThread("/data_path", "" + data[0] + ", " + data[1] + ", " + data[2]).start();
+
+            textViewSteps.setText("" + aData[0]);
             textViewKcal.setText("" + aData[1]);
             textViewDist.setText("" + aData[2]);
             */
 
         }
     }
+
+
+    class SendToDataLayerThread extends Thread {
+        String path;
+        String message;
+
+        // Constructor to send a message to the data layer
+        SendToDataLayerThread(String p, String msg) {
+            path = p;
+            message = msg;
+        }
+
+        public void run() {
+            NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(apiClient).await();
+            for (Node node : nodes.getNodes()) {
+                MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(apiClient, node.getId(), path, message.getBytes()).await();
+                if (result.getStatus().isSuccess()) {
+                    Log.v("myTag", "Message: {" + message + "} sent to: " + node.getDisplayName());
+                }
+                else {
+                    // Log an error
+                    Log.v("myTag", "ERROR: failed to send Message");
+                }
+            }
+        }
+    }
+
 }
 
 

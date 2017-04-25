@@ -21,13 +21,61 @@
 
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonLeft"
+                android:layout_width="17dp"
+                android:layout_height="33dp"
+                android:layout_weight="1"
+                android:background="@mipmap/nuoli_left_68x132px" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="263dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@mipmap/activequest_ekaikkuna_1052x248px">
+
+            <TextView
+                android:id="@+id/activeQuestTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:text="Quest Goal :DDDDDD" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonRight"
+                android:layout_width="17dp"
+                android:layout_height="33dp"
+                android:layout_weight="1"
+                android:background="@mipmap/nuoli_right_68x132px"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
         android:orientation="vertical"
         android:background="@mipmap/hamburger_valikko_248x1172px"
         android:layout_width="62dp"
         android:layout_height="293dp"
-        android:id="@+id/buttonHolder"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         >
 
 
@@ -230,6 +278,7 @@
         app:srcCompat="@drawable/naishahmopohja"
         android:layout_toStartOf="@+id/buttonHolder"
         android:layout_below="@+id/linearLayout" />
+
 
 
 </RelativeLayout>
