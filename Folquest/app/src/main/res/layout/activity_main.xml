@@ -33,10 +33,10 @@
 
             <Button
                 android:id="@+id/buttonLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="17dp"
+                android:layout_height="33dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:background="@mipmap/nuoli_left_68x132px" />
         </LinearLayout>
 
         <LinearLayout
@@ -47,7 +47,7 @@
             android:background="@mipmap/activequest_ekaikkuna_1052x248px">
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/activeQuestTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -63,10 +63,10 @@
 
             <Button
                 android:id="@+id/buttonRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="17dp"
+                android:layout_height="33dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:background="@mipmap/nuoli_right_68x132px"/>
         </LinearLayout>
     </LinearLayout>
 
