@@ -14,9 +14,9 @@ enum questType{
     WALLSIT,
     DISTANCE,
     STEPS,
-    WATER,
+    //WATER,
     CALORIES,
-    REST
+    //REST
 }
 
 public class Quest implements Serializable{
@@ -28,9 +28,9 @@ public class Quest implements Serializable{
     int wallSitDifficulty[]  =  {     20,     60,    120,    300,   1500,   6000 }; //seconds
     int distanceDifficulty[] =  {   2000,   5000,  10000,  20000, 100000, 200000 }; //meters
     int stepsDifficulty[]    =  {   1500,   3000,   6000,  15000,  90000, 180000 }; //steps
-    int waterDifficulty[]    =  {      1,      8,     24,     56,    112,    224 }; //glasses of water for a day/day/3 days/week/2 weeks/month
+    //int waterDifficulty[]    =  {      1,      8,     24,     56,    112,    224 }; //glasses of water for a day/day/3 days/week/2 weeks/month
     int caloriesDifficulty[] =  {    500,   1500,   3000,   7000,  50000, 100000 }; //kilocalories burned
-    int restDifficulty[]     =  {      1,      3,      7,     14,     30,    180 }; //sleep at least 8 hours a day for this many days
+    //int restDifficulty[]     =  {      1,      3,      7,     14,     30,    180 }; //sleep at least 8 hours a day for this many days
 
     //Rewards based on difficulty  NOVICE,   EASY, NORMAL,   HARD, V.HARD,   EPIC
     int expRewards[]         =  {     50,    200,    500,   1250,   8000,  20000 };
@@ -66,7 +66,6 @@ public class Quest implements Serializable{
         rewardGold = goldRewards[newDifficultyLevel];
         rewardExp = expRewards[newDifficultyLevel];
         progress = 0;
-        //TODO: make it change with quest type
         description = "Default description";
 
         switch (type){
@@ -100,23 +99,23 @@ public class Quest implements Serializable{
                 questText = "Step quest";
                 requirementUnit  = " steps";
                 break;
-            case WATER:
+            /*case WATER:
                 requirement = waterDifficulty[difficultyLevel];
                 questText = "Water quest";
-                //TODO: Requirement can be more than one day
+                //Problem: Requirement can be more than one day
                 requirementUnit  = " glasses of water a day";
-                break;
+                break;*/
             case CALORIES:
                 requirement = caloriesDifficulty[difficultyLevel];
                 questText = "Calorie quest";
                 requirementUnit  = " kilocalories to burn";
                 break;
-            case REST:
+            /*case REST:
                 requirement = restDifficulty[difficultyLevel];
                 questText = "Rest quest";
-                //TODO: Requirement can be more than one day
+                //Problem: Requirement can be more than one day
                 requirementUnit  = " nights at least 8 hours of sleep";
-                break;
+                break;*/
         }
     }
 
@@ -184,20 +183,20 @@ public class Quest implements Serializable{
                 requirement = stepsDifficulty[difficultyLevel];
                 requirementUnit  = " steps";
                 break;
-            case WATER:
+            /*case WATER:
                 requirement = waterDifficulty[difficultyLevel];
-                //TODO: Requirement can be more than one day
+                //Problem: Requirement can be more than one day
                 requirementUnit  = " glasses of water a day";
-                break;
+                break;*/
             case CALORIES:
                 requirement = caloriesDifficulty[difficultyLevel];
                 requirementUnit  = " kilocalories to burn";
                 break;
-            case REST:
+            /*case REST:
                 requirement = restDifficulty[difficultyLevel];
-                //TODO: Requirement can be more than one day
+                //Problem: Requirement can be more than one day
                 requirementUnit  = " nights at least 8 hours of sleep";
-                break;
+                break;*/
         }
 
     }
