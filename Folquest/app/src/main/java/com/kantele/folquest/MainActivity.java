@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements
 
     Boolean dialogShown = false;
 
-
+    int shownQuestIndex = 0;
 
 
     @Override
@@ -190,10 +190,33 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
+        questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+
         buttonQuestLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("QuestButtonRight", shownQuestIndex+"");
+                if(shownQuestIndex > 0) {
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    shownQuestIndex--;
+                } else if (shownQuestIndex == 0) {
+                    shownQuestIndex = controller.activeQuests.size();
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                }
+            }
+        });
 
+        buttonQuestRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(shownQuestIndex < controller.activeQuests.size()) {
+                    Log.d("QuestButtonLeft", shownQuestIndex+"");
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    shownQuestIndex++;
+                } else if(shownQuestIndex == controller.activeQuests.size()) {
+                    shownQuestIndex = 0;
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                }
             }
         });
 
@@ -299,13 +322,7 @@ public class MainActivity extends AppCompatActivity implements
         controller.addItem(itemList.accessorySword);
         controller.addItem(itemList.accessoryKantele);
         controller.addItem(itemList.accessoryAxe);
-
-        /* Set the default items, this will be modified later */
-        controller.setEquippedHeadItem(controller.ownedHeadItems.get(0));
-        controller.setEquippedTorsoItem(controller.ownedTorsoItems.get(0));
-        controller.setEquippedBottomItem(controller.ownedBottomItems.get(0));
-        controller.setEquippedFeetItem(controller.ownedFeetItems.get(0));
-        controller.setEquippedAccessoryItem(controller.ownedAccessoryItems.get(0));
+        
     }
 
 
