@@ -125,7 +125,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_weight="1"
-            app:srcCompat="@mipmap/level_nelio_256x256px" />
+            />
 
         <TextView
             android:id="@+id/textViewLevel"
