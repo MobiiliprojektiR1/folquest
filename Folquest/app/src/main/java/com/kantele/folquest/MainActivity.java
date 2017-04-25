@@ -56,12 +56,14 @@ public class MainActivity extends AppCompatActivity implements
     long EXPERIENCE_CURRENT, EXPERIENCE_TARGET;
 
     Button buttonAvatar, buttonQuests, buttonSettings;
+    Button buttonQuestLeft, buttonQuestRight;
 
     TextView textViewExpCurrent, textViewExpTarget, textViewLvl, textViewGold;
 
     TextView textViewStepsHolder, textViewSteps;
     TextView textViewKcalHolder, textViewKcal;
     TextView textViewDistHolder, textViewDist;
+    TextView questTextView;
 
     Button buttonUpdate;
 
@@ -133,6 +135,11 @@ public class MainActivity extends AppCompatActivity implements
         buttonQuests = (Button) findViewById(R.id.buttonQuests);
         buttonSettings = (Button) findViewById(R.id.buttonSettings);
 
+        buttonQuestLeft = (Button) findViewById(R.id.buttonLeft);
+        buttonQuestRight = (Button) findViewById(R.id.buttonRight);
+
+        questTextView = (TextView) findViewById(R.id.activeQuestTextView);
+
         textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
         textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
         textViewLvl = (TextView) findViewById(R.id.textViewLevel);
@@ -146,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements
 
         textViewDistHolder = (TextView) findViewById(R.id.textViewDistHolder);
         textViewDist = (TextView) findViewById(R.id.textViewDist);
+
 
 
 
@@ -176,6 +184,13 @@ public class MainActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        buttonQuestLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
