@@ -8,9 +8,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +25,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,11 +39,17 @@ import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.Wearable;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final int REQUEST_PERMISSIONS = 20;
 
@@ -47,13 +57,16 @@ public class MainActivity extends AppCompatActivity {
     private static String TAG = "FIT";
     long EXPERIENCE_CURRENT, EXPERIENCE_TARGET;
 
-    Button buttonAvatar, buttonQuests, buttonSettings;
+    ImageButton buttonAvatar, buttonQuests, buttonSettings;
+
+    Button buttonQuestLeft, buttonQuestRight;
 
     TextView textViewExpCurrent, textViewExpTarget, textViewLvl, textViewGold;
 
     TextView textViewStepsHolder, textViewSteps;
     TextView textViewKcalHolder, textViewKcal;
     TextView textViewDistHolder, textViewDist;
+    TextView questTextView;
 
     Button buttonUpdate;
 
@@ -121,29 +134,35 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Setting Buttons and TextViews
-        buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
-        buttonQuests = (Button) findViewById(R.id.buttonQuests);
-        buttonSettings = (Button) findViewById(R.id.buttonSettings);
+        buttonAvatar = (ImageButton) findViewById(R.id.buttonAvatar);
+        buttonQuests = (ImageButton) findViewById(R.id.buttonQuests);
+        buttonSettings = (ImageButton) findViewById(R.id.buttonSettings);
 
+        buttonQuestLeft = (Button) findViewById(R.id.buttonLeft);
+        buttonQuestRight = (Button) findViewById(R.id.buttonRight);
+
+        questTextView = (TextView) findViewById(R.id.activeQuestTextView);
+
+        /*
         textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
         textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
+        */
+
         textViewLvl = (TextView) findViewById(R.id.textViewLevel);
         textViewGold = (TextView) findViewById(R.id.textViewGold);
 
         textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
         textViewSteps = (TextView) findViewById(R.id.textViewSteps);
 
-        textViewKcalHolder = (TextView) findViewById(R.id.textViewKcalHolder);
-        textViewKcal = (TextView) findViewById(R.id.textViewKcal);
-
-        textViewDistHolder = (TextView) findViewById(R.id.textViewDistHolder);
-        textViewDist = (TextView) findViewById(R.id.textViewDist);
 
 
 
         controller.checkForLeveling();
 
         setPlayerStats();
+
+        // Load custom fonts
+        loadFonts();
 
 
         //BUTTON FUNCTIONALITIES
@@ -168,6 +187,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        buttonQuestLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -196,6 +222,23 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private void loadFonts() {
+
+        Typeface basicFont = Typeface.createFromAsset(getAssets(), "fonts/MYRIADPRO-REGULAR.OTF");
+        Typeface labelFont = Typeface.createFromAsset(getAssets(), "fonts/LITHOSPRO-REGULAR.OTF");
+
+        textViewGold.setTypeface(basicFont);
+        textViewSteps.setTypeface(basicFont);
+
+        /*
+        TextView tx = (TextView)findViewById(R.id.textview1);
+
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/abc.ttf");
+
+        tx.setTypeface(custom_font);
+        */
     }
 
     private void createAlertDialog() {
@@ -227,18 +270,35 @@ public class MainActivity extends AppCompatActivity {
         controller.addItem(itemList.headBoy);
         controller.addItem(itemList.headBunches);
 
+        controller.addItem(itemList.headLadyFinHair);
+        controller.addItem(itemList.headVainaGirlBrown);
+        controller.addItem(itemList.headVainaGirlGray);
+        controller.addItem(itemList.headVainamoinenBrown);
+        controller.addItem(itemList.headVainamoinenGray);
+
         // Torso
         controller.addItem(itemList.torsoBlueWoman);
         controller.addItem(itemList.torsoBlueMan);
 
+        controller.addItem(itemList.torsoFinguyShirt);
+        controller.addItem(itemList.torsoLadyfinDress);
+
         // Bottom
         controller.addItem(itemList.bottomBlueTrousers);
 
+        controller.addItem(itemList.bottomLadyfinPants);
+        controller.addItem(itemList.bottomFinguyPants);
+
         // Boots
         controller.addItem(itemList.feetBlackBoots);
-
+        controller.addItem(itemList.feetFinguyShoes);
+        controller.addItem(itemList.feetLadyfinShoes);
+        
         // Accessories
         controller.addItem(itemList.accessoryNone);
+        controller.addItem(itemList.accessorySword);
+        controller.addItem(itemList.accessoryKantele);
+        controller.addItem(itemList.accessoryAxe);
     }
 
 
@@ -327,8 +387,10 @@ public class MainActivity extends AppCompatActivity {
         EXPERIENCE_CURRENT = controller.getPlayerExp();
         EXPERIENCE_TARGET = controller.getPlayerLvlTargetExp();
 
+        /*
         textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
         textViewExpTarget.setText("" + EXPERIENCE_TARGET);
+        */
 
         textViewLvl.setText("" + controller.getPlayerLvl());
         textViewGold.setText("" + controller.getPlayerGold());
@@ -411,8 +473,41 @@ public class MainActivity extends AppCompatActivity {
                                     Snackbar.LENGTH_SHORT).show();
                         }
                     })
+                    .addApi(Wearable.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
                     .build();
         }
+    }
+
+    // Connect to the data layer when the Activity starts
+    @Override
+    protected void onStart() {
+        super.onStart();
+        apiClient.connect();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    protected void onStop() {
+        if (null != apiClient && apiClient.isConnected()) {
+            apiClient.disconnect();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 
 
@@ -482,12 +577,44 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "Total cals: " + aData[1]);
             Log.i(TAG, "Total distance: " + aData[2]);
 
+            textViewSteps.setText("Steps today: " + aData[0]);
+            /*
+            new SendToDataLayerThread("/data_path", "" + data[0] + ", " + data[1] + ", " + data[2]).start();
+
             textViewSteps.setText("" + aData[0]);
             textViewKcal.setText("" + aData[1]);
             textViewDist.setText("" + aData[2]);
+            */
 
         }
     }
+
+
+    class SendToDataLayerThread extends Thread {
+        String path;
+        String message;
+
+        // Constructor to send a message to the data layer
+        SendToDataLayerThread(String p, String msg) {
+            path = p;
+            message = msg;
+        }
+
+        public void run() {
+            NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(apiClient).await();
+            for (Node node : nodes.getNodes()) {
+                MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(apiClient, node.getId(), path, message.getBytes()).await();
+                if (result.getStatus().isSuccess()) {
+                    Log.v("myTag", "Message: {" + message + "} sent to: " + node.getDisplayName());
+                }
+                else {
+                    // Log an error
+                    Log.v("myTag", "ERROR: failed to send Message");
+                }
+            }
+        }
+    }
+
 }
 
 

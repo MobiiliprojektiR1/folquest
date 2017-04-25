@@ -49,7 +49,7 @@ public class QuestsActivity extends AppCompatActivity {
                 controller.setPlayerGold(controller.playerGold + controller.activeQuests.get(position).getRewardGold());
 
                 controller.checkForLeveling();
-
+                controller.availableQuests.remove(controller.activeQuests.get(position));
                 activeQuestAdapter.remove(controller.activeQuests.get(position));
                 activeQuestListView.deferNotifyDataSetChanged();
             }

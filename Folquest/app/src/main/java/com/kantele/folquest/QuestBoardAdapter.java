@@ -1,6 +1,8 @@
 package com.kantele.folquest;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -26,7 +28,6 @@ import java.util.List;
 
 public class QuestBoardAdapter extends BaseAdapter {
 
-
     private View view;
 
     public boolean visibility = true;
@@ -34,6 +35,7 @@ public class QuestBoardAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Quest> questListValues;
     Button discardQuest, acceptQuest;
+    public TextView goalText;
     LayoutInflater inflater;
     public QuestBoardAdapter(Context context, ArrayList<Quest> questListValues) {
         this.context = context;
@@ -54,17 +56,6 @@ public class QuestBoardAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return questListValues.indexOf(getItem(position));
-    }
-
-    public void hideButtons(int position){
-        if (!visibility) {
-            acceptQuest.setVisibility(View.GONE);
-            discardQuest.setVisibility(View.GONE);
-        } else {
-            acceptQuest.setVisibility(View.VISIBLE);
-            discardQuest.setVisibility(View.VISIBLE);
-        }
-        this.notifyDataSetChanged();
     }
 
     public void deleteItem (int position) {
@@ -98,10 +89,10 @@ public class QuestBoardAdapter extends BaseAdapter {
             view = (LinearLayout) inflater.inflate(R.layout.quest_board_quest, viewGroup, false);
         }
 
-        TextView decriptionText = (TextView) view.findViewById(R.id.questDescriptionTextView);
-        decriptionText.setText(questListValues.get(position).getDescription());
+       /* TextView decriptionText = (TextView) view.findViewById(R.id.questDescriptionTextView);
+        decriptionText.setText(questListValues.get(position).getDescription());*/
 
-        TextView goalText = (TextView) view.findViewById(R.id.questGoal);
+        goalText = (TextView) view.findViewById(R.id.questGoal);
         goalText.setText(questListValues.get(position).toString());
 
         discardQuest = (Button) view.findViewById(R.id.discardQuestButton);
@@ -127,12 +118,13 @@ public class QuestBoardAdapter extends BaseAdapter {
                 if(context instanceof QuestBoardActivity) {
                     if(questListValues.get(position).isQuestActive()) {
                         questListValues.get(position).setQuestActive(false);
-                        ((QuestBoardActivity)context).removeQuest(position);
+                        ((QuestBoardActivity)context).removeQuest(questListValues.get(position));
                         toggleCheckBoxImage(position);
                     } else {
                         ((QuestBoardActivity)context).addQuest(position);
                         questListValues.get(position).setQuestActive(true);
                         toggleCheckBoxImage(position);
+
                     }
                 }
             }
@@ -140,6 +132,8 @@ public class QuestBoardAdapter extends BaseAdapter {
 
         if(questListValues.get(position).isQuestActive()){
             acceptQuest.setBackgroundResource(R.mipmap.check_icon_104x96px);
+        } else {
+            acceptQuest.setBackgroundResource(R.mipmap.unchecked_icon_96x96px);
         }
 
         return view;
