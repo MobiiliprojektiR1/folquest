@@ -26,7 +26,7 @@ public class ShopActivity extends AppCompatActivity {
         moneyAmount = (TextView) findViewById(R.id.moneyTextView);
         moneyAmount.setText("Money: " + controller.getPlayerGold());
 
-        buttonBack = (Button) findViewById(R.id.buttonBack);
+        buttonBack = (Button) findViewById(R.id.textViewLevel);
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override

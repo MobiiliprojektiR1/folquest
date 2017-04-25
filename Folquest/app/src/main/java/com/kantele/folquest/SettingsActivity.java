@@ -27,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
 
-        buttonBack = (Button) findViewById(R.id.buttonBack);
+        buttonBack = (Button) findViewById(R.id.textViewLevel);
         buttonMale = (Button) findViewById(R.id.buttonMale);
         buttonFemale = (Button) findViewById(R.id.buttonFemale);
 

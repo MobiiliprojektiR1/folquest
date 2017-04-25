@@ -40,7 +40,7 @@
                     android:background="@mipmap/raha_iconi_156x120px" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/moneyAmountLabel"
                     android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:text="1234"
@@ -48,12 +48,13 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/buttonBack"
+                android:id="@+id/textViewLevel"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginRight="36dp"
                 android:background="@mipmap/level_nelio_256x256px_questboard"
-                android:text="17" />
+                android:text="17"
+                android:textSize="22sp" />
 
             <Button
                 android:id="@+id/buttonAvatar"
@@ -63,13 +64,13 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/questBoardText"
             android:layout_width="267dp"
             android:layout_height="49dp"
             android:layout_margin="25dp"
             android:background="@mipmap/puulankku_1068x196px"
             android:gravity="center_vertical|center_horizontal"
-            android:text="BillBoard"
+            android:text="Quest Board"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textSize="27.5dp" />

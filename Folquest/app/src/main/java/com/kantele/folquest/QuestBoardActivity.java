@@ -1,6 +1,5 @@
 package com.kantele.folquest;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,13 +8,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import org.w3c.dom.Text;
 
 
 public class QuestBoardActivity extends AppCompatActivity {
@@ -25,6 +22,8 @@ public class QuestBoardActivity extends AppCompatActivity {
 
     ListView questListView;
     PlayerController controller;
+
+    TextView questBoardText, moneyAmountText, levelText;
 
 
     @Override
@@ -36,13 +35,15 @@ public class QuestBoardActivity extends AppCompatActivity {
 
         controller.createAvailableQuests();
 
+
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_quest_board);
 
-        buttonBack = (Button) findViewById(R.id.buttonBack);
+        buttonBack = (Button) findViewById(R.id.textViewLevel);
         questListView = (ListView) findViewById(R.id.questListView);
 
         /*final ArrayAdapter<Quest> availableQuestsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, controller.availableQuests);
@@ -74,6 +75,21 @@ public class QuestBoardActivity extends AppCompatActivity {
             }
         });
 
+        // Change fonts
+        Typeface labelFont = Typeface.createFromAsset(getAssets(), "fonts/LITHOSPRO-REGULAR.OTF");
+        Typeface levelFont = Typeface.createFromAsset(getAssets(), "fonts/HARNGTON.TTF");
+        Typeface basicFont = Typeface.createFromAsset(getAssets(), "fonts/MYRIADPRO-REGULAR.OTF");
+
+        questBoardText = (TextView) findViewById(R.id.questBoardText);
+        moneyAmountText = (TextView) findViewById(R.id.moneyAmountLabel);
+        levelText = (TextView) findViewById(R.id.textViewLevel);
+
+        questBoardText.setTypeface(labelFont);
+        moneyAmountText.setTypeface(basicFont);
+        levelText.setTypeface(levelFont);
+
+
+
         questListView.setDivider(null);
         questListView.setDividerHeight(0);
 
@@ -101,6 +117,8 @@ public class QuestBoardActivity extends AppCompatActivity {
             controller.addQuest(controller.availableQuests.get(itemPosition));
         }
     }
+
+
 
     @Override
     protected void onResume() {

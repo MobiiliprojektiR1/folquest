@@ -278,6 +278,7 @@ public class AvatarActivity extends AppCompatActivity {
 
         buttonBack = (Button) findViewById(R.id.buttonBack);
 
+
           buttonBack.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
