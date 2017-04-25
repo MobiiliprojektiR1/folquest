@@ -10,192 +10,240 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.kantele.folquest.AvatarActivity">
+    tools:context="com.kantele.folquest.AvatarActivity"
+    android:background="#f2e5cb">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:gravity="center_horizontal|center"
+        android:orientation="horizontal"
+        android:background="@mipmap/viiva">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buttonCoin"
+                android:layout_width="39dp"
+                android:layout_height="30dp"
+                android:background="@mipmap/raha_iconi_156x120px" />
+
+            <TextView
+                android:id="@+id/textViewGoldHolder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="1234"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonBack"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginRight="36dp"
+            android:background="@mipmap/level_nelio_256x256px_questboard"
+            android:text="17" />
+
+        <Button
+            android:id="@+id/buttonAvatar"
+            android:layout_width="36dp"
+            android:layout_height="47dp"
+            android:background="@mipmap/hahamopaa_144x188px" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.99"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <LinearLayout
-                android:layout_width="49dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_weight="0.1"
+                android:weightSum="12">
 
                 <Button
                     android:id="@+id/buttonHeadLeft"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="L" />
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_left_68x132px"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2.5"/>
 
                 <Button
                     android:id="@+id/buttonTorsoLeft"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="L" />
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_left_68x132px"/>
 
-                <Button
-                    android:id="@+id/buttonBottomLeft"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="L" />
-
-                <Button
-                    android:id="@+id/buttonFeetLeft"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="L" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2.5"/>
 
                 <Button
                     android:id="@+id/buttonAccessoryLeft"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="L" />
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_left_68x132px"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2.5"/>
+
+                <Button
+                    android:id="@+id/buttonBottomLeft"
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_left_68x132px"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2.5"/>
+
+                <Button
+                    android:id="@+id/buttonFeetLeft"
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_left_68x132px"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="217dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="1">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="340dp"
+                android:layout_weight="0.8">
 
                 <ImageView
                     android:id="@+id/characterImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="12.40"
-                    app:srcCompat="@drawable/naishahmopohja" />
-
-
-
-
-                <ImageView
-                    android:id="@+id/bottomImageView"
-                    android:layout_width="400dp"
-                    android:layout_height="600dp"
-                    app:srcCompat="@drawable/naishahmopohja" />
-                <ImageView
-                    android:id="@+id/torsoImageView"
-                    android:layout_width="400dp"
-                    android:layout_height="600dp"
-                    app:srcCompat="@drawable/naishahmopohja" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/naishahmopohja"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/feetImageView"
+                    android:layout_alignEnd="@+id/feetImageView" />
 
                 <ImageView
                     android:id="@+id/feetImageView"
-                    android:layout_width="400dp"
-                    android:layout_height="600dp"
-                    app:srcCompat="@drawable/naishahmopohja" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/default_feet"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/accessoryImageView" />
 
                 <ImageView
                     android:id="@+id/accessoryImageView"
-                    android:layout_width="400dp"
-                    android:layout_height="600dp"
-                    app:srcCompat="@drawable/naishahmopohja" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/head_bald"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/bottomImageView" />
+
+                <ImageView
+                    android:id="@+id/bottomImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/default_bottom"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/torsoImageView" />
+
+                <ImageView
+                    android:id="@+id/torsoImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/default_torso"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/headImageView" />
 
                 <ImageView
                     android:id="@+id/headImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/naishahmopohja" />
-
-                </RelativeLayout>
-            </LinearLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/default_hair_woman"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.1"
+                android:weightSum="12">
 
                 <Button
                     android:id="@+id/buttonHeadRight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="R" />
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_right_68x132px"/>
 
-                <TextView
-                    android:id="@+id/headItemText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
-                    android:text="Head"
-                    android:textAlignment="center"
-                    android:visibility="gone" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2.5"/>
 
                 <Button
                     android:id="@+id/buttonTorsoRight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="R" />
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_right_68x132px"/>
 
-                <TextView
-                    android:id="@+id/torsoItemText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.33"
-                    android:text="Torso"
-                    android:textAlignment="center"
-                    android:visibility="gone" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2.5" />
 
                 <Button
                     android:id="@+id/buttonBottomRight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="R" />
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_right_68x132px"/>
 
-                <TextView
-                    android:id="@+id/bottomItemText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.12"
-                    android:text="Bottom"
-                    android:textAlignment="center"
-                    android:visibility="gone" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2.5" />
 
                 <Button
                     android:id="@+id/buttonFeetRight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="R" />
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_right_68x132px"/>
 
-                <TextView
-                    android:id="@+id/feetItemText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.12"
-                    android:text="Feet"
-                    android:textAlignment="center"
-                    android:visibility="gone" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2.5" />
+
                 <Button
                     android:id="@+id/buttonAccessoryRight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="R" />
-
-                <TextView
-                    android:id="@+id/accessoryItemText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.12"
-                    android:text="Accessory"
-                    android:textAlignment="center"
-                    android:visibility="gone" />
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_right_68x132px"/>
             </LinearLayout>
         </LinearLayout>
 
         <TabHost
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:id="@+id/tabHost">
 
             <LinearLayout
@@ -231,7 +279,6 @@
                                 android:id="@+id/inventoryHeadGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -252,7 +299,6 @@
                                 android:id="@+id/inventoryTorsoGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -273,7 +319,6 @@
                                 android:id="@+id/inventoryBottomGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -294,8 +339,8 @@
                                 android:id="@+id/inventoryFeetGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
-
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/tab5"
                         android:layout_width="match_parent"
@@ -314,31 +359,9 @@
                                 android:id="@+id/inventoryAccessoryGridView"
                                 android:numColumns="4"/>
                         </GridLayout>
-
                     </LinearLayout>
-
                 </FrameLayout>
             </LinearLayout>
         </TabHost>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/buttonShop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Shop" />
-
-        <Button
-            android:id="@+id/buttonBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Back" />
     </LinearLayout>
 </LinearLayout>
