@@ -35,7 +35,7 @@ public class QuestsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_quests);
 
-        buttonBack = (Button) findViewById(R.id.buttonBack);
+        buttonBack = (Button) findViewById(R.id.textViewLevel);
         buttonQuestBoard = (Button) findViewById(R.id.buttonQuestBoard);
         activeQuestListView = (ListView) findViewById(R.id.activeQuestListView);
         activeQuestAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, controller.activeQuests);

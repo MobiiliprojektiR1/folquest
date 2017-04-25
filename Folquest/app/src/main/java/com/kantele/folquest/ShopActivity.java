@@ -7,8 +7,6 @@ import android.widget.Button;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import static com.kantele.folquest.R.id.tabHost;
-
 public class ShopActivity extends AppCompatActivity {
 
     Button buttonBack;
@@ -28,7 +26,7 @@ public class ShopActivity extends AppCompatActivity {
         moneyAmount = (TextView) findViewById(R.id.moneyTextView);
         moneyAmount.setText("Money: " + controller.getPlayerGold());
 
-        buttonBack = (Button) findViewById(R.id.buttonBack);
+        buttonBack = (Button) findViewById(R.id.textViewLevel);
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override

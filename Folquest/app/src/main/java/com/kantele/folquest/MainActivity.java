@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements
 
     TextView textViewExpCurrent, textViewExpTarget, textViewLvl, textViewGold;
 
+    TextView textViewMoney;
+    TextView textViewLevel;
+
     TextView textViewStepsHolder, textViewSteps;
     TextView textViewKcalHolder, textViewKcal;
     TextView textViewDistHolder, textViewDist;
@@ -132,6 +135,11 @@ public class MainActivity extends AppCompatActivity implements
         // UPDATE BG
         backgroundUpdate();
 
+        // Create font adapter
+        // Fonts
+        Typeface basicFont = Typeface.createFromAsset(getAssets(), "fonts/MYRIADPRO-REGULAR.OTF");
+        Typeface labelFont = Typeface.createFromAsset(getAssets(), "fonts/LITHOSPRO-REGULAR.OTF");
+        Typeface levelFont = Typeface.createFromAsset(getAssets(), "fonts/HARNGTON.TTF");
 
         //Setting Buttons and TextViews
         buttonAvatar = (ImageButton) findViewById(R.id.buttonAvatar);
@@ -148,21 +156,22 @@ public class MainActivity extends AppCompatActivity implements
         textViewExpTarget = (TextView) findViewById(R.id.textViewExpTarget);
         */
 
-        textViewLvl = (TextView) findViewById(R.id.textViewLevel);
-        textViewGold = (TextView) findViewById(R.id.textViewGold);
-
         textViewStepsHolder = (TextView) findViewById(R.id.textViewStepsHolder);
         textViewSteps = (TextView) findViewById(R.id.textViewSteps);
+        textViewMoney = (TextView) findViewById(R.id.textViewMoney);
+        textViewLevel = (TextView) findViewById(R.id.textViewLevel);
 
-
-
+        // Set fonts
+        textViewMoney.setTypeface(basicFont);
+        textViewLevel.setTypeface(levelFont);
+        questTextView.setTypeface(basicFont);
+        textViewSteps.setTypeface(basicFont);
 
         controller.checkForLeveling();
 
         setPlayerStats();
 
-        // Load custom fonts
-        loadFonts();
+
 
 
         //BUTTON FUNCTIONALITIES
@@ -177,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements
         buttonQuests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, QuestsActivity.class);
+                Intent intent = new Intent(MainActivity.this, QuestBoardActivity.class);
                 startActivity(intent);
             }
         });
@@ -222,23 +231,6 @@ public class MainActivity extends AppCompatActivity implements
 
         }
 
-    }
-
-    private void loadFonts() {
-
-        Typeface basicFont = Typeface.createFromAsset(getAssets(), "fonts/MYRIADPRO-REGULAR.OTF");
-        Typeface labelFont = Typeface.createFromAsset(getAssets(), "fonts/LITHOSPRO-REGULAR.OTF");
-
-        textViewGold.setTypeface(basicFont);
-        textViewSteps.setTypeface(basicFont);
-
-        /*
-        TextView tx = (TextView)findViewById(R.id.textview1);
-
-        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/abc.ttf");
-
-        tx.setTypeface(custom_font);
-        */
     }
 
     private void createAlertDialog() {
@@ -394,13 +386,17 @@ public class MainActivity extends AppCompatActivity implements
         EXPERIENCE_CURRENT = controller.getPlayerExp();
         EXPERIENCE_TARGET = controller.getPlayerLvlTargetExp();
 
+        textViewLevel.setText("" + controller.getPlayerLvl());
+        textViewMoney.setText(""+ controller.getPlayerGold());
+
         /*
         textViewExpCurrent.setText("" + EXPERIENCE_CURRENT);
         textViewExpTarget.setText("" + EXPERIENCE_TARGET);
-        */
+
 
         textViewLvl.setText("" + controller.getPlayerLvl());
         textViewGold.setText("" + controller.getPlayerGold());
+        */
     }
 
 
@@ -428,6 +424,15 @@ public class MainActivity extends AppCompatActivity implements
         controller.checkForLeveling();
 
         setPlayerStats();
+
+        //Hide navigation bar! This goes to onResume!
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
     }
 
