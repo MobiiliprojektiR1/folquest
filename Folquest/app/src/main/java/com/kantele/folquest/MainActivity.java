@@ -381,7 +381,6 @@ public class MainActivity extends AppCompatActivity implements
         // Draw backgroud according to clock
         backgroundUpdate();
 
-
         // This ensures that if the user denies the permissions then uses Settings to re-enable
         // them, the app will start working.
         buildFitnessClient();
@@ -454,7 +453,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        apiClient.connect();
+        if (apiClient != null) {
+            apiClient.connect();
+        }
     }
 
     @Override
@@ -529,8 +530,6 @@ public class MainActivity extends AppCompatActivity implements
                 Log.w(TAG, "There was a problem getting the distance.");
             }
 
-
-
             data[0] = (int) totalSteps;
             data[1] = (int) totalCal;
             data[2] = (int) totalDist;
@@ -547,7 +546,7 @@ public class MainActivity extends AppCompatActivity implements
             Log.i(TAG, "Total cals: " + aData[1]);
             Log.i(TAG, "Total distance: " + aData[2]);
 
-            new SendToDataLayerThread("/data_path", "" + data[0] + ", " + data[1] + ", " + data[2]).start();
+//            new SendToDataLayerThread("/data_path", "" + data[0] + ", " + data[1] + ", " + data[2]).start();
 
             textViewSteps.setText("" + aData[0]);
             textViewKcal.setText("" + aData[1]);

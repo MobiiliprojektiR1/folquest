@@ -183,7 +183,7 @@
         android:id="@+id/headImageView"
         android:layout_width="400dp"
         android:layout_height="600dp"
-        app:srcCompat="@drawable/naishahmopohja"
+        app:srcCompat="@mipmap/default_hair_woman"
         android:layout_toEndOf="@+id/linearLayout2"
         android:layout_alignStart="@+id/characterImageView"
         android:layout_above="@+id/statHolder" />
@@ -191,7 +191,7 @@
         android:id="@+id/feetImageView"
         android:layout_width="400dp"
         android:layout_height="600dp"
-        app:srcCompat="@drawable/naishahmopohja"
+        app:srcCompat="@mipmap/default_feet"
         android:layout_toEndOf="@+id/linearLayout2"
         android:layout_alignStart="@+id/characterImageView"
         android:layout_above="@+id/statHolder" />
@@ -199,7 +199,7 @@
         android:id="@+id/bottomImageView"
         android:layout_width="400dp"
         android:layout_height="600dp"
-        app:srcCompat="@drawable/naishahmopohja"
+        app:srcCompat="@mipmap/default_bottom"
         android:layout_toEndOf="@+id/linearLayout2"
         android:layout_alignStart="@+id/characterImageView"
         android:layout_above="@+id/statHolder" />
@@ -207,7 +207,7 @@
         android:id="@+id/torsoImageView"
         android:layout_width="400dp"
         android:layout_height="600dp"
-        app:srcCompat="@drawable/naishahmopohja"
+        app:srcCompat="@mipmap/default_torso"
         android:layout_toEndOf="@+id/linearLayout2"
         android:layout_alignStart="@+id/characterImageView"
         android:layout_above="@+id/statHolder" />
@@ -215,7 +215,7 @@
         android:id="@+id/accessoryImageView"
         android:layout_width="400dp"
         android:layout_height="600dp"
-        app:srcCompat="@drawable/naishahmopohja"
+        app:srcCompat="@mipmap/head_bald"
         android:layout_toEndOf="@+id/linearLayout2"
         android:layout_alignStart="@+id/characterImageView"
         android:layout_above="@+id/statHolder" />
