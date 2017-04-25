@@ -1,11 +1,5 @@
 package com.kantele.folquest;
 
-import android.graphics.Bitmap;
-
-import com.kantele.folquest.Item;
-import com.kantele.folquest.R;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 class ItemList {
@@ -56,6 +50,6 @@ class ItemList {
     Item accessorySword = new Item(OTHER, "accessory_sword", "Sword", "Slay those Dragons");
     Item accessoryAxe = new Item(OTHER, "axe", "Axe", "Axe those Dragons");
     Item accessoryKantele = new Item(OTHER, "kantele", "Kantele", "Kantele those Dragons");
-    Item accessoryNone = new Item(OTHER, "none", "No accessory", "No accessory");
+    Item accessoryNone = new Item(OTHER, "head_bald", "No accessory", "No accessory");
 
 }
