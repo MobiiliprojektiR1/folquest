@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.kantele.folquest.SettingsActivity">
+    tools:context="com.kantele.folquest.SettingsActivity"
+    android:background="#f2e5cb">
 
     <Button
         android:text="Back"
@@ -21,23 +22,21 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="115dp"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/textViewLevel">
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
 
         <Button
             android:id="@+id/buttonMale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Male" />
+            android:text="Boy" />
 
         <Button
             android:id="@+id/buttonFemale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Female" />
+            android:text="Girl" />
 
 
     </LinearLayout>
-
 </RelativeLayout>

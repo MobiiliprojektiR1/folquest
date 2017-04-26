@@ -4,61 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kantele.folquest.FirstTimeLaunchActivity">
+    tools:context="com.kantele.folquest.FirstTimeLaunchActivity"
+    android:background="#f2e5cb">
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to Folquest"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="126dp"
-        tools:layout_editor_absoluteY="16dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView2" />
+        android:layout_centerHorizontal="true">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Are you a boy or a girl?"
-        tools:layout_editor_absoluteX="127dp"
-        tools:layout_editor_absoluteY="84dp"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Welcome to Folquest"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="128dp"
+            android:textAlignment="center"
+            android:textSize="26sp"/>
 
-    <TextView
-        android:id="@+id/textViewGenderHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="128dp" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Are you a boy or a girl?"
+            android:textColor="@android:color/black"
+            android:textAlignment="center"/>
 
-    <Button
-        android:id="@+id/buttonBoy"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textViewGenderHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="172dp"
+            android:textColor="@android:color/black"
+            android:textAlignment="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Boy"
-        tools:layout_editor_absoluteX="59dp"
-        tools:layout_editor_absoluteY="177dp"
-        android:layout_marginStart="74dp"
+        android:orientation="horizontal"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true">
 
-    <Button
-        android:id="@+id/buttonGirl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Girl"
-        tools:layout_editor_absoluteX="237dp"
-        tools:layout_editor_absoluteY="177dp"
-        android:layout_marginLeft="149dp"
-        android:layout_marginStart="66dp"
-        android:layout_alignBaseline="@+id/buttonBoy"
-        android:layout_alignBottom="@+id/buttonBoy"
-        android:layout_toEndOf="@+id/buttonBoy" />
+        <Button
+            android:id="@+id/buttonBoy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_weight="1"
+            android:text="Boy"
+            android:textColor="@android:color/black"
+            tools:layout_editor_absoluteX="59dp"
+            tools:layout_editor_absoluteY="177dp" />
+
+        <Button
+            android:id="@+id/buttonGirl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="64dp"
+            android:layout_marginStart="64dp"
+            android:layout_weight="1"
+            android:text="Girl"
+            android:textColor="@android:color/black"
+            tools:layout_editor_absoluteX="237dp"
+            tools:layout_editor_absoluteY="177dp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonContinue"
@@ -67,5 +81,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp"
-        android:text="Continue" />
+        android:text="Continue"
+        android:textColor="@android:color/black"/>
 </RelativeLayout>
