@@ -21,6 +21,7 @@ enum questType{
 
 public class Quest implements Serializable{
 
+
     //Difficulty level 0-5         NOVICE,   EASY, NORMAL,   HARD, V.HARD,   EPIC
     int pushUpDifficulty[]   =  {      5,     15,     30,     60,    200,    500 }; //reps
     int sitUpDifficulty[]    =  {     10,     25,     50,    100,    500,   1000 }; //reps
@@ -36,6 +37,34 @@ public class Quest implements Serializable{
     int expRewards[]         =  {     50,    200,    500,   1250,   8000,  20000 };
     int goldRewards[]        =  {     10,     50,    200,   1000,   4000,  20000 };
 
+    String distanceDesc[]     =   {     "There’s a huge boulder blocking the route. Push it away.",
+                                        "A village drunk picks a fight with you.",
+                                        "There’s a huge boulder blocking the route. Push it away."};
+
+    String sitUpDesc[]      =   {   "You wake up in the middle of the forest. Get up.",
+                                    "Someone cast a spell on you and you’re stuck in a swamp. Good luck. ",
+                                    "Someone cast a spell on you and you’re stuck in a swamp. Good luck."};
+
+    String pushUpDesc[]     =   {   "There’s a huge boulder blocking the route. Push it away.",
+                                    "A village drunk picks a fight with you.",
+                                    "A village drunk picks a fight with you." };
+
+    String squatsDesc[]     =   {    "You enter a small cave in search of treasure. Who knows what you’ll find.",
+                                    "You accidentally entered the wrong house. Sneak out. ",
+                                    "You need to collect some ingredients for alchemy." };
+
+    String wallsitDesc[]    =   {   "You’re trying to take a break from your forge and sit down a bit, but keep getting interrupted.",
+                                    "Someone is trying to break through your door. Keep them out. ",
+                                    "Someone is trying to break through your door. Keep them out. "};
+
+    String stepsDesc[]      =   {   "You found a large tower with a long, spiraling staircase. Reach the top to earn a reward.",
+                                    "Travel through the woods to improve your health.",
+                                    "You’re climbing a steep mountain. There should be treasure waiting on top."};
+
+    String caloriesDesc[]   =   {   "Your crush says you're fat, burn that fat!",
+                                    "Your crush says you're fat, burn that fat!",
+                                    "Your crush says you're fat, burn that fat!"};
+
     //Variables
     protected questType type;
     protected int difficultyLevel;
@@ -46,6 +75,7 @@ public class Quest implements Serializable{
     protected String questText;
     protected String requirementUnit;
     protected String description;
+
 
     public boolean isQuestActive() {
         return questActive;
@@ -71,33 +101,39 @@ public class Quest implements Serializable{
         switch (type){
             case PUSHUPS:
                 requirement = pushUpDifficulty[difficultyLevel];
-                questText = "Push up quest";
-                requirementUnit  = " reps";
+                questText = "Do ";
+                requirementUnit  = " push ups";
+                description = chooseDescription(pushUpDesc);
                 break;
             case SITUPS:
                 requirement = sitUpDifficulty[difficultyLevel];
-                questText = "Sit up quest";
-                requirementUnit  = " reps";
+                questText = "Do ";
+                requirementUnit  = " sit ups";
+                description = chooseDescription(sitUpDesc);
                 break;
             case SQUATS:
                 requirement = squatsDifficulty[difficultyLevel];
-                questText = "Squat quest";
-                requirementUnit  = " reps";
+                questText = "Squat ";
+                requirementUnit  = " times";
+                description = chooseDescription(squatsDesc);
                 break;
             case WALLSIT:
                 requirement = wallSitDifficulty[difficultyLevel];
-                questText = "Wall sit quest";
+                questText = "Wall sit for ";
                 requirementUnit  = " minutes";
+                description = chooseDescription(wallsitDesc);
                 break;
             case DISTANCE:
                 requirement = distanceDifficulty[difficultyLevel];
-                questText = "Distance quest";
+                questText = "Travel for ";
                 requirementUnit  = " meters";
+                description = chooseDescription(distanceDesc);
                 break;
             case STEPS:
                 requirement = stepsDifficulty[difficultyLevel];
-                questText = "Step quest";
+                questText = "Walk ";
                 requirementUnit  = " steps";
+                description = chooseDescription(stepsDesc);
                 break;
             /*case WATER:
                 requirement = waterDifficulty[difficultyLevel];
@@ -107,8 +143,9 @@ public class Quest implements Serializable{
                 break;*/
             case CALORIES:
                 requirement = caloriesDifficulty[difficultyLevel];
-                questText = "Calorie quest";
-                requirementUnit  = " kilocalories to burn";
+                questText = "Burn ";
+                requirementUnit  = " kilocalories";
+                description = chooseDescription(caloriesDesc);
                 break;
             /*case REST:
                 requirement = restDifficulty[difficultyLevel];
@@ -143,9 +180,10 @@ public class Quest implements Serializable{
         return questText;
     }
 
-    //We don't need this if we use adapter
+    //We don't need this if we use adapter <- Actually we do
     public String toString(){
-        return type + "," + difficultyLevel + "," + progress + "," + description;
+        //return type + "," + difficultyLevel + "," + progress + "," + description;
+        return questText + requirement + requirementUnit;
     }
 
     public Quest(String questAsString){
@@ -162,26 +200,32 @@ public class Quest implements Serializable{
             case PUSHUPS:
                 requirement = pushUpDifficulty[difficultyLevel];
                 requirementUnit  = " reps";
+
                 break;
             case SITUPS:
                 requirement = sitUpDifficulty[difficultyLevel];
                 requirementUnit  = " reps";
+
                 break;
             case SQUATS:
                 requirement = squatsDifficulty[difficultyLevel];
                 requirementUnit  = " reps";
+
                 break;
             case WALLSIT:
                 requirement = wallSitDifficulty[difficultyLevel];
                 requirementUnit  = " minutes";
+
                 break;
             case DISTANCE:
                 requirement = distanceDifficulty[difficultyLevel];
                 requirementUnit  = " meters";
+
                 break;
             case STEPS:
                 requirement = stepsDifficulty[difficultyLevel];
                 requirementUnit  = " steps";
+
                 break;
             /*case WATER:
                 requirement = waterDifficulty[difficultyLevel];
@@ -191,6 +235,7 @@ public class Quest implements Serializable{
             case CALORIES:
                 requirement = caloriesDifficulty[difficultyLevel];
                 requirementUnit  = " kilocalories to burn";
+
                 break;
             /*case REST:
                 requirement = restDifficulty[difficultyLevel];
@@ -199,6 +244,23 @@ public class Quest implements Serializable{
                 break;*/
         }
 
+    }
+
+    private String chooseDescription(String[] type){
+        double i = Math.random();
+        if(i <= 0.33){
+            System.out.println("alle 0.33");
+            //TODO : index out of bound error koska descejä ei oo kaikille typeillä 3!
+            return type[0];
+        } else if(i >= 0.33 && i <= 0.66){
+            System.out.println("yli 0.3 alle 0.6");
+            return type[1];
+        } else if(i >= 0.66 && i <= 1) {
+            System.out.println("yli 0.66 alle 1");
+            return type[2];
+        } else {
+            return "Just some casual working out to stay in shape!";
+        }
     }
 
 }
