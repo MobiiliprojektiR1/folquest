@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements
     final Context context = this;
 
     private boolean cantComplete = true;
+    private LinearLayout questTextLayout;
 
 
     @Override
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements
         buttonQuestRight = (Button) findViewById(R.id.buttonRight);
 
         questTextView = (TextView) findViewById(R.id.activeQuestTextView);
-
+        questTextLayout = (LinearLayout) findViewById(R.id.ActiveQuestLayout);
 
         /*
         textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
@@ -210,14 +212,14 @@ public class MainActivity extends AppCompatActivity implements
 
                 if(shownQuestIndex > 0) {
                     shownQuestIndex--;
-                    Log.d("QuestButtonLeft", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questText() );
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
+                    Log.d("QuestButtonLeft", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questTextString() );
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questTextString());
                 } else if (shownQuestIndex == 0) {
 
                     Log.d("QuestButtonLeft", shownQuestIndex+" on nolla ");
                     shownQuestIndex = controller.activeQuests.size()-1;
                     Log.d("QuestButtonLeft", shownQuestIndex+" on activequest size eli questin pitäisi olla");
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questTextString());
                 }
             }
         });
@@ -230,27 +232,25 @@ public class MainActivity extends AppCompatActivity implements
 
                 if(shownQuestIndex < controller.activeQuests.size()-1) {
                     shownQuestIndex++;
-                    Log.d("QuestButtonRight", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questText() );
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
+                    Log.d("QuestButtonRight", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questTextString() );
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questTextString());
                 } else if(shownQuestIndex == controller.activeQuests.size()-1) {
 
                     Log.d("QuestButtonRight", shownQuestIndex+" on sizen kokoinen");
                     shownQuestIndex = 0;
-                    Log.d("QuestButtonRight", shownQuestIndex+" on nolla eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questText());
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
+                    Log.d("QuestButtonRight", shownQuestIndex+" on nolla eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questTextString());
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questTextString());
 
                 }
             }
         });
 
-        questTextView.setOnClickListener(new View.OnClickListener(){
+        questTextLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 if(!cantComplete) {
                     controller.completeQuest(shownQuestIndex);
 
-                    //controller.completeQuest(shownQuestIndex);
-                    setTextForQuest();
 
                     // reward dialog
                     final Dialog dialog = new Dialog(context);
@@ -274,11 +274,16 @@ public class MainActivity extends AppCompatActivity implements
                         @Override
                         public void onClick(View v) {
                             dialog.dismiss();
+
                         }
                     });
-
                     dialog.show();
+
+                    controller.removeQuest(shownQuestIndex);
+                    setPlayerStats();
+                    setTextForQuest();
                 }
+
             }
         });
 
@@ -291,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void setTextForQuest() {
         if(controller.activeQuests.size() > 0) {
-            questTextView.setText(controller.activeQuests.get(0).toString());
+            questTextView.setText(controller.activeQuests.get(0).questTextString());
             cantComplete = false;
         } else{
             questTextView.setText("No quest at the moment!");
@@ -480,6 +485,7 @@ public class MainActivity extends AppCompatActivity implements
         EXPERIENCE_CURRENT = controller.getPlayerExp();
         EXPERIENCE_TARGET = controller.getPlayerLvlTargetExp();
 
+        controller.checkForLeveling();
         textViewLevel.setText("" + controller.getPlayerLvl());
         textViewMoney.setText(""+ controller.getPlayerGold());
 

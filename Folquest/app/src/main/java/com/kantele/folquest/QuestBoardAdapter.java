@@ -1,25 +1,16 @@
 package com.kantele.folquest;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Typeface;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Folquest
@@ -93,7 +84,7 @@ public class QuestBoardAdapter extends BaseAdapter {
         decriptionText.setText(questListValues.get(position).getDescription());*/
 
         goalText = (TextView) view.findViewById(R.id.questGoal);
-        goalText.setText(questListValues.get(position).questText());
+        goalText.setText(questListValues.get(position).questTextString());
 
         questStory = (TextView) view.findViewById(R.id.questStory);
         questStory.setText(questListValues.get(position).getDescription());

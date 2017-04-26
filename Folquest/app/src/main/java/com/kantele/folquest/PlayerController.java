@@ -156,8 +156,8 @@ public class PlayerController extends Application{
 
         Log.d("PlayerController", "completing quest id" + questIndex+"");
         Log.d("PlayerController", "completing quest toString" + activeQuests.get(questIndex).toString());
-        this.playerExp =+ activeQuests.get(questIndex).getRewardExp();
-        this.playerGold =+ activeQuests.get(questIndex).getRewardGold();
+        this.playerExp = getPlayerExp() + activeQuests.get(questIndex).getRewardExp();
+        this.playerGold = getPlayerGold() + activeQuests.get(questIndex).getRewardGold();
 
     }
 
@@ -548,5 +548,11 @@ public class PlayerController extends Application{
             for (String str : sharedpreferences.getStringSet(AvailableQuests, null))
                 availableQuests.add(new Quest(str));
         }
+    }
+
+    public void removeQuest(int shownQuestIndex) {
+        activeQuests.remove(shownQuestIndex);
+        availableQuests.remove(shownQuestIndex);
+        save();
     }
 }

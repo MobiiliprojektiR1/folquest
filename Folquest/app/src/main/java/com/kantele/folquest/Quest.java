@@ -137,7 +137,7 @@ public class Quest implements Serializable{
                 break;
             /*case WATER:
                 requirement = waterDifficulty[difficultyLevel];
-                questText = "Water quest";
+                questTextString = "Water quest";
                 //Problem: Requirement can be more than one day
                 requirementUnit  = " glasses of water a day";
                 break;*/
@@ -149,7 +149,7 @@ public class Quest implements Serializable{
                 break;
             /*case REST:
                 requirement = restDifficulty[difficultyLevel];
-                questText = "Rest quest";
+                questTextString = "Rest quest";
                 //Problem: Requirement can be more than one day
                 requirementUnit  = " nights at least 8 hours of sleep";
                 break;*/
@@ -185,7 +185,7 @@ public class Quest implements Serializable{
         return type + "," + difficultyLevel + "," + progress + "," + description;
     }
 
-    public String questText() {
+    public String questTextString() {
         return questText + requirement + requirementUnit;
     }
 
@@ -202,46 +202,55 @@ public class Quest implements Serializable{
         switch (type){
             case PUSHUPS:
                 requirement = pushUpDifficulty[difficultyLevel];
-                requirementUnit  = " reps";
-
+                questText = "Do ";
+                requirementUnit  = " push ups";
+                description = chooseDescription(pushUpDesc);
                 break;
             case SITUPS:
                 requirement = sitUpDifficulty[difficultyLevel];
-                requirementUnit  = " reps";
-
+                questText = "Do ";
+                requirementUnit  = " sit ups";
+                description = chooseDescription(sitUpDesc);
                 break;
             case SQUATS:
                 requirement = squatsDifficulty[difficultyLevel];
-                requirementUnit  = " reps";
-
+                questText = "Squat ";
+                requirementUnit  = " times";
+                description = chooseDescription(squatsDesc);
                 break;
             case WALLSIT:
                 requirement = wallSitDifficulty[difficultyLevel];
+                questText = "Wall sit for ";
                 requirementUnit  = " minutes";
-
+                description = chooseDescription(wallsitDesc);
                 break;
             case DISTANCE:
                 requirement = distanceDifficulty[difficultyLevel];
+                questText = "Travel for ";
                 requirementUnit  = " meters";
-
+                description = chooseDescription(distanceDesc);
                 break;
             case STEPS:
                 requirement = stepsDifficulty[difficultyLevel];
+                questText = "Walk ";
                 requirementUnit  = " steps";
-
+                description = chooseDescription(stepsDesc);
                 break;
             /*case WATER:
                 requirement = waterDifficulty[difficultyLevel];
+                questTextString = "Water quest";
                 //Problem: Requirement can be more than one day
                 requirementUnit  = " glasses of water a day";
                 break;*/
             case CALORIES:
                 requirement = caloriesDifficulty[difficultyLevel];
-                requirementUnit  = " kilocalories to burn";
-
+                questText = "Burn ";
+                requirementUnit  = " kilocalories";
+                description = chooseDescription(caloriesDesc);
                 break;
             /*case REST:
                 requirement = restDifficulty[difficultyLevel];
+                questTextString = "Rest quest";
                 //Problem: Requirement can be more than one day
                 requirementUnit  = " nights at least 8 hours of sleep";
                 break;*/
