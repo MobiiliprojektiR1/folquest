@@ -1,10 +1,13 @@
 package com.kantele.folquest;
 
 import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -145,13 +148,21 @@ public class PlayerController extends Application{
         for(int i = 0; i < activeQuests.size() - 1; i++){
             //progressBarMainNäkymässä.progress = activeQuests.get(i).getProgress();
         }
-
     }
 
     public void completeQuest(int questIndex){
         this.playerExp =+ activeQuests.get(questIndex).getRewardExp();
         this.playerGold =+ activeQuests.get(questIndex).getRewardGold();
 
+        final Dialog dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.reward_dialog);
+        dialog.setTitle("Custom Alert Dialog");
+
+        final EditText editText = (EditText) dialog.findViewById(R.id.editText);
+        Button btnSave          = (Button) dialog.findViewById(R.id.save);
+        Button btnCancel        = (Button) dialog.findViewById(R.id.cancel);
+        dialog.show();
     }
 
     /**

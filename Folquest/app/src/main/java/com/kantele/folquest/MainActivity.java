@@ -191,6 +191,16 @@ public class MainActivity extends AppCompatActivity implements
         });
 
         questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+        /**
+         * poista tää
+         */
+
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.completeQuest(0);
+            }
+        });
 
         buttonQuestLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -602,7 +612,7 @@ public class MainActivity extends AppCompatActivity implements
 
             textViewSteps.setText("Steps today: " + aData[0]);
             
-            new SendToDataLayerThread("/data_path", "" + data[0] + ", " + data[1] + ", " + data[2]).start()
+            new SendToDataLayerThread("/data_path", "" + data[0] + ", " + data[1] + ", " + data[2]).start();
             /*
             textViewSteps.setText("" + aData[0]);
             textViewKcal.setText("" + aData[1]);
