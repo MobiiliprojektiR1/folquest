@@ -144,31 +144,31 @@ public class AvatarActivity extends AppCompatActivity {
         //tab 1 - head items
         TabHost.TabSpec spec = tabHost.newTabSpec("Head");
         spec.setContent(R.id.tab1);
-        spec.setIndicator("Head");
+        spec.setIndicator("", getResources().getDrawable(R.mipmap.hius_iconi_224x224px));
         tabHost.addTab(spec);
 
         //tab 2 - torso items
         spec = tabHost.newTabSpec("Torso");
         spec.setContent(R.id.tab2);
-        spec.setIndicator("Torso");
+        spec.setIndicator("", getResources().getDrawable(R.mipmap.paita_iconi_224x224px));
         tabHost.addTab(spec);
 
         //tab 3 - bottom items
         spec = tabHost.newTabSpec("Bottom");
         spec.setContent(R.id.tab3);
-        spec.setIndicator("Bottom");
+        spec.setIndicator("", getResources().getDrawable(R.mipmap.housu_iconi_224x224px));
         tabHost.addTab(spec);
 
         //tab 4 - feet items
         spec = tabHost.newTabSpec("Feet");
         spec.setContent(R.id.tab4);
-        spec.setIndicator("Feet");
+        spec.setIndicator("", getResources().getDrawable(R.mipmap.shoes_iconi_224x224px));
         tabHost.addTab(spec);
 
         //tab 5 - accessory items
         spec = tabHost.newTabSpec("Accessory");
         spec.setContent(R.id.tab5);
-        spec.setIndicator("Accessory");
+        spec.setIndicator("", getResources().getDrawable(R.mipmap.ase_iconi_224x224px));
         tabHost.addTab(spec);
 
         tabHost.setCurrentTab(0);

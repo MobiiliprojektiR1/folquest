@@ -85,7 +85,11 @@ public class MainActivity extends AppCompatActivity implements
     Boolean dialogShown = false;
 
     int shownQuestIndex = 0;
+
     final Context context = this;
+
+    private boolean cantComplete = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,14 +211,14 @@ public class MainActivity extends AppCompatActivity implements
 
                 if(shownQuestIndex > 0) {
                     shownQuestIndex--;
-                    Log.d("QuestButtonLeft", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).toString() );
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    Log.d("QuestButtonLeft", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questText() );
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
                 } else if (shownQuestIndex == 0) {
 
                     Log.d("QuestButtonLeft", shownQuestIndex+" on nolla ");
                     shownQuestIndex = controller.activeQuests.size()-1;
                     Log.d("QuestButtonLeft", shownQuestIndex+" on activequest size eli questin pitäisi olla");
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
                 }
             }
         });
@@ -227,14 +231,14 @@ public class MainActivity extends AppCompatActivity implements
 
                 if(shownQuestIndex < controller.activeQuests.size()-1) {
                     shownQuestIndex++;
-                    Log.d("QuestButtonRight", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).toString() );
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    Log.d("QuestButtonRight", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questText() );
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
                 } else if(shownQuestIndex == controller.activeQuests.size()-1) {
 
                     Log.d("QuestButtonRight", shownQuestIndex+" on sizen kokoinen");
                     shownQuestIndex = 0;
-                    Log.d("QuestButtonRight", shownQuestIndex+" on nolla eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).toString());
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    Log.d("QuestButtonRight", shownQuestIndex+" on nolla eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questText());
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
 
                 }
             }
@@ -243,19 +247,8 @@ public class MainActivity extends AppCompatActivity implements
         questTextView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                /*switch (shownQuestIndex){
-                    case 0:
-                        Log.d("shownQuestIndex", shownQuestIndex+"");
-                        controller.completeQuest(0);
-                        break;
-                    case 1:
-                        Log.d("shownQuestIndex", shownQuestIndex+"");
-                        controller.completeQuest(1);
-                        break;
-                    case 2:
-                        Log.d("shownQuestIndex", shownQuestIndex+"");
-                        controller.completeQuest(2);
-                        break;
+                if(!cantComplete) {
+                    controller.completeQuest(shownQuestIndex);
                 }
                 //controller.completeQuest(shownQuestIndex);
                 setTextForQuest();*/
@@ -300,8 +293,10 @@ public class MainActivity extends AppCompatActivity implements
     private void setTextForQuest() {
         if(controller.activeQuests.size() > 0) {
             questTextView.setText(controller.activeQuests.get(0).toString());
+            cantComplete = false;
         } else{
             questTextView.setText("No quest at the moment!");
+            cantComplete = true;
         }
     }
 
