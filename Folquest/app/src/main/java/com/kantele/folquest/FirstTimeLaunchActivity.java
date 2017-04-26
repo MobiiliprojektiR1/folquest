@@ -1,6 +1,8 @@
 package com.kantele.folquest;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,11 +30,18 @@ public class FirstTimeLaunchActivity extends AppCompatActivity {
 
         genderChosen = false;
 
+        Typeface basicFont = Typeface.createFromAsset(getAssets(), "fonts/MYRIADPRO-REGULAR.OTF");
+
         buttonBoy = (Button) findViewById(R.id.buttonBoy);
         buttonGirl = (Button) findViewById(R.id.buttonGirl);
         buttonContinue = (Button) findViewById(R.id.buttonContinue);
 
         genderHolder = (TextView) findViewById(R.id.textViewGenderHolder);
+
+        buttonBoy.setTypeface(basicFont);
+        buttonGirl.setTypeface(basicFont);
+        buttonContinue.setTypeface(basicFont);
+        genderHolder.setTypeface(basicFont);
 
         genderHolder.setText("Please choose your gender!");
 
@@ -65,7 +74,10 @@ public class FirstTimeLaunchActivity extends AppCompatActivity {
                     Intent intent = new Intent(FirstTimeLaunchActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else if (!genderChosen) {
-                    Toast.makeText(FirstTimeLaunchActivity.this, "You must choose a gender, don't get triggered!", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(FirstTimeLaunchActivity.this, "Please choose your gender", Toast.LENGTH_SHORT);
+                    View toastView = toast.getView();
+                    toastView.setBackgroundColor(Color.parseColor("#e5d4b6"));
+                    toast.show();
                 }
             }
         });
