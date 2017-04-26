@@ -93,7 +93,7 @@ public class QuestBoardAdapter extends BaseAdapter {
         decriptionText.setText(questListValues.get(position).getDescription());*/
 
         goalText = (TextView) view.findViewById(R.id.questGoal);
-        goalText.setText(questListValues.get(position).toString());
+        goalText.setText(questListValues.get(position).questText());
 
         questStory = (TextView) view.findViewById(R.id.questStory);
         questStory.setText(questListValues.get(position).getDescription());

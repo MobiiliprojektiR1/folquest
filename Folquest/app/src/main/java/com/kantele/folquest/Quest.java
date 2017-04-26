@@ -180,9 +180,12 @@ public class Quest implements Serializable{
         return questText;
     }
 
-    //We don't need this if we use adapter <- Actually we do
+    //We don't need this if we use adapter
     public String toString(){
-        //return type + "," + difficultyLevel + "," + progress + "," + description;
+        return type + "," + difficultyLevel + "," + progress + "," + description;
+    }
+
+    public String questText() {
         return questText + requirement + requirementUnit;
     }
 

@@ -202,14 +202,14 @@ public class MainActivity extends AppCompatActivity implements
 
                 if(shownQuestIndex > 0) {
                     shownQuestIndex--;
-                    Log.d("QuestButtonLeft", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).toString() );
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    Log.d("QuestButtonLeft", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questText() );
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
                 } else if (shownQuestIndex == 0) {
 
                     Log.d("QuestButtonLeft", shownQuestIndex+" on nolla ");
                     shownQuestIndex = controller.activeQuests.size()-1;
                     Log.d("QuestButtonLeft", shownQuestIndex+" on activequest size eli questin pitäisi olla");
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
                 }
             }
         });
@@ -222,14 +222,14 @@ public class MainActivity extends AppCompatActivity implements
 
                 if(shownQuestIndex < controller.activeQuests.size()-1) {
                     shownQuestIndex++;
-                    Log.d("QuestButtonRight", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).toString() );
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    Log.d("QuestButtonRight", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questText() );
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
                 } else if(shownQuestIndex == controller.activeQuests.size()-1) {
 
                     Log.d("QuestButtonRight", shownQuestIndex+" on sizen kokoinen");
                     shownQuestIndex = 0;
-                    Log.d("QuestButtonRight", shownQuestIndex+" on nolla eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).toString());
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                    Log.d("QuestButtonRight", shownQuestIndex+" on nolla eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).questText());
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).questText());
 
                 }
             }
