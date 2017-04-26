@@ -150,14 +150,6 @@
                 app:srcCompat="@drawable/naishahmopohja" />
 
             <ImageView
-                android:id="@+id/headImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@mipmap/default_hair_woman"
-
-                />
-
-            <ImageView
                 android:id="@+id/feetImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -182,6 +174,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:srcCompat="@mipmap/head_bald" />
+
+            <ImageView
+                android:id="@+id/headImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@mipmap/default_hair_woman"
+
+                />
 
         </FrameLayout>
     </LinearLayout>
