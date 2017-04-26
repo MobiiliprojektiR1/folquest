@@ -3,10 +3,8 @@ package com.kantele.folquest;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
@@ -74,6 +72,8 @@ public class PlayerController extends Application{
     /**
      *Item variables end
      */
+
+    String chosenTab;
 
     /**
      * PLAYER LEVEL CAPS
@@ -299,6 +299,15 @@ public class PlayerController extends Application{
      *Item Methods end
      */
 
+
+    public void setChosenTab(String tabId) {
+        chosenTab = tabId;
+        Log.i("TAB_SAVED", "TabId: " + tabId);
+    }
+
+    public String getChosenTab() {
+        return chosenTab;
+    }
 
 
     /**
@@ -536,5 +545,4 @@ public class PlayerController extends Application{
                 availableQuests.add(new Quest(str));
         }
     }
-
 }

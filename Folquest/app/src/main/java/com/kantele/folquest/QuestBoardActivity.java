@@ -1,5 +1,6 @@
 package com.kantele.folquest;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +13,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 
 public class QuestBoardActivity extends AppCompatActivity {
 
     Button buttonBack;
+    Button buttonAvatar;
+    Button buttonShop;
     //Button buttonQuest1;
 
     ListView questListView;
@@ -44,6 +45,9 @@ public class QuestBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quest_board);
 
         buttonBack = (Button) findViewById(R.id.textViewLevel);
+        buttonAvatar = (Button) findViewById(R.id.buttonAvatar);
+        buttonShop = (Button) findViewById(R.id.buttonCoin);
+
         questListView = (ListView) findViewById(R.id.questListView);
 
         /*final ArrayAdapter<Quest> availableQuestsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, controller.availableQuests);
@@ -90,23 +94,38 @@ public class QuestBoardActivity extends AppCompatActivity {
         moneyAmountText.setTypeface(basicFont);
         levelText.setTypeface(levelFont);
 
-        // Load money and levels
-        moneyAmountText.setText("" + controller.getPlayerGold());
-        levelText.setText(""+ controller.getPlayerLvl());
-
-
-
 
         questListView.setDivider(null);
         questListView.setDividerHeight(0);
 
+        //UPDATE PLAYER STATS TO THE TOP BAR
+        long gold = controller.getPlayerGold();
+        long level = controller.getPlayerLvl();
 
+        moneyAmountText.setText("" + gold);
+        levelText.setText("" + level);
 
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 QuestBoardActivity.super.finish();
+            }
+        });
+
+        buttonAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(QuestBoardActivity.this, AvatarActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(QuestBoardActivity.this, ShopActivity.class);
+                startActivity(intent);
             }
         });
     }

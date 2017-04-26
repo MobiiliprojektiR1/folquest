@@ -212,6 +212,17 @@
                     android:layout_weight="2.5" />
 
                 <Button
+                    android:id="@+id/buttonAccessoryRight"
+                    android:layout_width="17dp"
+                    android:layout_height="33dp"
+                    android:background="@mipmap/nuoli_right_68x132px"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="2.5" />
+
+                <Button
                     android:id="@+id/buttonBottomRight"
                     android:layout_width="17dp"
                     android:layout_height="33dp"
@@ -224,17 +235,6 @@
 
                 <Button
                     android:id="@+id/buttonFeetRight"
-                    android:layout_width="17dp"
-                    android:layout_height="33dp"
-                    android:background="@mipmap/nuoli_right_68x132px"/>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="2.5" />
-
-                <Button
-                    android:id="@+id/buttonAccessoryRight"
                     android:layout_width="17dp"
                     android:layout_height="33dp"
                     android:background="@mipmap/nuoli_right_68x132px"/>

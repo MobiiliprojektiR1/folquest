@@ -3,6 +3,7 @@ package com.kantele.folquest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -67,6 +68,8 @@ public class AvatarActivity extends AppCompatActivity {
     Button buttonShop;
 
     PlayerController controller;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +169,18 @@ public class AvatarActivity extends AppCompatActivity {
         spec.setContent(R.id.tab5);
         spec.setIndicator("Accessory");
         tabHost.addTab(spec);
+
+        tabHost.setCurrentTab(0);
+        controller.setChosenTab("Head");
+
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                controller.setChosenTab(tabId);
+                Log.i("TAB", "TabId: " + tabId);
+            }
+        });
+
 
         buttonHeadLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,12 +294,12 @@ public class AvatarActivity extends AppCompatActivity {
         buttonBack = (Button) findViewById(R.id.buttonBack);
 
 
-          buttonBack.setOnClickListener(new View.OnClickListener() {
+        buttonBack.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
                   AvatarActivity.super.finish();
               }
-          });
+        });
 
         buttonShop = (Button) findViewById(R.id.buttonCoin);
 
@@ -464,7 +479,6 @@ public class AvatarActivity extends AppCompatActivity {
             characterImageView.setImageResource(R.drawable.naishahmopohja);
         }
     }
-
 
     public void drawItems(){
         // Save drawed items to shared preferences

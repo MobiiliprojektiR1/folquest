@@ -44,8 +44,10 @@
                     android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:text="1234"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textAlignment="center"/>
+
+
             </LinearLayout>
 
             <Button
