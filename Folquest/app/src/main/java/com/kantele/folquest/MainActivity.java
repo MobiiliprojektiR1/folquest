@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements
     Boolean dialogShown = false;
 
     int shownQuestIndex = 0;
+    private boolean cantComplete = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,23 +238,9 @@ public class MainActivity extends AppCompatActivity implements
         questTextView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                /*switch (shownQuestIndex){
-                    case 0:
-                        Log.d("shownQuestIndex", shownQuestIndex+"");
-                        controller.completeQuest(0);
-                        break;
-                    case 1:
-                        Log.d("shownQuestIndex", shownQuestIndex+"");
-                        controller.completeQuest(1);
-                        break;
-                    case 2:
-                        Log.d("shownQuestIndex", shownQuestIndex+"");
-                        controller.completeQuest(2);
-                        break;
+                if(!cantComplete) {
+                    controller.completeQuest(shownQuestIndex);
                 }
-                //controller.completeQuest(shownQuestIndex);
-                setTextForQuest();*/
-                controller.completeQuest(shownQuestIndex);
             }
         });
 
@@ -267,8 +254,10 @@ public class MainActivity extends AppCompatActivity implements
     private void setTextForQuest() {
         if(controller.activeQuests.size() > 0) {
             questTextView.setText(controller.activeQuests.get(0).toString());
+            cantComplete = false;
         } else{
             questTextView.setText("No quest at the moment!");
+            cantComplete = true;
         }
     }
 
