@@ -149,6 +149,9 @@ public class PlayerController extends Application{
     }
 
     public void completeQuest(int questIndex){
+
+        Log.d("PlayerController", "completing quest id" + questIndex+"");
+        Log.d("PlayerController", "completing quest toString" + activeQuests.get(questIndex).toString());
         this.playerExp =+ activeQuests.get(questIndex).getRewardExp();
         this.playerGold =+ activeQuests.get(questIndex).getRewardGold();
 

@@ -79,6 +79,8 @@ public class QuestBoardActivity extends AppCompatActivity {
             }
         });
 
+
+
         // Change fonts
         Typeface labelFont = Typeface.createFromAsset(getAssets(), "fonts/LITHOSPRO-REGULAR.OTF");
         Typeface levelFont = Typeface.createFromAsset(getAssets(), "fonts/HARNGTON.TTF");
@@ -91,6 +93,7 @@ public class QuestBoardActivity extends AppCompatActivity {
         questBoardText.setTypeface(labelFont);
         moneyAmountText.setTypeface(basicFont);
         levelText.setTypeface(levelFont);
+
 
         questListView.setDivider(null);
         questListView.setDividerHeight(0);
