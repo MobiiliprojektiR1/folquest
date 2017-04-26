@@ -76,7 +76,9 @@
             android:text="Quest Board"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textSize="27.5dp" />
+            android:textSize="27.5dp"
+            android:textColor="#b8996f"
+            />
 
         <ListView
             android:id="@+id/questListView"
