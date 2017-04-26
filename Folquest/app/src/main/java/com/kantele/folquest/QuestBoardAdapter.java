@@ -35,7 +35,7 @@ public class QuestBoardAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Quest> questListValues;
     Button discardQuest, acceptQuest;
-    public TextView goalText;
+    public TextView goalText, questStory;
     LayoutInflater inflater;
     public QuestBoardAdapter(Context context, ArrayList<Quest> questListValues) {
         this.context = context;
@@ -95,6 +95,9 @@ public class QuestBoardAdapter extends BaseAdapter {
         goalText = (TextView) view.findViewById(R.id.questGoal);
         goalText.setText(questListValues.get(position).toString());
 
+        questStory = (TextView) view.findViewById(R.id.questStory);
+        questStory.setText(questListValues.get(position).getDescription());
+
         discardQuest = (Button) view.findViewById(R.id.discardQuestButton);
         discardQuest.setOnClickListener(new View.OnClickListener() {
 
@@ -102,7 +105,6 @@ public class QuestBoardAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.d("ListView", position+"");
                 deleteItem(position);
-
 
             }
         });
