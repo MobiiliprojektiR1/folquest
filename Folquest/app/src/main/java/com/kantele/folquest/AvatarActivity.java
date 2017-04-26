@@ -335,6 +335,13 @@ public class AvatarActivity extends AppCompatActivity {
         drawItems();
         drawEquippedItems();
 
+         equippedHeadItemId = 0;
+         equippedTorsoItemId= 0;
+         equippedBottomItemId= 0;
+         equippedFeetItemId=0;
+         equippedAccessoryItemId= 0;
+
+        Log.d("equippedHeadItemId", equippedHeadItemId +"");
     }
 
     @Override
