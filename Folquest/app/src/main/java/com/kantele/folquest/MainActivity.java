@@ -28,7 +28,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -249,37 +248,37 @@ public class MainActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 if(!cantComplete) {
                     controller.completeQuest(shownQuestIndex);
+
+                    //controller.completeQuest(shownQuestIndex);
+                    setTextForQuest();
+
+                    // reward dialog
+                    final Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.reward_dialog);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+                    TextView questCompleteText = (TextView) dialog.findViewById(R.id.textQuestComplete);
+                    TextView textReward = (TextView) dialog.findViewById(R.id.textReward);
+                    TextView textWellDone = (TextView) dialog.findViewById(R.id.textWellDone);
+
+                    questCompleteText.setTypeface(labelFont);
+                    textReward.setTypeface(labelFont);
+                    textWellDone.setTypeface(basicFont);
+
+                    textReward.setText("+ " + controller.activeQuests.get(shownQuestIndex).getRewardGold() + " gold\n" + "+ " + controller.activeQuests.get(shownQuestIndex).getRewardExp() + " exp" );
+                    //ImageView image = (ImageView) dialog.findViewById(R.id.image_chest);
+
+                    Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                    // if button is clicked, close the dialog
+                    dialogButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.show();
                 }
-                //controller.completeQuest(shownQuestIndex);
-                setTextForQuest();*/
-                controller.completeQuest(shownQuestIndex);
-
-                // reward dialog
-                final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.reward_dialog);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-                TextView questCompleteText = (TextView) dialog.findViewById(R.id.textQuestComplete);
-                TextView textReward = (TextView) dialog.findViewById(R.id.textReward);
-                TextView textWellDone = (TextView) dialog.findViewById(R.id.textWellDone);
-
-                questCompleteText.setTypeface(labelFont);
-                textReward.setTypeface(labelFont);
-                textWellDone.setTypeface(basicFont);
-
-                textReward.setText("+ " + controller.activeQuests.get(shownQuestIndex).getRewardGold() + " gold\n" + "+ " + controller.activeQuests.get(shownQuestIndex).getRewardExp() + " exp" );
-                //ImageView image = (ImageView) dialog.findViewById(R.id.image_chest);
-
-                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                // if button is clicked, close the dialog
-                dialogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog.show();
             }
         });
 
