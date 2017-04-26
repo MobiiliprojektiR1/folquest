@@ -2,6 +2,8 @@ package com.kantele.folquest;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +27,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements
     Boolean dialogShown = false;
 
     int shownQuestIndex = 0;
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements
         buttonQuestRight = (Button) findViewById(R.id.buttonRight);
 
         questTextView = (TextView) findViewById(R.id.activeQuestTextView);
+
 
         /*
         textViewExpCurrent = (TextView) findViewById(R.id.textViewExpCurrent);
@@ -254,6 +259,28 @@ public class MainActivity extends AppCompatActivity implements
                 //controller.completeQuest(shownQuestIndex);
                 setTextForQuest();*/
                 controller.completeQuest(shownQuestIndex);
+
+                // custom dialog
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.reward_dialog);
+                dialog.setTitle("Title...");
+
+                // set the custom dialog components - text, image and button
+                TextView text = (TextView) dialog.findViewById(R.id.text);
+                text.setText(controller.activeQuests.get(shownQuestIndex).getRewardGold() + " golds get!");
+                ImageView image = (ImageView) dialog.findViewById(R.id.image);
+                image.setImageResource(R.drawable.ic_launcher);
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         });
 
