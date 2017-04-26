@@ -48,7 +48,8 @@
             android:layout_height="64dp"
             android:layout_marginRight="36dp"
             android:background="@mipmap/level_nelio_256x256px_questboard"
-            android:text="17" />
+            android:text="17"
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/buttonAvatar"
