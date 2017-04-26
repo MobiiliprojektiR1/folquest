@@ -23,17 +23,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -51,7 +47,6 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
@@ -69,17 +64,11 @@ public class MainActivity extends AppCompatActivity implements
 
     Button buttonQuestLeft, buttonQuestRight;
 
-    TextView textViewExpCurrent, textViewExpTarget, textViewLvl, textViewGold;
-
     TextView textViewMoney;
     TextView textViewLevel;
 
     TextView textViewStepsHolder, textViewSteps;
-    TextView textViewKcalHolder, textViewKcal;
-    TextView textViewDistHolder, textViewDist;
     TextView questTextView;
-
-    Button buttonUpdate;
 
     ImageView headImageView, torsoImageView, bottomImageView, feetImageView, accessoryImageView;
     ImageView characterImageView;
@@ -325,14 +314,11 @@ public class MainActivity extends AppCompatActivity implements
                 //Call whatever you want
                 new FetchGoogleFitDataAsync().execute();
             }
-
         }
-
     }
 
     private void createAlertDialog() {
-
-        if (dialogShown == false) {
+        if (!dialogShown) {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
             alertBuilder.setCancelable(true);
             alertBuilder.setTitle("Location permission necessary");
@@ -346,8 +332,7 @@ public class MainActivity extends AppCompatActivity implements
 
             AlertDialog alert = alertBuilder.create();
             alert.show();
-            dialogShown = true;
-        }
+        } dialogShown = true;
     }
 
 
@@ -444,19 +429,6 @@ public class MainActivity extends AppCompatActivity implements
                 Point size = new Point();
                 display.getSize(size);
 
-                Bitmap bmp_morning = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
-                        getResources(),R.drawable.bg_morning),(size.x),(size.y), true);
-
-                Bitmap bmp_day = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
-                        getResources(),R.drawable.bg_day),(size.x),(size.y), true);
-
-                Bitmap bmp_evening = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
-                        getResources(),R.drawable.bg_evening),(size.x),(size.y), true);
-
-                Bitmap bmp_night = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
-                        getResources(),R.drawable.bg_night),(size.x),(size.y), true);
-
-
                 /* fill the background ImageView with the resized image */
                 ImageView iv_background = (ImageView) findViewById(R.id.iv_background);
 
@@ -465,14 +437,29 @@ public class MainActivity extends AppCompatActivity implements
                 int hour = c.get(Calendar.HOUR_OF_DAY);
 
                 if (hour <= 6 ) {
+                    Bitmap bmp_night = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                            getResources(),R.drawable.bg_night),(size.x/2),(size.y/2), true);
+
                     iv_background.setImageBitmap(bmp_night);
                 } else if (hour > 6 && hour < 11) {
+                    Bitmap bmp_morning = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                            getResources(),R.drawable.bg_morning),(size.x/2),(size.y/2), true);
+
                     iv_background.setImageBitmap(bmp_morning);
                 } else if (hour >= 11 && hour < 18) {
+                    Bitmap bmp_day = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                            getResources(),R.drawable.bg_day),(size.x/2),(size.y/2), true);
+
                     iv_background.setImageBitmap(bmp_day);
                 } else if (hour >= 18 && hour < 22) {
+                    Bitmap bmp_evening = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                            getResources(),R.drawable.bg_evening),(size.x/2),(size.y/2), true);
+
                     iv_background.setImageBitmap(bmp_evening);
                 } else if (hour >= 22) {
+                    Bitmap bmp_night = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+                            getResources(),R.drawable.bg_night),(size.x/2),(size.y/2), true);
+
                     iv_background.setImageBitmap(bmp_night);
                 }
             }
@@ -593,9 +580,11 @@ public class MainActivity extends AppCompatActivity implements
                                     Snackbar.LENGTH_SHORT).show();
                         }
                     })
+
                     .addApi(Wearable.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
+
                     .build();
         }
     }
@@ -734,7 +723,6 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
     }
-
 }
 
 

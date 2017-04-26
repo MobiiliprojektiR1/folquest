@@ -1,6 +1,7 @@
 package com.kantele.folquest;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -322,6 +323,13 @@ public class AvatarActivity extends AppCompatActivity {
 
         levelHolder = (TextView) findViewById(R.id.buttonBack);
         levelHolder.setText("" + level);
+
+        // Update fonts
+        Typeface levelFont = Typeface.createFromAsset(getAssets(), "fonts/HARNGTON.TTF");
+        Typeface basicFont = Typeface.createFromAsset(getAssets(), "fonts/MYRIADPRO-REGULAR.OTF");
+
+        levelHolder.setTypeface(levelFont);
+        goldHolder.setTypeface(basicFont);
 
 
         drawItems();
