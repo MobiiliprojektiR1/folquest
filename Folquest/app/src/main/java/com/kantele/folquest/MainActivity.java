@@ -48,6 +48,7 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
@@ -91,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements
     Boolean dialogShown = false;
 
     int shownQuestIndex = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,21 +201,24 @@ public class MainActivity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
-        if(controller.activeQuests.size() > 0) {
-            questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
-        } else{
-            questTextView.setText("No quest at the moment!");
-        }
+
+        setTextForQuest();
 
         buttonQuestLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("QuestButtonRight", shownQuestIndex+"");
+
+                Log.d("QuestButton", "controller.activeQuests " + controller.activeQuests + "");
+
                 if(shownQuestIndex > 0) {
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
                     shownQuestIndex--;
+                    Log.d("QuestButtonLeft", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).toString() );
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
                 } else if (shownQuestIndex == 0) {
-                    shownQuestIndex = controller.activeQuests.size();
+
+                    Log.d("QuestButtonLeft", shownQuestIndex+" on nolla ");
+                    shownQuestIndex = controller.activeQuests.size()-1;
+                    Log.d("QuestButtonLeft", shownQuestIndex+" on activequest size eli questin pitäisi olla");
                     questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
                 }
             }
@@ -224,13 +227,20 @@ public class MainActivity extends AppCompatActivity implements
         buttonQuestRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(shownQuestIndex < controller.activeQuests.size()) {
-                    Log.d("QuestButtonLeft", shownQuestIndex+"");
-                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+
+                Log.d("QuestButtonRight", shownQuestIndex+"");
+
+                if(shownQuestIndex < controller.activeQuests.size()-1) {
                     shownQuestIndex++;
-                } else if(shownQuestIndex == controller.activeQuests.size()) {
-                    shownQuestIndex = 0;
+                    Log.d("QuestButtonRight", shownQuestIndex+"eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).toString() );
                     questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+                } else if(shownQuestIndex == controller.activeQuests.size()-1) {
+
+                    Log.d("QuestButtonRight", shownQuestIndex+" on sizen kokoinen");
+                    shownQuestIndex = 0;
+                    Log.d("QuestButtonRight", shownQuestIndex+" on nolla eli questin pitäisi olla" +controller.activeQuests.get(shownQuestIndex).toString());
+                    questTextView.setText(controller.activeQuests.get(shownQuestIndex).toString());
+
                 }
             }
         });
@@ -238,16 +248,39 @@ public class MainActivity extends AppCompatActivity implements
         questTextView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                /*switch (shownQuestIndex){
+                    case 0:
+                        Log.d("shownQuestIndex", shownQuestIndex+"");
+                        controller.completeQuest(0);
+                        break;
+                    case 1:
+                        Log.d("shownQuestIndex", shownQuestIndex+"");
+                        controller.completeQuest(1);
+                        break;
+                    case 2:
+                        Log.d("shownQuestIndex", shownQuestIndex+"");
+                        controller.completeQuest(2);
+                        break;
+                }
+                //controller.completeQuest(shownQuestIndex);
+                setTextForQuest();*/
                 controller.completeQuest(shownQuestIndex);
             }
         });
-
 
         //CREATE THE CONNECTION TO GOOGLE FIT
         buildFitnessClient();
 
         //PERMISSION REQUESTS ON LAUNCH
  //       CheckPermissionsAndSyncData();
+    }
+
+    private void setTextForQuest() {
+        if(controller.activeQuests.size() > 0) {
+            questTextView.setText(controller.activeQuests.get(0).toString());
+        } else{
+            questTextView.setText("No quest at the moment!");
+        }
     }
 
 
@@ -479,6 +512,8 @@ public class MainActivity extends AppCompatActivity implements
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        setTextForQuest();
 
     }
 
