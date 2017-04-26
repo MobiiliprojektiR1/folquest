@@ -47,9 +47,9 @@ public class ShopActivity extends AppCompatActivity {
         tabHost.setup();
 
         //tab 1 - head items
-        TabHost.TabSpec spec = tabHost.newTabSpec("Head");
+        TabHost.TabSpec spec = tabHost.newTabSpec("");
         spec.setContent(R.id.tab1);
-        spec.setIndicator("Head");
+        spec.setIndicator("", getResources().getDrawable(R.mipmap.accessory_sword));
         tabHost.addTab(spec);
 
         //tab 2 - torso items

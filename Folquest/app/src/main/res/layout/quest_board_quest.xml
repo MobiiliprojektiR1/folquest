@@ -43,8 +43,11 @@
                 android:text="X"
                 android:textColor="@android:color/holo_red_dark"
                 android:textColorHighlight="@android:color/holo_red_light"
+                android:visibility="gone"
                 android:textSize="30sp"
                 android:layout_weight="0.09" />
+                
+
 
         </LinearLayout>
         <!--
