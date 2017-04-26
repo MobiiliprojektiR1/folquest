@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -134,9 +135,9 @@ public class MainActivity extends AppCompatActivity implements
 
         // Create font adapter
         // Fonts
-        Typeface basicFont = Typeface.createFromAsset(getAssets(), "fonts/MYRIADPRO-REGULAR.OTF");
-        Typeface labelFont = Typeface.createFromAsset(getAssets(), "fonts/LITHOSPRO-REGULAR.OTF");
-        Typeface levelFont = Typeface.createFromAsset(getAssets(), "fonts/HARNGTON.TTF");
+        final Typeface basicFont = Typeface.createFromAsset(getAssets(), "fonts/MYRIADPRO-REGULAR.OTF");
+        final Typeface labelFont = Typeface.createFromAsset(getAssets(), "fonts/LITHOSPRO-REGULAR.OTF");
+        final Typeface levelFont = Typeface.createFromAsset(getAssets(), "fonts/HARNGTON.TTF");
 
         //Setting Buttons and TextViews
         buttonAvatar = (ImageButton) findViewById(R.id.buttonAvatar);
@@ -260,19 +261,24 @@ public class MainActivity extends AppCompatActivity implements
                 setTextForQuest();*/
                 controller.completeQuest(shownQuestIndex);
 
-                // custom dialog
+                // reward dialog
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.reward_dialog);
-                dialog.setTitle("Title...");
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-                // set the custom dialog components - text, image and button
-                TextView text = (TextView) dialog.findViewById(R.id.text);
-                text.setText(controller.activeQuests.get(shownQuestIndex).getRewardGold() + " golds get!");
-                ImageView image = (ImageView) dialog.findViewById(R.id.image);
-                image.setImageResource(R.drawable.ic_launcher);
+                TextView questCompleteText = (TextView) dialog.findViewById(R.id.textQuestComplete);
+                TextView textReward = (TextView) dialog.findViewById(R.id.textReward);
+                TextView textWellDone = (TextView) dialog.findViewById(R.id.textWellDone);
+
+                questCompleteText.setTypeface(labelFont);
+                textReward.setTypeface(labelFont);
+                textWellDone.setTypeface(basicFont);
+
+                textReward.setText("+ " + controller.activeQuests.get(shownQuestIndex).getRewardGold() + " gold\n" + "+ " + controller.activeQuests.get(shownQuestIndex).getRewardExp() + " exp" );
+                //ImageView image = (ImageView) dialog.findViewById(R.id.image_chest);
 
                 Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                // if button is clicked, close the custom dialog
+                // if button is clicked, close the dialog
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
