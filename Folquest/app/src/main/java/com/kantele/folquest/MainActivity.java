@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements
                     controller.completeQuest(shownQuestIndex);
                 }
                 //controller.completeQuest(shownQuestIndex);
-                setTextForQuest();*/
+                setTextForQuest();
                 controller.completeQuest(shownQuestIndex);
 
                 // reward dialog
